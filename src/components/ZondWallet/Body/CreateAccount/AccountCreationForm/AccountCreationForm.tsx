@@ -65,7 +65,7 @@ const AccountCreationForm = observer(
         console.log(">>>", userPassword);
         // use this password for hexseed and account encryption.
 
-        const newAccount = await zondInstance?.accounts.create();
+        const newAccount = zondInstance?.accounts.create();
         onAccountCreated(newAccount);
       } catch (error) {
         control.setError("reEnteredPassword", {
@@ -89,10 +89,11 @@ const AccountCreationForm = observer(
                   <FormItem>
                     <FormControl>
                       <Input
+                        {...field}
+                        aria-label={field.name}
                         disabled={isSubmitting}
                         placeholder="Password"
                         type="password"
-                        {...field}
                       />
                     </FormControl>
                     <FormDescription>Enter a password</FormDescription>
@@ -108,6 +109,7 @@ const AccountCreationForm = observer(
                     <FormControl>
                       <Input
                         {...field}
+                        aria-label={field.name}
                         disabled={isSubmitting}
                         placeholder="Re-enter the password"
                         type="password"
