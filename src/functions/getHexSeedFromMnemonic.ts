@@ -1,6 +1,6 @@
 import { WORD_LIST } from "@/constants/wordList";
 
-export const mnemonicToHexSeed = (mnemonic: string) => {
+export const getHexSeedFromMnemonic = (mnemonic: string) => {
   const mnemonicWords = mnemonic.split(" ");
   const wordCount = mnemonicWords.length;
   if (wordCount % 2 !== 0) {
