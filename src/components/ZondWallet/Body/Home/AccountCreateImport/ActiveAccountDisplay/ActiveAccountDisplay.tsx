@@ -9,9 +9,9 @@ export const ActiveAccountDisplay = observer(() => {
   const accountBalance = getAccountBalance(accountAddress);
 
   const prefix = accountAddress.substring(0, 2);
-  const idSplit: string[] = [];
+  const addressSplit: string[] = [];
   for (let i = 2; i < accountAddress.length; i += 4) {
-    idSplit.push(accountAddress.substring(i, i + 4));
+    addressSplit.push(accountAddress.substring(i, i + 4));
   }
 
   return (
@@ -19,7 +19,7 @@ export const ActiveAccountDisplay = observer(() => {
       <div className="flex justify-around text-xl font-bold text-secondary">
         {accountBalance}
       </div>
-      <div className="text-center text-sm">{`${prefix} ${idSplit.join(" ")}`}</div>
+      <div className="text-center text-sm">{`${prefix} ${addressSplit.join(" ")}`}</div>
     </div>
   );
 });
