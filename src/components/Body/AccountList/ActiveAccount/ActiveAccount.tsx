@@ -33,34 +33,37 @@ export const ActiveAccount = observer(() => {
     !!accountAddress && (
       <>
         <Label className="text-secondary">{activeAccountLabel}</Label>
-        <Card className="flex h-min gap-2 p-4 font-bold text-foreground hover:bg-accent">
+        <Card className="flex w-full flex-col gap-2 p-4 font-bold text-foreground hover:bg-accent">
           <div className="flex gap-2">
-            <div>{prefix}</div>
-            <div className="flex flex-wrap gap-1 font-bold">
-              {idSplit.map((part) => (
-                <div key={part}>{part}</div>
-              ))}
+            <div className="flex gap-2">
+              <div>{prefix}</div>
+              <div className="flex flex-wrap gap-1 font-bold">
+                {idSplit.map((part) => (
+                  <div key={part}>{part}</div>
+                ))}
+              </div>
             </div>
+            <span>
+              <TooltipProvider>
+                <Tooltip delayDuration={0}>
+                  <TooltipTrigger asChild>
+                    <Button
+                      className="hover:text-secondary"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => copyAccount()}
+                    >
+                      <Copy size="18" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    <Label>Copy Address</Label>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </span>
           </div>
-          <span>
-            <TooltipProvider>
-              <Tooltip delayDuration={0}>
-                <TooltipTrigger asChild>
-                  <Button
-                    className="hover:text-secondary"
-                    variant="outline"
-                    size="icon"
-                    onClick={() => copyAccount()}
-                  >
-                    <Copy size="18" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <Label>Copy Address</Label>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </span>
+          <div>footer content</div>
         </Card>
       </>
     )

@@ -35,7 +35,7 @@ export const OtherAccounts = observer(() => {
       <>
         <Label className="text-secondary">{otherAccountsLabel}</Label>
         {otherAccounts.map(({ accountAddress }) => (
-          <Card className="flex h-min gap-2 p-4 font-bold text-foreground hover:bg-accent">
+          <Card className="flex gap-2 p-4 font-bold text-foreground hover:bg-accent">
             <div className="flex gap-2">
               <div>{prefix}</div>
               <div className="flex flex-wrap gap-1">
