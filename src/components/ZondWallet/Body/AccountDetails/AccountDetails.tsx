@@ -165,6 +165,7 @@ const AccountDetails = observer(() => {
                     <FormControl>
                       <Input
                         {...field}
+                        aria-label={field.name}
                         autoComplete="off"
                         disabled={isSubmitting}
                         placeholder="Receiver address"
@@ -187,6 +188,7 @@ const AccountDetails = observer(() => {
                       <FormControl>
                         <Input
                           {...field}
+                          aria-label={field.name}
                           autoComplete="off"
                           disabled={isSubmitting}
                           placeholder="Amount"
@@ -209,6 +211,7 @@ const AccountDetails = observer(() => {
                     <FormControl>
                       <Input
                         {...field}
+                        aria-label={field.name}
                         autoComplete="off"
                         disabled={isSubmitting}
                         placeholder="Mnemonic phrases"
