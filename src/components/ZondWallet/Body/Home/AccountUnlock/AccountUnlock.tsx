@@ -27,6 +27,9 @@ const FormSchema = z.object({
   password: z.string().min(8, "Password are atleast 8 characters"),
 });
 
+/**
+ * This component is currently not in use, and will be used once the encryption funcitonality is available in the web3js library.
+ */
 export const AccountUnlock = observer(() => {
   const { zondStore } = useStore();
   const {
