@@ -1,5 +1,7 @@
+import { NATIVE_TOKEN } from "@/constants/nativeToken";
+
 export const getOptimalGasFee = (gas: string, tokenSymbol?: string) => {
-  const symbol = tokenSymbol ?? "QRL";
+  const symbol = tokenSymbol ?? NATIVE_TOKEN.symbol;
   try {
     if (Number(gas) == 0) return `0.0 ${symbol}`;
     let precisionFloat = parseFloat(Number(gas).toString()).toFixed(16);

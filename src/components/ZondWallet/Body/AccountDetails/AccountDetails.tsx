@@ -16,6 +16,7 @@ import {
 } from "@/components/UI/Form";
 import { Input } from "@/components/UI/Input";
 import { Label } from "@/components/UI/Label";
+import { NATIVE_TOKEN } from "@/constants/nativeToken";
 import { ROUTES } from "@/router/router";
 import { useStore } from "@/stores/store";
 import StorageUtil from "@/utilities/storageUtil";
@@ -60,10 +61,10 @@ const AccountDetails = observer(() => {
   const [transactionReceipt, setTransactionReceipt] =
     useState<TransactionReceipt>();
 
-  const [tokenIcon, setTokenIcon] = useState("icons/qrl/default.png");
+  const [tokenIcon, setTokenIcon] = useState(NATIVE_TOKEN.icon);
   const [tokenBalance, setTokenBalance] = useState("");
-  const [tokenName, setTokenName] = useState("Quanta");
-  const [tokenSymbol, setTokenSymbol] = useState("QRL");
+  const [tokenName, setTokenName] = useState(NATIVE_TOKEN.name);
+  const [tokenSymbol, setTokenSymbol] = useState(NATIVE_TOKEN.symbol);
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     try {

@@ -1,3 +1,4 @@
+import { NATIVE_TOKEN } from "@/constants/nativeToken";
 import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
 import TokenListItem from "../TokenListItem/TokenListItem";
@@ -9,10 +10,10 @@ const NativeToken = observer(() => {
 
   return (
     <TokenListItem
-      icon="icons/qrl/default.png"
+      icon={NATIVE_TOKEN.icon}
       balance={getAccountBalance(accountAddress)}
-      name="Quanta"
-      symbol="QRL"
+      name={NATIVE_TOKEN.name}
+      symbol={NATIVE_TOKEN.symbol}
     />
   );
 });

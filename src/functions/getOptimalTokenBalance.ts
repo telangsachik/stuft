@@ -1,8 +1,10 @@
+import { NATIVE_TOKEN } from "@/constants/nativeToken";
+
 export const getOptimalTokenBalance = (
   balance: string,
   tokenSymbol?: string,
 ) => {
-  const symbol = tokenSymbol ?? "QRL";
+  const symbol = tokenSymbol ?? NATIVE_TOKEN.symbol;
   try {
     if (Number(balance) == 0) return `0.0 ${symbol}`;
     const precisionFloat = parseFloat(
