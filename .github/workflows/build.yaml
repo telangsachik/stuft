@@ -28,12 +28,12 @@ jobs:
 
       - name: Get version from git tag
         id: git_version
-        run: echo "git_version=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        run: echo "git_version=$(git describe --tags --abbrev=0 | sed 's/^v//')" >> $GITHUB_ENV
 
       - name: Check if versions match
         run: |
           if [ "$package_version" != "$git_version" ]; then
-            echo "Error: Version mismatch between package.json ($package_version) and git tag ($git_version)"
+            echo "Error: Version mismatch between package.json ($package_version) and git tag (v$git_version)"
             exit 1
           fi
 
@@ -42,11 +42,12 @@ jobs:
 
       - name: Zip the build directory
         run: |
-          cd Extensions
-          zip -r ../zond-chrome-${{ env.package_version }}.zip .
+          mkdir -p zond-chrome-v${{ env.package_version }}
+          cp -r Extensions/* zond-chrome-v${{ env.package_version }}/
+          zip -r zond-chrome-v${{ env.package_version }}.zip zond-chrome-v${{ env.package_version }}
 
       - name: Upload Zip as Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: zond-chrome-${{ env.package_version }}
-          path: zond-chrome-${{ env.package_version }}.zip
+          name: zond-chrome-v${{ env.package_version }}
+          path: zond-chrome-v${{ env.package_version }}.zip
