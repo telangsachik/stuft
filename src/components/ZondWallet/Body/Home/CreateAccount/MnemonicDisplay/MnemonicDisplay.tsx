@@ -7,7 +7,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/UI/Card";
-import { ArrowRight, Copy } from "lucide-react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/UI/Dialog";
+import { ArrowRight, Copy, Undo } from "lucide-react";
 import { useEffect, useState } from "react";
 import { MnemonicWordListing } from "./MnemonicWordListing/MnemonicWordListing";
 
@@ -38,9 +48,7 @@ export const MnemonicDisplay = () => {
     setTimer(newTimer);
   };
 
-  const onContinue = () => {};
-
-  const cardDescription = `Don't lose this. You may need this someday to import or recover your account ${account.substring(0, 5)}...${account.substring(account.length - 5)}`;
+  const cardDescription = `Don't lose this mnemonic phrases. You may need this someday to import or recover your account ${account.substring(0, 5)}...${account.substring(account.length - 5)}`;
 
   return (
     <Card className="text-ellipsis">
@@ -52,14 +60,44 @@ export const MnemonicDisplay = () => {
         <MnemonicWordListing mnemonic={mnemonic} />
       </CardContent>
       <CardFooter className="gap-4">
-        <Button className="w-full" type="button" onClick={onCopy}>
+        <Button
+          className="w-full"
+          type="button"
+          variant="ghost"
+          onClick={onCopy}
+        >
           <Copy className="mr-2 h-4 w-4" />
           {hasJustCopied ? "Copied" : "Copy"}
         </Button>
-        <Button className="w-full" type="submit" onClick={onContinue}>
-          <ArrowRight className="mr-2 h-4 w-4" />
-          Continue
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="w-full" type="button">
+              <ArrowRight className="mr-2 h-4 w-4" />
+              Continue
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="w-80 rounded-md">
+            <DialogHeader className="text-left">
+              <DialogTitle>Important!</DialogTitle>
+              <DialogDescription>
+                You should only continue if you have backed up the mnemonic
+                phrases. If you haven't yet, go back now and store it safe.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter className="flex flex-row gap-4">
+              <DialogClose asChild>
+                <Button className="w-full" type="button" variant="outline">
+                  <Undo className="mr-2 h-4 w-4" />
+                  Go back
+                </Button>
+              </DialogClose>
+              <Button className="w-full" type="button" variant="destructive">
+                <ArrowRight className="mr-2 h-4 w-4" />
+                Continue
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </CardFooter>
     </Card>
   );
