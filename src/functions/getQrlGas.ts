@@ -2,14 +2,37 @@ export const getQrlGas = (gas: string) => {
   try {
     let precisionFloat = parseFloat(Number(gas).toString()).toFixed(16);
     if (Number(precisionFloat) == 0) return "0.0 QRL";
-    let deleteIndex = precisionFloat.indexOf(".") + 1;
+    let deleteIndex = precisionFloat.length - 1;
+    const postDecimalIndex = precisionFloat.indexOf(".") + 2;
+
     while (
-      deleteIndex < precisionFloat.length &&
+      deleteIndex >= postDecimalIndex &&
       precisionFloat[deleteIndex] === "0"
     ) {
-      deleteIndex++;
+      deleteIndex--;
     }
-    return `${precisionFloat.substring(0, deleteIndex + 1)} QRL`;
+
+    precisionFloat = precisionFloat.substring(0, deleteIndex + 1);
+
+    let postDecimalString = precisionFloat.substring(
+      precisionFloat.indexOf(".") + 1,
+    );
+    let i = 0;
+    while (i < postDecimalString.length && postDecimalString[i] === "0") {
+      i++;
+    }
+    postDecimalString = postDecimalString.substring(0, i + 4);
+    i = postDecimalString.length - 1;
+    while (i > 0) {
+      if (postDecimalString[i] === "0") {
+        i--;
+      } else {
+        break;
+      }
+    }
+    postDecimalString = postDecimalString.substring(0, i + 1);
+
+    return `${precisionFloat.substring(0, precisionFloat.indexOf(".") + 1).concat(postDecimalString)} QRL`;
   } catch (error) {
     return `${gas} QRL`;
   }

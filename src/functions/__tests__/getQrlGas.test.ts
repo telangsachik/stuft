@@ -16,16 +16,23 @@ describe("getGasAmount", () => {
     expect(getQrlGas(gas)).toBe(qrlGas);
   });
 
-  it("should return the gas fee 0.00002 if the gas is 0.000022554450", () => {
+  it("should return the gas fee 0.00002255 if the gas is 0.000022554450", () => {
     const gas = "0.000022554450";
-    const qrlGas = "0.00002 QRL";
+    const qrlGas = "0.00002255 QRL";
 
     expect(getQrlGas(gas)).toBe(qrlGas);
   });
 
-  it("should return the gas fee 0.007 if the gas is 0.007777777", () => {
+  it("should return the gas fee 0.007777 if the gas is 0.007777777", () => {
     const gas = "0.007777777";
-    const qrlGas = "0.007 QRL";
+    const qrlGas = "0.007777 QRL";
+
+    expect(getQrlGas(gas)).toBe(qrlGas);
+  });
+
+  it("should return the gas fee 0.000021 if the gas is 0.000021000000147", () => {
+    const gas = "0.000021000000147";
+    const qrlGas = "0.000021 QRL";
 
     expect(getQrlGas(gas)).toBe(qrlGas);
   });
