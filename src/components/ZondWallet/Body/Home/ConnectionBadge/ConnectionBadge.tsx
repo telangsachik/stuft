@@ -28,10 +28,10 @@ const networkStatusClasses = cva("h-2 w-2 rounded-full", {
   },
 });
 
-const blockchainSelectionClasses = cva("cursor-pointer", {
+const blockchainSelectionClasses = cva("cursor-pointer ", {
   variants: {
     isSelected: {
-      true: ["text-constructive"],
+      true: ["text-constructive focus:text-constructive"],
     },
   },
   defaultVariants: {
