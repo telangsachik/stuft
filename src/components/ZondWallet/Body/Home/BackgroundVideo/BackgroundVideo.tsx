@@ -22,6 +22,7 @@ const BackgroundVideo = observer(() => {
 
   return (
     <video
+      data-testid="backgroundVideoTestId"
       autoPlay
       muted
       loop
