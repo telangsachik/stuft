@@ -36,4 +36,11 @@ describe("getOptimalGasFee", () => {
 
     expect(getOptimalGasFee(gas)).toBe(qrlGas);
   });
+
+  it("should return the gas fee 0.000076 with passed token symbol if the gas is 0.0000760000002", () => {
+    const gas = "0.0000760000002";
+    const qrlGas = "0.000076 PQR";
+
+    expect(getOptimalGasFee(gas, "PQR")).toBe(qrlGas);
+  });
 });

@@ -1,7 +1,11 @@
-export const getOptimalTokenBalance = (balance: string) => {
+export const getOptimalTokenBalance = (
+  balance: string,
+  tokenSymbol?: string,
+) => {
+  const symbol = tokenSymbol ?? "QRL";
   try {
     let precisionFloat = parseFloat(Number(balance).toString()).toFixed(4);
-    if (Number(precisionFloat) == 0) return "0.0 QRL";
+    if (Number(precisionFloat) == 0) return `0.0 ${symbol}`;
     let deleteIndex = precisionFloat.length - 1;
     const postDecimalIndex = precisionFloat.indexOf(".") + 2;
 
@@ -12,8 +16,8 @@ export const getOptimalTokenBalance = (balance: string) => {
       deleteIndex--;
     }
 
-    return `${precisionFloat.substring(0, deleteIndex + 1)} QRL`;
+    return `${precisionFloat.substring(0, deleteIndex + 1)} ${symbol}`;
   } catch (error) {
-    return `${balance} QRL`;
+    return `${balance} ${symbol}`;
   }
 };
