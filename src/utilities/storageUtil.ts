@@ -50,6 +50,10 @@ class StorageUtil {
     return transactionValues;
   }
 
+  static clearTransactionValues() {
+    localStorage.removeItem(TRANSACTION_VALUES_IDENTIFIER);
+  }
+
   /**
    * A function for storing the accounts created and imported within the zond wallet extension.
    * Call the getAccountList function to retrieve the stored value.
