@@ -97,6 +97,7 @@ class ZondStore {
       if (activeAccount) {
         storedAccountList.push(activeAccount);
       }
+      storedAccountList = [...new Set(storedAccountList)];
     } finally {
       localStorage.setItem(
         blockChainAccountListIdentifier,
