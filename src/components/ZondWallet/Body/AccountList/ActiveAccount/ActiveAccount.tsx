@@ -9,7 +9,7 @@ import {
 } from "@/components/UI/Tooltip";
 import { ROUTES } from "@/router/router";
 import { useStore } from "@/stores/store";
-import { Copy, FileText } from "lucide-react";
+import { Copy, Send } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import { AccountId } from "../AccountId/AccountId";
@@ -55,8 +55,8 @@ export const ActiveAccount = observer(() => {
           </div>
           <Link className="w-full" to={ROUTES.ACCOUNT_DETAILS}>
             <Button variant="outline" className="w-full hover:text-secondary">
-              <FileText className="mr-2 h-4 w-4" />
-              Account details
+              <Send className="mr-2 h-4 w-4" />
+              Send quanta
             </Button>
           </Link>
         </Card>
