@@ -62,7 +62,7 @@ export const CreateAccount = observer(() => {
       });
     } catch (error) {
       control.setError("reEnteredPassword", {
-        message: "There was an error while creating the account",
+        message: `${error} There was an error while creating the account`,
       });
     }
   }
