@@ -1,4 +1,5 @@
 import { AccountList } from "@/components/ZondWallet/Body/AccountList/AccountList";
+import { CreateAccount } from "@/components/ZondWallet/Body/CreateAccount/CreateAccount";
 import { Home } from "@/components/ZondWallet/Body/Home/Home";
 import { ZondWallet } from "@/components/ZondWallet/ZondWallet";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
@@ -23,7 +24,7 @@ const router = createMemoryRouter([
       },
       {
         path: ROUTES.CREATE_ACCOUNT,
-        element: <AccountList />,
+        element: <CreateAccount />,
       },
       {
         path: ROUTES.IMPORT_ACCOUNT,
