@@ -1,10 +1,19 @@
+import withSuspense from "@/functions/withSuspense";
 import { useStore } from "@/stores/store";
 import { Web3BaseWalletAccount } from "@theqrl/web3";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { lazy, useState } from "react";
 import { AccountCreationForm } from "./AccountCreationForm/AccountCreationForm";
 import { AccountCreationSuccess } from "./AccountCreationSuccess/AccountCreationSuccess";
-import { MnemonicDisplay } from "./MnemonicDisplay/MnemonicDisplay";
+
+const MnemonicDisplay = withSuspense(
+  lazy(
+    () =>
+      import(
+        "@/components/ZondWallet/Body/CreateAccount/MnemonicDisplay/MnemonicDisplay"
+      ),
+  ),
+);
 
 const CreateAccount = observer(() => {
   const { zondStore } = useStore();
@@ -18,13 +27,13 @@ const CreateAccount = observer(() => {
     window.scrollTo(0, 0);
     if (account) {
       setAccount(account);
+      setActiveAccount(account?.address);
       setHasAccountCreated(true);
     }
   };
 
   const onMnemonicNoted = () => {
     window.scrollTo(0, 0);
-    setActiveAccount(account?.address);
     setHasMnemonicNoted(true);
   };
 
