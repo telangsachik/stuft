@@ -17,7 +17,7 @@ describe("ZondWalletLogo", () => {
     if (printDebug) debug();
   };
 
-  it("should render the zond wallet component", () => {
+  it("should render the zond and wallet text in the component", () => {
     renderComponent();
 
     expect(screen.getByText("Zond")).toBeInTheDocument();
