@@ -115,6 +115,7 @@ const ImportAccount = observer(() => {
                         <FormControl>
                           <Input
                             {...field}
+                            aria-label={field.name}
                             autoComplete="off"
                             disabled={isSubmitting}
                             placeholder="Mnemonic Phrases"
