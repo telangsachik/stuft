@@ -18,10 +18,12 @@ import { Input } from "@/components/UI/Input";
 import { Label } from "@/components/UI/Label";
 import { Separator } from "@/components/UI/Separator";
 import { useStore } from "@/stores/store";
+import StorageUtil from "@/utilities/storageUtil";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validator } from "@theqrl/web3";
 import { Send } from "lucide-react";
 import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -56,7 +58,7 @@ export const AccountDetails = observer(() => {
         accountAddress,
         formData.receiverAddress,
         formData.amount,
-        "",
+        formData.mnemonicPhrases,
       );
     } catch (error) {
       control.setError("receiverAddress", {
@@ -69,17 +71,21 @@ export const AccountDetails = observer(() => {
     resolver: zodResolver(FormSchema),
     mode: "onChange",
     reValidateMode: "onChange",
-    defaultValues: {
-      receiverAddress: "",
-      amount: 0,
-      mnemonicPhrases: "",
-    },
+    defaultValues: StorageUtil.getTransactionValues(),
   });
   const {
     handleSubmit,
     control,
+    watch,
     formState: { isSubmitting, isValid },
   } = form;
+
+  useEffect(() => {
+    const formWatchSubscription = watch((value) => {
+      StorageUtil.setTransactionValues(value);
+    });
+    return () => formWatchSubscription.unsubscribe();
+  }, [watch]);
 
   return (
     <Form {...form}>
