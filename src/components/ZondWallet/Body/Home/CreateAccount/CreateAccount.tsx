@@ -15,6 +15,7 @@ export const CreateAccount = observer(() => {
   const [hasMnemonicNoted, setHasMnemonicNoted] = useState(false);
 
   const onAccountCreated = (account?: Web3BaseWalletAccount) => {
+    window.scrollTo(0, 0);
     if (account) {
       setAccount(account);
       setHasAccountCreated(true);
@@ -22,6 +23,7 @@ export const CreateAccount = observer(() => {
   };
 
   const onMnemonicNoted = () => {
+    window.scrollTo(0, 0);
     setActiveAccount(account?.address);
     setHasMnemonicNoted(true);
   };
