@@ -32,6 +32,7 @@ export const OtherAccounts = observer(() => {
         <Label className="text-secondary">{otherAccountsLabel}</Label>
         {otherAccounts.map(({ accountAddress }) => (
           <Card
+            key={accountAddress}
             id={accountAddress}
             className="flex gap-2 p-4 font-bold text-foreground hover:bg-accent"
           >
