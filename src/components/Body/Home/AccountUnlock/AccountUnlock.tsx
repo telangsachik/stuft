@@ -44,7 +44,7 @@ export const AccountUnlock = observer(() => {
   const {
     handleSubmit,
     control,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting },
   } = form;
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
