@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/UI/Card";
-import ERC20Tokens from "../Home/AccountCreateImport/ActiveAccountDisplay/TokensCardContent/ERC20Tokens/ERC20Tokens";
+import ZRC20Tokens from "../Home/AccountCreateImport/ActiveAccountDisplay/TokensCardContent/ZRC20Tokens/ZRC20Tokens";
 import BackButton from "../Shared/BackButton/BackButton";
 
-const AllERC20Tokens = () => {
+const AllZRC20Tokens = () => {
   return (
     <>
       <img
@@ -13,10 +13,10 @@ const AllERC20Tokens = () => {
         <BackButton />
         <Card>
           <CardHeader>
-            <CardTitle>All ERC 20 tokens</CardTitle>
+            <CardTitle>All ZRC 20 tokens</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <ERC20Tokens shouldDisplayAllTokens={true} />
+            <ZRC20Tokens shouldDisplayAllTokens={true} />
           </CardContent>
         </Card>
       </div>
@@ -24,4 +24,4 @@ const AllERC20Tokens = () => {
   );
 };
 
-export default AllERC20Tokens;
+export default AllZRC20Tokens;

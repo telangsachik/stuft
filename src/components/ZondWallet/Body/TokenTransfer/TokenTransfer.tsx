@@ -61,14 +61,14 @@ const TokenTransfer = observer(() => {
     signAndSendNativeToken,
     zondConnection,
     fetchAccounts,
-    signAndSendErc20Token,
+    signAndSendZrc20Token,
   } = zondStore;
   const { blockchain } = zondConnection;
   const { accountAddress } = activeAccount;
 
   const [transactionReceipt, setTransactionReceipt] =
     useState<TransactionReceipt>();
-  const [isErc20Token, setIsErc20Token] = useState(false);
+  const [isZrc20Token, setIsZrc20Token] = useState(false);
   const [tokenContractAddress, setTokenContractAddress] = useState("");
   const [tokenDecimals, setTokenDecimals] = useState(0);
   const [tokenIcon, setTokenIcon] = useState(NATIVE_TOKEN.icon);
@@ -85,8 +85,8 @@ const TokenTransfer = observer(() => {
     );
   };
 
-  const sendErc20Token = async (formData: z.infer<typeof FormSchema>) => {
-    return await signAndSendErc20Token(
+  const sendZrc20Token = async (formData: z.infer<typeof FormSchema>) => {
+    return await signAndSendZrc20Token(
       accountAddress,
       formData.receiverAddress,
       formData.amount,
@@ -99,8 +99,8 @@ const TokenTransfer = observer(() => {
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     try {
       let transactionData;
-      if (isErc20Token) {
-        transactionData = await sendErc20Token(formData);
+      if (isZrc20Token) {
+        transactionData = await sendZrc20Token(formData);
       } else {
         transactionData = await sendNativeToken(formData);
       }
@@ -174,7 +174,7 @@ const TokenTransfer = observer(() => {
         const tokenDetailsFromStorage = storedTransactionValues?.tokenDetails;
         const tokenDetailsFromState = state?.tokenDetails;
         let tokenDetails = {
-          isErc20Token,
+          isZrc20Token,
           tokenContractAddress,
           tokenDecimals,
           tokenIcon,
@@ -185,7 +185,7 @@ const TokenTransfer = observer(() => {
 
         if (tokenDetailsFromState) {
           await resetForm();
-          setIsErc20Token(tokenDetailsFromState?.isErc20Token);
+          setIsZrc20Token(tokenDetailsFromState?.isZrc20Token);
           setTokenContractAddress(tokenDetailsFromState?.tokenContractAddress);
           setTokenDecimals(tokenDetailsFromState?.tokenDecimals);
           setTokenIcon(tokenDetailsFromState?.tokenIcon);
@@ -194,7 +194,7 @@ const TokenTransfer = observer(() => {
           setTokenSymbol(tokenDetailsFromState?.tokenSymbol);
           tokenDetails = { ...tokenDetailsFromState };
         } else if (tokenDetailsFromStorage) {
-          setIsErc20Token(tokenDetailsFromStorage?.isErc20Token ?? false);
+          setIsZrc20Token(tokenDetailsFromStorage?.isZrc20Token ?? false);
           setTokenContractAddress(
             tokenDetailsFromStorage?.tokenContractAddress,
           );
@@ -221,7 +221,7 @@ const TokenTransfer = observer(() => {
       await StorageUtil.setTransactionValues(blockchain, {
         ...value,
         tokenDetails: {
-          isErc20Token,
+          isZrc20Token,
           tokenContractAddress,
           tokenDecimals,
           tokenIcon,
@@ -234,7 +234,7 @@ const TokenTransfer = observer(() => {
     return () => formWatchSubscription.unsubscribe();
   }, [
     watch,
-    isErc20Token,
+    isZrc20Token,
     tokenContractAddress,
     tokenDecimals,
     tokenIcon,
@@ -335,7 +335,7 @@ const TokenTransfer = observer(() => {
                 )}
               />
               <GasFeeNotice
-                isErc20Token={isErc20Token}
+                isZrc20Token={isZrc20Token}
                 tokenContractAddress={tokenContractAddress}
                 tokenDecimals={tokenDecimals}
                 from={accountAddress}

@@ -5,22 +5,22 @@ import { useEffect, useState } from "react";
 import TokenListItem from "../../TokenListItem/TokenListItem";
 import TokenListItemLoading from "../../TokenListItemLoading/TokenListItemLoading";
 
-type ERC20TokenProps = {
+type ZRC20TokenProps = {
   contractAddress: string;
 };
 
-const ERC20Token = observer(({ contractAddress }: ERC20TokenProps) => {
+const ZRC20Token = observer(({ contractAddress }: ZRC20TokenProps) => {
   const { zondStore } = useStore();
-  const { zondConnection, activeAccount, getErc20TokenDetails } = zondStore;
+  const { zondConnection, activeAccount, getZrc20TokenDetails } = zondStore;
   const { blockchain } = zondConnection;
   const { accountAddress } = activeAccount;
 
   const [token, setToken] =
-    useState<Awaited<ReturnType<typeof getErc20TokenDetails>>["token"]>();
+    useState<Awaited<ReturnType<typeof getZrc20TokenDetails>>["token"]>();
 
   useEffect(() => {
     (async () => {
-      const tokenDetails = await getErc20TokenDetails(contractAddress);
+      const tokenDetails = await getZrc20TokenDetails(contractAddress);
       if (!tokenDetails.error) {
         setToken(tokenDetails.token);
       }
@@ -31,7 +31,7 @@ const ERC20Token = observer(({ contractAddress }: ERC20TokenProps) => {
     <TokenListItemLoading />
   ) : (
     <TokenListItem
-      isErc20Token={true}
+      isZrc20Token={true}
       contractAddress={contractAddress}
       decimals={Number(token.decimals)}
       balance={getOptimalTokenBalance(token.balance.toString(), token.symbol)}
@@ -41,4 +41,4 @@ const ERC20Token = observer(({ contractAddress }: ERC20TokenProps) => {
   );
 });
 
-export default ERC20Token;
+export default ZRC20Token;

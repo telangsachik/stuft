@@ -12,7 +12,7 @@ describe("GasFeeNotice", () => {
   const renderComponent = (
     mockedStoreValues = mockedStore(),
     mockedProps: ComponentProps<typeof GasFeeNotice> = {
-      isErc20Token: false,
+      isZrc20Token: false,
       tokenContractAddress: "",
       tokenDecimals: 18,
       isSubmitting: false,
@@ -31,7 +31,7 @@ describe("GasFeeNotice", () => {
 
   it("should render the gas fee notice component", async () => {
     renderComponent(undefined, {
-      isErc20Token: false,
+      isZrc20Token: false,
       tokenContractAddress: "",
       tokenDecimals: 18,
       isSubmitting: false,
@@ -67,7 +67,7 @@ describe("GasFeeNotice", () => {
         },
       }),
       {
-        isErc20Token: false,
+        isZrc20Token: false,
         tokenContractAddress: "",
         tokenDecimals: 18,
         isSubmitting: false,
@@ -85,11 +85,11 @@ describe("GasFeeNotice", () => {
     ).toBeInTheDocument();
   });
 
-  it("should display the estimated gas fee for ERC 20 token", async () => {
+  it("should display the estimated gas fee for ZRC 20 token", async () => {
     renderComponent(
       mockedStore({
         zondStore: {
-          getErc20TokenGas: jest.fn(
+          getZrc20TokenGas: jest.fn(
             async (
               from: string,
               to: string,
@@ -108,7 +108,7 @@ describe("GasFeeNotice", () => {
         },
       }),
       {
-        isErc20Token: true,
+        isZrc20Token: true,
         tokenContractAddress: "0x28c4113a9d3a2e836f28c23ed8e3c1e7c243f566",
         tokenDecimals: 18,
         isSubmitting: false,

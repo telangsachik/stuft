@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, jest } from "@jest/globals";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { ComponentProps } from "react";
 import { MemoryRouter } from "react-router-dom";
-import ERC20Tokens from "../ERC20Tokens";
+import ZRC20Tokens from "../ZRC20Tokens";
 
 jest.mock("@/utilities/storageUtil", () => {
   const originalModule = jest.requireActual<
@@ -20,13 +20,13 @@ jest.mock("@/utilities/storageUtil", () => {
   };
 });
 
-describe("ERC20Tokens", () => {
+describe("ZRC20Tokens", () => {
   afterEach(cleanup);
 
   const renderComponent = (
     mockedStoreValues = mockedStore({
       zondStore: {
-        getErc20TokenDetails: async (contractAddress: string) => {
+        getZrc20TokenDetails: async (contractAddress: string) => {
           const tokenContracts = {
             "0x28c4113a9d3a2e836f28c23ed8e3c1e7c243f566": {
               token: {
@@ -65,12 +65,12 @@ describe("ERC20Tokens", () => {
         },
       },
     }),
-    mockedProps: ComponentProps<typeof ERC20Tokens> = {},
+    mockedProps: ComponentProps<typeof ZRC20Tokens> = {},
   ) =>
     render(
       <StoreProvider value={mockedStoreValues}>
         <MemoryRouter>
-          <ERC20Tokens {...mockedProps} />
+          <ZRC20Tokens {...mockedProps} />
         </MemoryRouter>
       </StoreProvider>,
     );

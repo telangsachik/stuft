@@ -8,8 +8,8 @@ import TokensCardContent from "../TokensCardContent";
 jest.mock("./../NativeToken/NativeToken", () => () => (
   <div>Mocked Native token</div>
 ));
-jest.mock("./../ERC20Tokens/ERC20Tokens", () => () => (
-  <div>Mocked ERC 20 token</div>
+jest.mock("./../ZRC20Tokens/ZRC20Tokens", () => () => (
+  <div>Mocked ZRC 20 token</div>
 ));
 
 describe("TokensCardContent", () => {
@@ -28,7 +28,7 @@ describe("TokensCardContent", () => {
     renderComponent();
 
     expect(screen.getByText("Mocked Native token")).toBeInTheDocument();
-    expect(screen.getByText("Mocked ERC 20 token")).toBeInTheDocument();
+    expect(screen.getByText("Mocked ZRC 20 token")).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Import token" }),
     ).toBeInTheDocument();

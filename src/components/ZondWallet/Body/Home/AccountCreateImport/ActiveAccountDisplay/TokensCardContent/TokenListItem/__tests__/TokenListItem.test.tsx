@@ -18,7 +18,7 @@ describe("TokenListItem", () => {
             symbol="QRL"
             contractAddress="0x0db3981cb93db985e4e3a62ff695f7a1b242dd7c"
             decimals={18}
-            isErc20Token={false}
+            isZrc20Token={false}
           />
         </MemoryRouter>
       </StoreProvider>,

@@ -13,7 +13,7 @@ import { Send, TextSelect } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 type TokenListItemProps = {
-  isErc20Token?: boolean;
+  isZrc20Token?: boolean;
   contractAddress?: string;
   decimals?: number;
   icon?: string;
@@ -23,7 +23,7 @@ type TokenListItemProps = {
 };
 
 const TokenListItem = ({
-  isErc20Token = false,
+  isZrc20Token = false,
   contractAddress,
   decimals,
   icon,
@@ -37,7 +37,7 @@ const TokenListItem = ({
     navigate(ROUTES.TOKEN_TRANSFER, {
       state: {
         tokenDetails: {
-          isErc20Token,
+          isZrc20Token,
           tokenContractAddress: contractAddress,
           tokenDecimals: decimals,
           tokenIcon: icon,

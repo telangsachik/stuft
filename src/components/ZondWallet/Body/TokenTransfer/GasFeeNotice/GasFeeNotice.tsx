@@ -6,7 +6,7 @@ import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 
 type GasFeeNoticeProps = {
-  isErc20Token: boolean;
+  isZrc20Token: boolean;
   tokenContractAddress: string;
   tokenDecimals: number;
   from: string;
@@ -32,7 +32,7 @@ const gasFeeNoticeClasses = cva(
 
 export const GasFeeNotice = observer(
   ({
-    isErc20Token,
+    isZrc20Token,
     tokenContractAddress,
     tokenDecimals,
     from,
@@ -41,7 +41,7 @@ export const GasFeeNotice = observer(
     isSubmitting,
   }: GasFeeNoticeProps) => {
     const { zondStore } = useStore();
-    const { getNativeTokenGas, getErc20TokenGas } = zondStore;
+    const { getNativeTokenGas, getZrc20TokenGas } = zondStore;
 
     const hasValuesForGasCalculation = !!from && !!to && !!value;
 
@@ -55,8 +55,8 @@ export const GasFeeNotice = observer(
       return await getNativeTokenGas();
     };
 
-    const calculateErc20TokenGas = async () => {
-      return await getErc20TokenGas(
+    const calculateZrc20TokenGas = async () => {
+      return await getZrc20TokenGas(
         from,
         to,
         value,
@@ -68,8 +68,8 @@ export const GasFeeNotice = observer(
     const calculateGasFee = async () => {
       setGasFee({ ...gasFee, isLoading: true, error: "" });
       try {
-        const gasFeeAmount = await (isErc20Token
-          ? calculateErc20TokenGas()
+        const gasFeeAmount = await (isZrc20Token
+          ? calculateZrc20TokenGas()
           : calculateNativeTokenGas());
         setGasFee({
           ...gasFee,

@@ -1,9 +1,9 @@
 import { ZOND_PROVIDER } from "@/configuration/zondConfig";
-import {
-  ERC_20_CONTRACT_ABI,
-  ERC_20_TOKEN_UNITS_OF_GAS,
-} from "@/constants/erc20Token";
 import { NATIVE_TOKEN_UNITS_OF_GAS } from "@/constants/nativeToken";
+import {
+  ZRC_20_CONTRACT_ABI,
+  ZRC_20_TOKEN_UNITS_OF_GAS,
+} from "@/constants/zrc20Token";
 import { getHexSeedFromMnemonic } from "@/functions/getHexSeedFromMnemonic";
 import { getOptimalTokenBalance } from "@/functions/getOptimalTokenBalance";
 import StorageUtil from "@/utilities/storageUtil";
@@ -52,9 +52,9 @@ class ZondStore {
       getAccountBalance: action.bound,
       getNativeTokenGas: action.bound,
       signAndSendNativeToken: action.bound,
-      getErc20TokenDetails: action.bound,
-      getErc20TokenGas: action.bound,
-      signAndSendErc20Token: action.bound,
+      getZrc20TokenDetails: action.bound,
+      getZrc20TokenGas: action.bound,
+      signAndSendZrc20Token: action.bound,
       storeProviderState: action.bound,
     });
     this.initializeBlockchain();
@@ -281,13 +281,13 @@ class ZondStore {
     return transaction;
   }
 
-  async getErc20TokenDetails(contractAddress: string) {
+  async getZrc20TokenDetails(contractAddress: string) {
     let tokenDetails = {
       token: undefined,
       error: "",
     };
 
-    const contractAbi = ERC_20_CONTRACT_ABI;
+    const contractAbi = ZRC_20_CONTRACT_ABI;
 
     if (this.zondInstance && this.zondInstance.Contract) {
       try {
@@ -324,7 +324,7 @@ class ZondStore {
     return tokenDetails;
   }
 
-  async getErc20TokenGas(
+  async getZrc20TokenGas(
     from: string,
     to: string,
     value: number,
@@ -333,7 +333,7 @@ class ZondStore {
   ) {
     if (this.zondInstance && this.zondInstance.Contract) {
       const contract = new this.zondInstance.Contract(
-        ERC_20_CONTRACT_ABI,
+        ZRC_20_CONTRACT_ABI,
         contractAddress,
       );
       const contractTransfer = contract.methods.transfer(
@@ -354,7 +354,7 @@ class ZondStore {
     return "";
   }
 
-  async signAndSendErc20Token(
+  async signAndSendZrc20Token(
     from: string,
     to: string,
     value: number,
@@ -367,7 +367,7 @@ class ZondStore {
       error: string;
     } = { transactionReceipt: undefined, error: "" };
 
-    const contractAbi = ERC_20_CONTRACT_ABI;
+    const contractAbi = ZRC_20_CONTRACT_ABI;
 
     if (this.zondInstance && this.zondInstance.Contract) {
       try {
@@ -386,7 +386,7 @@ class ZondStore {
           to: contractAddress,
           data: contractTransfer.encodeABI(),
           nonce: await this.zondInstance?.getTransactionCount(from),
-          gasLimit: ERC_20_TOKEN_UNITS_OF_GAS,
+          gasLimit: ZRC_20_TOKEN_UNITS_OF_GAS,
           maxFeePerGas: Number((await this.getGasFeeData()).maxFeePerGas),
           maxPriorityFeePerGas: Number(
             (await this.getGasFeeData()).maxPriorityFeePerGas,

@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 type TokenImportSuccessProps = {
   token: Awaited<
-    ReturnType<StoreType["zondStore"]["getErc20TokenDetails"]>
+    ReturnType<StoreType["zondStore"]["getZrc20TokenDetails"]>
   >["token"];
   onCancelImport: () => void;
   contractAddress: string;
