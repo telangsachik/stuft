@@ -43,7 +43,7 @@ jobs:
       - name: Zip the build directory
         run: |
           mkdir -p zond-chrome-v${{ env.package_version }}
-          cp -r Extensions/* zond-chrome-v${{ env.package_version }}/
+          cp -r Extension/* zond-chrome-v${{ env.package_version }}/
           zip -r zond-chrome-v${{ env.package_version }}.zip zond-chrome-v${{ env.package_version }}
 
       - name: Upload Zip as Artifact
