@@ -1,11 +1,8 @@
 import { ZOND_PROVIDER } from "@/configuration/zondConfig";
+import StorageUtil from "@/utilities/storageUtil";
 import Web3, { Web3ZondInterface, utils } from "@theqrl/web3";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
-const BLOCKCHAIN_SELECTION_IDENTIFIER = "BLOCKCHAIN_SELECTION";
-const DEFAULT_BLOCKCHAIN = ZOND_PROVIDER.TEST_NET.id;
 const ACTIVE_ACCOUNT_IDENTIFIER = "ACTIVE_ACCOUNT";
-
-type BlockchainType = keyof typeof ZOND_PROVIDER;
 
 type ActiveAccountType = {
   accountAddress: string;
@@ -48,10 +45,7 @@ class ZondStore {
   }
 
   async initializeBlockchain() {
-    const selectedBlockChain = (localStorage.getItem(
-      BLOCKCHAIN_SELECTION_IDENTIFIER,
-    ) ?? DEFAULT_BLOCKCHAIN) as BlockchainType;
-
+    const selectedBlockChain = StorageUtil.getBlockChain();
     const { name, url } = ZOND_PROVIDER[selectedBlockChain];
     this.zondConnection = {
       ...this.zondConnection,
@@ -68,7 +62,7 @@ class ZondStore {
   }
 
   selectBlockchain(selectedBlockchain: string) {
-    localStorage.setItem(BLOCKCHAIN_SELECTION_IDENTIFIER, selectedBlockchain);
+    StorageUtil.setBlockChain(selectedBlockchain);
     this.initializeBlockchain();
   }
 
