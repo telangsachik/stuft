@@ -9,8 +9,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "test": "jest",
-    "preview": "vite preview",
-    "prepublish": "npm run build"
+    "preview": "vite preview"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
