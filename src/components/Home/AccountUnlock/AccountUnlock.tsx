@@ -28,9 +28,10 @@ const FormSchema = z.object({
 });
 
 export const AccountUnlock = observer(() => {
-  const { accountStore } = useStore();
+  const { accountStore, zondStore } = useStore();
   const { activeAccount } = accountStore;
   const { accountAddress } = activeAccount;
+  const { unlockAccount } = zondStore;
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -46,11 +47,11 @@ export const AccountUnlock = observer(() => {
   } = form;
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-    console.log(JSON.stringify(formData, null, 2));
-
-    const unlocked = false;
+    const unlocked = await unlockAccount(accountAddress, formData.password);
     if (unlocked) {
+      control.setError("password", {
+        message: "The entered password is correct",
+      });
     } else {
       control.setError("password", {
         message: "The entered password is incorrect",

@@ -63,7 +63,13 @@ export const ActiveAccount = observer(() => {
               </TooltipProvider>
             </span>
           </div>
-          <Button variant="outline" className="hover:text-secondary">
+          <Button
+            variant="outline"
+            className="hover:text-secondary"
+            onClick={() => {
+              localStorage.clear();
+            }}
+          >
             <Lock className="mr-2 h-4 w-4" />
             Lock account
           </Button>
