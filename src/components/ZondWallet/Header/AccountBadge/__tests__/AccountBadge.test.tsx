@@ -16,14 +16,15 @@ describe("AccountBadge", () => {
     );
 
   it("should render the account address in the shortened form with ellipses in between", () => {
-    const mockedStoreValues = mockedStore({
-      zondStore: {
-        activeAccount: {
-          accountAddress: "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
+    renderComponent(
+      mockedStore({
+        zondStore: {
+          activeAccount: {
+            accountAddress: "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
+          },
         },
-      },
-    });
-    renderComponent(mockedStoreValues);
+      }),
+    );
 
     expect(screen.getByText("0x20fB0...6722b")).toBeInTheDocument();
   });
