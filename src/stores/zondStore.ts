@@ -205,7 +205,7 @@ class ZondStore {
       const transactionObject = {
         from,
         to,
-        value,
+        value: utils.toWei(value, "ether"),
         maxFeePerGas: 21000,
         maxPriorityFeePerGas: 21000,
       };
@@ -224,7 +224,7 @@ class ZondStore {
     } catch (error) {
       transaction = {
         ...transaction,
-        error: "Transaction could not be completed",
+        error: `Transaction could not be completed. ${error}`,
       };
     }
 
