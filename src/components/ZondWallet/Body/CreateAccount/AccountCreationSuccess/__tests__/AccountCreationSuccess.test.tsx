@@ -10,7 +10,7 @@ import {
 } from "@jest/globals";
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Web3BaseWalletAccount } from "@theqrl/web3";
+import { ComponentProps } from "react";
 import { MemoryRouter } from "react-router-dom";
 import AccountCreationSuccess from "../AccountCreationSuccess";
 
@@ -22,25 +22,27 @@ describe("AccountCreationSuccess", () => {
 
   const renderComponent = (
     mockedStoreValues = mockedStore(),
-    mockedAccount: Web3BaseWalletAccount = {
-      address: "0x205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
-      seed: "",
-      sign: (data: Record<string, unknown> | string) => {
-        data;
-        return { messageHash: "", signature: "", message: "" };
+    mockedProps: ComponentProps<typeof AccountCreationSuccess> = {
+      account: {
+        address: "0x205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
+        seed: "",
+        sign: (data: Record<string, unknown> | string) => {
+          data;
+          return { messageHash: "", signature: "", message: "" };
+        },
+        signTransaction: async () => ({
+          messageHash: "",
+          rawTransaction: "",
+          signature: "",
+          transactionHash: "",
+        }),
       },
-      signTransaction: async () => ({
-        messageHash: "",
-        rawTransaction: "",
-        signature: "",
-        transactionHash: "",
-      }),
     },
   ) =>
     render(
       <StoreProvider value={mockedStoreValues}>
         <MemoryRouter>
-          <AccountCreationSuccess account={mockedAccount} />
+          <AccountCreationSuccess account={mockedProps.account} />
         </MemoryRouter>
       </StoreProvider>,
     );
