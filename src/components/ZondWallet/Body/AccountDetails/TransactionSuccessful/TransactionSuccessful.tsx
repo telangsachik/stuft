@@ -30,7 +30,7 @@ export const TransactionSuccessful = ({
   return (
     <div className="w-full">
       <img
-        className="fixed z-0 h-96 w-96 -translate-x-8 scale-150 overflow-hidden opacity-30"
+        className="animate-rotate-scale fixed z-0 h-96 w-96 -translate-x-8 overflow-hidden opacity-30"
         src="tree.svg"
       />
       <div className="relative z-10 p-8">
