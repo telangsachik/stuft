@@ -14,7 +14,7 @@ type MnemonicWordListingProps = {
   mnemonic: string;
 };
 
-export const MnemonicWordListing = ({ mnemonic }: MnemonicWordListingProps) => {
+const MnemonicWordListing = ({ mnemonic }: MnemonicWordListingProps) => {
   const words = groupWords(mnemonic);
 
   return (
@@ -31,3 +31,5 @@ export const MnemonicWordListing = ({ mnemonic }: MnemonicWordListingProps) => {
     </div>
   );
 };
+
+export default MnemonicWordListing;

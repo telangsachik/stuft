@@ -14,7 +14,7 @@ const backgroundVideoClasses = cva("fixed z-0 overflow-hidden", {
   },
 });
 
-export const BackgroundVideo = observer(() => {
+const BackgroundVideo = observer(() => {
   const { settingsStore } = useStore();
   const { isDarkMode, theme } = settingsStore;
 
@@ -31,3 +31,5 @@ export const BackgroundVideo = observer(() => {
     </video>
   );
 });
+
+export default BackgroundVideo;

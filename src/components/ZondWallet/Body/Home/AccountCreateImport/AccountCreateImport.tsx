@@ -10,7 +10,7 @@ import { ROUTES } from "@/router/router";
 import { Download, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export const AccountCreateImport = () => {
+const AccountCreateImport = () => {
   return (
     <Card className="w-full">
       <CardHeader>
@@ -37,3 +37,5 @@ export const AccountCreateImport = () => {
     </Card>
   );
 };
+
+export default AccountCreateImport;

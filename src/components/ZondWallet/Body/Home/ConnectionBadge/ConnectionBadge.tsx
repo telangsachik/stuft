@@ -39,7 +39,7 @@ const blockchainSelectionClasses = cva("cursor-pointer", {
   },
 });
 
-export const ConnectionBadge = observer(() => {
+const ConnectionBadge = observer(() => {
   const { zondStore } = useStore();
   const { zondConnection, selectBlockchain } = zondStore;
   const { isConnected, zondNetworkName } = zondConnection;
@@ -115,3 +115,5 @@ export const ConnectionBadge = observer(() => {
     </DropdownMenu>
   );
 });
+
+export default ConnectionBadge;

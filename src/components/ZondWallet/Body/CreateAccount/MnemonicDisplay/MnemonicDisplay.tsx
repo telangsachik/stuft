@@ -18,9 +18,19 @@ import {
   DialogTrigger,
 } from "@/components/UI/Dialog";
 import { getMnemonicFromHexSeed } from "@/functions/getMnemonicFromHexSeed";
+import withSuspense from "@/functions/withSuspense";
 import { Web3BaseWalletAccount } from "@theqrl/web3";
 import { ArrowRight, HardDriveDownload, Undo } from "lucide-react";
-import { MnemonicWordListing } from "./MnemonicWordListing/MnemonicWordListing";
+import { lazy } from "react";
+
+const MnemonicWordListing = withSuspense(
+  lazy(
+    () =>
+      import(
+        "@/components/ZondWallet/Body/CreateAccount/MnemonicDisplay/MnemonicWordListing/MnemonicWordListing"
+      ),
+  ),
+);
 
 type MnemonicDisplayProps = {
   account?: Web3BaseWalletAccount;

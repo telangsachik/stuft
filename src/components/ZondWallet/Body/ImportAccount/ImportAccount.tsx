@@ -16,16 +16,32 @@ import {
 } from "@/components/UI/Form";
 import { Input } from "@/components/UI/Input";
 import { getHexSeedFromMnemonic } from "@/functions/getHexSeedFromMnemonic";
+import withSuspense from "@/functions/withSuspense";
 import { useStore } from "@/stores/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Web3BaseWalletAccount } from "@theqrl/web3";
 import { Download, Loader } from "lucide-react";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { lazy, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { MnemonicWordListing } from "../CreateAccount/MnemonicDisplay/MnemonicWordListing/MnemonicWordListing";
-import { AccountImportSuccess } from "./AccountImportSuccess/AccountImportSuccess";
+
+const MnemonicWordListing = withSuspense(
+  lazy(
+    () =>
+      import(
+        "@/components/ZondWallet/Body/CreateAccount/MnemonicDisplay/MnemonicWordListing/MnemonicWordListing"
+      ),
+  ),
+);
+const AccountImportSuccess = withSuspense(
+  lazy(
+    () =>
+      import(
+        "@/components/ZondWallet/Body/ImportAccount/AccountImportSuccess/AccountImportSuccess"
+      ),
+  ),
+);
 
 const FormSchema = z.object({
   mnemonicPhrases: z.string().min(1, "Mnemonic phrases are required"),

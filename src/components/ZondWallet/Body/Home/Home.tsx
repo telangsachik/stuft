@@ -1,9 +1,33 @@
+import withSuspense from "@/functions/withSuspense";
 import { useStore } from "@/stores/store";
 import { Loader } from "lucide-react";
 import { observer } from "mobx-react-lite";
-import { AccountCreateImport } from "./AccountCreateImport/AccountCreateImport";
-import { BackgroundVideo } from "./BackgroundVideo/BackgroundVideo";
-import { ConnectionBadge } from "./ConnectionBadge/ConnectionBadge";
+import { lazy } from "react";
+
+const AccountCreateImport = withSuspense(
+  lazy(
+    () =>
+      import(
+        "@/components/ZondWallet/Body/Home/AccountCreateImport/AccountCreateImport"
+      ),
+  ),
+);
+const BackgroundVideo = withSuspense(
+  lazy(
+    () =>
+      import(
+        "@/components/ZondWallet/Body/Home/BackgroundVideo/BackgroundVideo"
+      ),
+  ),
+);
+const ConnectionBadge = withSuspense(
+  lazy(
+    () =>
+      import(
+        "@/components/ZondWallet/Body/Home/ConnectionBadge/ConnectionBadge"
+      ),
+  ),
+);
 
 const Home = observer(() => {
   const { zondStore } = useStore();
