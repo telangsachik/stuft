@@ -1,0 +1,52 @@
+name: Build and Zip Chrome Extension
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  build-and-zip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.15.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Get version from package.json
+        id: package_version
+        run: echo "package_version=$(jq -r .version package.json)" >> $GITHUB_ENV
+
+      - name: Get version from git tag
+        id: git_version
+        run: echo "git_version=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+
+      - name: Check if versions match
+        run: |
+          if [ "$package_version" != "$git_version" ]; then
+            echo "Error: Version mismatch between package.json ($package_version) and git tag ($git_version)"
+            exit 1
+          fi
+
+      - name: Build Chrome Extension
+        run: npm run build
+
+      - name: Zip the build directory
+        run: |
+          cd Extensions
+          zip -r ../zond-chrome-${{ env.package_version }}.zip .
+
+      - name: Upload Zip as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: zond-chrome-${{ env.package_version }}
+          path: zond-chrome-${{ env.package_version }}.zip
