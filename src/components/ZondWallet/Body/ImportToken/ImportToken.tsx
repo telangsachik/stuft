@@ -19,9 +19,11 @@ import { useStore } from "@/stores/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Download, Loader } from "lucide-react";
 import { observer } from "mobx-react-lite";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import BackButton from "../Shared/BackButton/BackButton";
+import TokenImportSuccess from "./TokenImportSuccess/TokenImportSuccess";
 
 const FormSchema = z.object({
   contractAddress: z.string().min(1, "Contract address is required"),
@@ -31,11 +33,25 @@ const ImportToken = observer(() => {
   const { zondStore } = useStore();
   const { getTokenDetails } = zondStore;
 
+  const [token, setToken] =
+    useState<Awaited<ReturnType<typeof getTokenDetails>>["token"]>();
+  const [hasTokenImported, setHasTokenImported] = useState(false);
+
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     console.log(">>>formData", formData);
-    const result = await getTokenDetails(formData.contractAddress);
-    console.log(">>>result", result);
+    const tokenDetails = await getTokenDetails(formData.contractAddress);
+    if (tokenDetails?.error) {
+      control.setError("contractAddress", { message: tokenDetails.error });
+    } else {
+      setToken(tokenDetails?.token);
+      setHasTokenImported(true);
+    }
   }
+
+  const onCancelImport = () => {
+    reset({ contractAddress: "" });
+    setHasTokenImported(false);
+  };
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -49,6 +65,7 @@ const ImportToken = observer(() => {
     handleSubmit,
     control,
     formState: { isSubmitting, isValid },
+    reset,
   } = form;
 
   return (
@@ -58,58 +75,62 @@ const ImportToken = observer(() => {
         src="tree.svg"
       />
       <div className="relative z-10 p-8">
-        <Form {...form}>
-          <BackButton />
-          <form
-            name="importAccount"
-            aria-label="importAccount"
-            className="w-full"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Card>
-              <CardHeader>
-                <CardTitle>Import token</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-8">
-                <FormField
-                  control={control}
-                  name="contractAddress"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          aria-label={field.name}
-                          autoComplete="off"
-                          disabled={isSubmitting}
-                          placeholder="Contract address"
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Paste the token's contract address
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-              <CardFooter>
-                <Button
-                  disabled={isSubmitting || !isValid}
-                  className="w-full"
-                  type="submit"
-                >
-                  {isSubmitting ? (
-                    <Loader className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    <Download className="mr-2 h-4 w-4" />
-                  )}
-                  {isSubmitting ? "Importing token" : "Import token"}
-                </Button>
-              </CardFooter>
-            </Card>
-          </form>
-        </Form>
+        {hasTokenImported ? (
+          <TokenImportSuccess token={token} onCancelImport={onCancelImport} />
+        ) : (
+          <Form {...form}>
+            <BackButton />
+            <form
+              name="importAccount"
+              aria-label="importAccount"
+              className="w-full"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle>Import token</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-8">
+                  <FormField
+                    control={control}
+                    name="contractAddress"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            aria-label={field.name}
+                            autoComplete="off"
+                            disabled={isSubmitting}
+                            placeholder="Contract address"
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Paste the token's contract address
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+                <CardFooter>
+                  <Button
+                    disabled={isSubmitting || !isValid}
+                    className="w-full"
+                    type="submit"
+                  >
+                    {isSubmitting ? (
+                      <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Download className="mr-2 h-4 w-4" />
+                    )}
+                    {isSubmitting ? "Importing token" : "Import token"}
+                  </Button>
+                </CardFooter>
+              </Card>
+            </form>
+          </Form>
+        )}
       </div>
     </>
   );
