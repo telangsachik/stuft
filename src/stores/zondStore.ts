@@ -2,7 +2,6 @@ import { ZOND_PROVIDER } from "@/configuration/zondConfig";
 import StorageUtil from "@/utilities/storageUtil";
 import Web3, { Web3ZondInterface, utils } from "@theqrl/web3";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
-const ACTIVE_ACCOUNT_IDENTIFIER = "ACTIVE_ACCOUNT";
 
 type ActiveAccountType = {
   accountAddress: string;
@@ -67,8 +66,10 @@ class ZondStore {
   }
 
   setActiveAccount(activeAccount?: string) {
-    const blockChainAccountIdentifier = `${this.zondConnection.zondNetworkId}_${ACTIVE_ACCOUNT_IDENTIFIER}`;
-    localStorage.setItem(blockChainAccountIdentifier, activeAccount ?? "");
+    StorageUtil.setActiveAccount(
+      this.zondConnection.zondNetworkId,
+      activeAccount,
+    );
     this.activeAccount = {
       ...this.activeAccount,
       accountAddress: activeAccount ?? "",
@@ -157,15 +158,16 @@ class ZondStore {
   }
 
   validateActiveAccount() {
-    const blockChainAccountIdentifier = `${this.zondConnection.zondNetworkId}_${ACTIVE_ACCOUNT_IDENTIFIER}`;
-    const storedActiveAccount =
-      localStorage.getItem(blockChainAccountIdentifier) ?? "";
+    const storedActiveAccount = StorageUtil.getActiveAccount(
+      this.zondConnection.zondNetworkId,
+    );
+
     const confirmedExistingActiveAccount =
       this.zondAccounts.accounts.find(
         (account) => account.accountAddress === storedActiveAccount,
       )?.accountAddress ?? "";
     if (!confirmedExistingActiveAccount) {
-      localStorage.removeItem(blockChainAccountIdentifier);
+      StorageUtil.clearActiveAccount(this.zondConnection.zondNetworkId);
     }
     this.activeAccount = {
       ...this.activeAccount,
