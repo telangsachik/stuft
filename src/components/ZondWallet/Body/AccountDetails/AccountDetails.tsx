@@ -61,8 +61,24 @@ export const AccountDetails = observer(() => {
         formData.amount,
         formData.mnemonicPhrases,
       );
+
+      if (error) {
+        control.setError("mnemonicPhrases", {
+          message: `An error occured. ${error}`,
+        });
+      } else {
+        const isTransactionSuccessful =
+          transactionReceipt?.status.toString() === "1";
+        if (isTransactionSuccessful) {
+          // StorageUtil;
+        } else {
+          control.setError("mnemonicPhrases", {
+            message: `An error occured. ${error}`,
+          });
+        }
+      }
     } catch (error) {
-      control.setError("receiverAddress", {
+      control.setError("mnemonicPhrases", {
         message: `An error occured. ${error}`,
       });
     }
