@@ -6,6 +6,7 @@ const BLOCKCHAIN_SELECTION_IDENTIFIER = "BLOCKCHAIN_SELECTION";
 const ACTIVE_ACCOUNT_IDENTIFIER = "ACTIVE_ACCOUNT";
 const ACCOUNT_LIST_IDENTIFIER = "ACCOUNT_LIST";
 const TRANSACTION_VALUES_IDENTIFIER = "TRANSACTION_VALUES";
+const TOKENS_LIST_IDENTIFIER = "TOKENS_LIST";
 
 type BlockchainType = keyof typeof ZOND_PROVIDER;
 type TransactionValuesType = {
@@ -153,6 +154,58 @@ class StorageUtil {
 
   static async clearActivePage() {
     await browser.storage.local.remove(ACTIVE_PAGE_IDENTIFIER);
+  }
+
+  /**
+   * A function for storing the list of imported tokens.
+   * Call the getTokenContractsList function to retrieve the stored value, and clearFromTokenList for clearing the stored value.
+   */
+  static async setTokenContractsList(
+    blockchain: string,
+    accountAddress: string,
+    contractAddress: string,
+  ) {
+    const tokensListIdentifier = `${blockchain}_${TOKENS_LIST_IDENTIFIER}_${accountAddress.toUpperCase()}`;
+    let storedTokensList = await this.getTokenContractsList(
+      blockchain,
+      accountAddress,
+    );
+    storedTokensList.push(contractAddress);
+
+    await browser.storage.local.set({
+      [tokensListIdentifier]: Array.from(new Set(storedTokensList)),
+    });
+  }
+
+  static async getTokenContractsList(
+    blockchain: string,
+    accountAddress: string,
+  ) {
+    const tokensListIdentifier = `${blockchain}_${TOKENS_LIST_IDENTIFIER}_${accountAddress.toUpperCase()}`;
+    const storedTokensList =
+      await browser.storage.local.get(tokensListIdentifier);
+
+    return (storedTokensList?.[tokensListIdentifier] ?? []) as string[];
+  }
+
+  static async clearFromTokenContractsList(
+    blockchain: string,
+    accountAddress: string,
+    contractAddress: string,
+  ) {
+    const tokensListIdentifier = `${blockchain}_${TOKENS_LIST_IDENTIFIER}_${accountAddress.toUpperCase()}`;
+    let storedTokensList = await this.getTokenContractsList(
+      blockchain,
+      accountAddress,
+    );
+
+    await browser.storage.local.set({
+      [tokensListIdentifier]: Array.from(
+        new Set(
+          storedTokensList.filter((address) => address !== contractAddress),
+        ),
+      ),
+    });
   }
 }
 
