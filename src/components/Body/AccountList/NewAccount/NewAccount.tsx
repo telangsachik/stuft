@@ -7,7 +7,7 @@ export const NewAccount = () => {
   return (
     <Link to={ROUTES.NEW_ACCOUNT}>
       <Button className="flex w-full gap-2">
-        <Wallet size="18" /> Add new account
+        <Wallet size="18" /> Create new account
       </Button>
     </Link>
   );
