@@ -31,15 +31,15 @@ const FormSchema = z.object({
 
 const ImportToken = observer(() => {
   const { zondStore } = useStore();
-  const { getTokenDetails } = zondStore;
+  const { getErc20TokenDetails } = zondStore;
 
   const [token, setToken] =
-    useState<Awaited<ReturnType<typeof getTokenDetails>>["token"]>();
+    useState<Awaited<ReturnType<typeof getErc20TokenDetails>>["token"]>();
   const [hasTokenImported, setHasTokenImported] = useState(false);
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     console.log(">>>formData", formData);
-    const tokenDetails = await getTokenDetails(formData.contractAddress);
+    const tokenDetails = await getErc20TokenDetails(formData.contractAddress);
     if (tokenDetails.error) {
       control.setError("contractAddress", { message: tokenDetails.error });
     } else {

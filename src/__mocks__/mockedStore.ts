@@ -44,7 +44,7 @@ const mockedStoreValues: StoreType = {
       return { transactionReceipt: undefined, error: "" };
     },
     validateActiveAccount: async () => {},
-    getTokenDetails: async () => ({
+    getErc20TokenDetails: async () => ({
       token: undefined,
       error: "",
     }),

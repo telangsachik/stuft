@@ -9,16 +9,16 @@ type ImportedTokenProps = {
 
 const ImportedToken = observer(({ contractAddress }: ImportedTokenProps) => {
   const { zondStore } = useStore();
-  const { zondConnection, activeAccount, getTokenDetails } = zondStore;
+  const { zondConnection, activeAccount, getErc20TokenDetails } = zondStore;
   const { blockchain } = zondConnection;
   const { accountAddress } = activeAccount;
 
   const [token, setToken] =
-    useState<Awaited<ReturnType<typeof getTokenDetails>>["token"]>();
+    useState<Awaited<ReturnType<typeof getErc20TokenDetails>>["token"]>();
 
   useEffect(() => {
     (async () => {
-      const tokenDetails = await getTokenDetails(contractAddress);
+      const tokenDetails = await getErc20TokenDetails(contractAddress);
       if (!tokenDetails.error) {
         setToken(tokenDetails.token);
       }

@@ -46,7 +46,7 @@ class ZondStore {
       fetchAccounts: action.bound,
       getAccountBalance: action.bound,
       signAndSendTransaction: action.bound,
-      getTokenDetails: action.bound,
+      getErc20TokenDetails: action.bound,
     });
     this.initializeBlockchain();
   }
@@ -238,7 +238,7 @@ class ZondStore {
     return transaction;
   }
 
-  async getTokenDetails(contractAddress: string) {
+  async getErc20TokenDetails(contractAddress: string) {
     let tokenDetails = {
       token: undefined,
       error: "",
