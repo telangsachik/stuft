@@ -223,6 +223,8 @@ class ZondStore {
             signedTransaction?.rawTransaction,
           );
         transaction = { ...transaction, transactionReceipt };
+      } else {
+        throw new Error("Transaction could not be signed");
       }
     } catch (error) {
       transaction = {
