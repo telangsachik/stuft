@@ -25,7 +25,7 @@ class StorageUtil {
     const transactionValuesWithDefaultValues = {
       receiverAddress: transactionValues.receiverAddress ?? "",
       amount: transactionValues.amount ?? 0,
-      mnemonicPhrases: transactionValues.mnemonicPhrases ?? "",
+      mnemonicPhrases: "",
     };
     localStorage.setItem(
       TRANSACTION_VALUES_IDENTIFIER,
