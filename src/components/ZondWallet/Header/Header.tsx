@@ -1,7 +1,19 @@
+import withSuspense from "@/functions/withSuspense";
 import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
-import { AccountBadge } from "./AccountBadge/AccountBadge";
-import { ZondWalletLogo } from "./ZondWalletLogo/ZondWalletLogo";
+import { lazy } from "react";
+
+const ZondWalletLogo = withSuspense(
+  lazy(
+    () =>
+      import("@/components/ZondWallet/Header/ZondWalletLogo/ZondWalletLogo"),
+  ),
+);
+const AccountBadge = withSuspense(
+  lazy(
+    () => import("@/components/ZondWallet/Header/AccountBadge/AccountBadge"),
+  ),
+);
 
 export const Header = observer(() => {
   const { zondStore } = useStore();

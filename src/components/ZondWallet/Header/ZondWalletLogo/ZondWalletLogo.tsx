@@ -1,7 +1,7 @@
 import { ROUTES } from "@/router/router";
 import { Link } from "react-router-dom";
 
-export const ZondWalletLogo = () => {
+const ZondWalletLogo = () => {
   return (
     <Link to={ROUTES.HOME}>
       <span className="flex items-center gap-2">
@@ -14,3 +14,5 @@ export const ZondWalletLogo = () => {
     </Link>
   );
 };
+
+export default ZondWalletLogo;

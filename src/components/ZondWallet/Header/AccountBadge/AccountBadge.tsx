@@ -5,7 +5,7 @@ import { Wallet } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 
-export const AccountBadge = observer(() => {
+const AccountBadge = observer(() => {
   const { zondStore } = useStore();
   const {
     activeAccount: { accountAddress },
@@ -30,3 +30,5 @@ export const AccountBadge = observer(() => {
     )
   );
 });
+
+export default AccountBadge;
