@@ -1,3 +1,4 @@
+import { getOptimalTokenBalance } from "@/functions/getOptimalTokenBalance";
 import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
@@ -28,7 +29,7 @@ const ImportedToken = observer(({ contractAddress }: ImportedTokenProps) => {
   return (
     !!token && (
       <TokenListItem
-        balance={token.balance.toString()}
+        balance={getOptimalTokenBalance(token.balance.toString(), token.symbol)}
         name={token.name}
         symbol={token.symbol}
       />
