@@ -1,7 +1,7 @@
 import commonjs from "@rollup/plugin-commonjs";
 import react from "@vitejs/plugin-react-swc";
 import { readdirSync, unlinkSync } from "fs";
-import path, { extname, resolve } from "path";
+import path, { parse, resolve } from "path";
 import nodePolyfills from "rollup-plugin-node-polyfills";
 import { Plugin, defineConfig } from "vite";
 
@@ -15,25 +15,30 @@ export default defineConfig({
       name: "clean-up-extension-build",
       apply: "build",
       closeBundle() {
-        const blackListedExtensions = [".ts"];
+        const extensionReplacements = { ".ts": ".js" };
         const dirPath = resolve(outDir);
         const files = readdirSync(dirPath);
         files.forEach((file) => {
           const filePath = resolve(dirPath, file);
-          const extension = extname(file);
-          if (blackListedExtensions.includes(extension)) {
-            try {
-              unlinkSync(filePath);
-              console.log(
-                `Removed "${extension}" file "${file}" from the build directory "${outDir}"`,
-              );
-            } catch (err) {
-              console.error(
-                `Failed to remove "${extension}" file "${file}": `,
-                err,
-              );
-            }
-          }
+          const { name, ext, base } = parse(filePath);
+          Object.entries(extensionReplacements).forEach(
+            ([extension, replacement]) => {
+              const expectedReplacement = `${name}${replacement}`;
+              if (extension === ext && files.includes(expectedReplacement)) {
+                try {
+                  unlinkSync(filePath);
+                  console.log(
+                    `Removed "${ext}" file "${base}" (transpiled to "${expectedReplacement}") from the build directory "${outDir}"`,
+                  );
+                } catch (err) {
+                  console.error(
+                    `Failed to remove "${ext}" file "${base}": `,
+                    err,
+                  );
+                }
+              }
+            },
+          );
         });
       },
     },
