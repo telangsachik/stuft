@@ -79,4 +79,25 @@ describe("MnemonicDisplay", () => {
     });
     expect(mockedMnemonicNotedFunction).toHaveBeenCalledTimes(1);
   });
+
+  it("should download the mnemonic phrases on clicking the download button", async () => {
+    renderComponent();
+
+    const mockedCreateObjectURLFunction = jest.fn();
+    Object.defineProperty(URL, "createObjectURL", {
+      value: mockedCreateObjectURLFunction,
+      writable: true,
+    });
+    const mockedRevokeObjectURLFunction = jest.fn();
+    Object.defineProperty(URL, "revokeObjectURL", {
+      value: mockedRevokeObjectURLFunction,
+      writable: true,
+    });
+    const downloadButton = screen.getByRole("button", { name: "Download" });
+    await act(async () => {
+      await userEvent.click(downloadButton);
+    });
+    expect(mockedCreateObjectURLFunction).toBeCalledTimes(1);
+    expect(mockedRevokeObjectURLFunction).toBeCalledTimes(1);
+  });
 });
