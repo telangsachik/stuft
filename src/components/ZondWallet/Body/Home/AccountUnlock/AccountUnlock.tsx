@@ -112,7 +112,7 @@ export const AccountUnlock = observer(() => {
               ) : (
                 <LockKeyholeOpen className="mr-2 h-4 w-4" />
               )}
-              Unlock{isSubmitting ? "ing" : ""}
+              {isSubmitting ? "Unlocking" : "Unlock"}
             </Button>
           </CardFooter>
         </Card>

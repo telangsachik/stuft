@@ -148,7 +148,7 @@ const ImportAccount = observer(() => {
                     ) : (
                       <Download className="mr-2 h-4 w-4" />
                     )}
-                    Import account
+                    {isSubmitting ? "Importing account" : "Import account"}
                   </Button>
                 </CardFooter>
               </Card>

@@ -134,7 +134,7 @@ const AccountCreationForm = observer(
                 ) : (
                   <Plus className="mr-2 h-4 w-4" />
                 )}
-                Create account
+                {isSubmitting ? "Creating account" : "Create account"}
               </Button>
             </CardFooter>
           </Card>
