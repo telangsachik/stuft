@@ -25,6 +25,7 @@ import { observer } from "mobx-react-lite";
 import { lazy, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import BackButton from "../Shared/BackButton/BackButton";
 
 const MnemonicWordListing = withSuspense(
   lazy(
@@ -93,7 +94,7 @@ const ImportAccount = observer(() => {
   return (
     <>
       <img
-        className="animate-rotate-scale fixed z-0 h-96 w-96 -translate-x-8 overflow-hidden opacity-30"
+        className="fixed z-0 h-96 w-96 -translate-x-8 animate-rotate-scale overflow-hidden opacity-30"
         src="tree.svg"
       />
       <div className="relative z-10 p-8">
@@ -101,6 +102,7 @@ const ImportAccount = observer(() => {
           <AccountImportSuccess account={account} />
         ) : (
           <Form {...form}>
+            <BackButton />
             <form
               name="importAccount"
               aria-label="importAccount"

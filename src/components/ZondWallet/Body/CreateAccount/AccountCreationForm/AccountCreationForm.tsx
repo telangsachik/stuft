@@ -22,6 +22,7 @@ import { Loader, Plus } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import BackButton from "../../Shared/BackButton/BackButton";
 
 const FormSchema = z
   .object({
@@ -76,6 +77,7 @@ const AccountCreationForm = observer(
 
     return (
       <Form {...form}>
+        <BackButton />
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
           <Card>
             <CardHeader>

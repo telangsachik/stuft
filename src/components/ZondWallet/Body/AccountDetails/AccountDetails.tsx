@@ -28,6 +28,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import BackButton from "../Shared/BackButton/BackButton";
 import { GasFeeNotice } from "./GasFeeNotice/GasFeeNotice";
 import { TransactionSuccessful } from "./TransactionSuccessful/TransactionSuccessful";
 
@@ -141,6 +142,7 @@ const AccountDetails = observer(() => {
           src="tree.svg"
         />
         <div className="relative z-10 p-8">
+          <BackButton />
           <Card className="w-full">
             <CardHeader>
               <CardTitle>Active account</CardTitle>
