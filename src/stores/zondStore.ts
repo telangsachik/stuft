@@ -48,7 +48,7 @@ class ZondStore {
     this.initializeBlockchain();
   }
 
-  initializeBlockchain() {
+  async initializeBlockchain() {
     const selectedBlockChain = (localStorage.getItem(
       BLOCKCHAIN_SELECTION_IDENTIFIER,
     ) ?? DEFAULT_BLOCKCHAIN) as BlockchainType;
@@ -63,16 +63,20 @@ class ZondStore {
     const { zond } = new Web3(zondHttpProvider);
     this.zondInstance = zond;
 
+    await this.fetchZondConnection();
+    await this.fetchAccounts();
+
     const blockChainAccountIdentifier = `${this.zondConnection.zondNetworkId}_${ACTIVE_ACCOUNT_IDENTIFIER}`;
     const storedActiveAccount =
       localStorage.getItem(blockChainAccountIdentifier) ?? "";
+    const confirmedExistingActiveAccount =
+      this.zondAccounts.accounts.find(
+        (account) => account.accountAddress === storedActiveAccount,
+      )?.accountAddress ?? "";
     this.activeAccount = {
       ...this.activeAccount,
-      accountAddress: storedActiveAccount,
+      accountAddress: confirmedExistingActiveAccount,
     };
-
-    this.fetchZondConnection();
-    this.fetchAccounts();
   }
 
   selectBlockchain(selectedBlockchain: string) {
