@@ -19,8 +19,7 @@ type AccountCreationSuccessProps = {
 export const AccountCreationSuccess = ({
   account,
 }: AccountCreationSuccessProps) => {
-  const accountAddress =
-    account?.address ?? "0x20D4E7Fd7fCBCC3f96AE5c0320B63ab6470eb163";
+  const accountAddress = account?.address ?? "";
   const accountAddressSplit = [];
   for (let i = 2; i < accountAddress.length; i += 4) {
     accountAddressSplit.push(accountAddress.substring(i, i + 4));
@@ -72,7 +71,7 @@ export const AccountCreationSuccess = ({
           <Copy className="mr-2 h-4 w-4" />
           {hasJustCopied ? "Copied" : "Copy"}
         </Button>
-        <Link to={ROUTES.ACCOUNT_DETAILS}>
+        <Link className="w-full" to={ROUTES.ACCOUNT_DETAILS}>
           <Button className="w-full" type="button">
             <Check className="mr-2 h-4 w-4" />
             Done
