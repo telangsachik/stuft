@@ -49,6 +49,8 @@ export const MnemonicDisplay = () => {
   };
 
   const cardDescription = `Don't lose this mnemonic phrases. You may need this someday to import or recover your account ${account.substring(0, 5)}...${account.substring(account.length - 5)}`;
+  const continueWarning =
+    "You should only continue if you have backed up the mnemonic phrases. If you haven't yet, go back now and store it safe.";
 
   return (
     <Card className="text-ellipsis">
@@ -63,7 +65,7 @@ export const MnemonicDisplay = () => {
         <Button
           className="w-full"
           type="button"
-          variant="ghost"
+          variant="outline"
           onClick={onCopy}
         >
           <Copy className="mr-2 h-4 w-4" />
@@ -79,10 +81,7 @@ export const MnemonicDisplay = () => {
           <DialogContent className="w-80 rounded-md">
             <DialogHeader className="text-left">
               <DialogTitle>Important!</DialogTitle>
-              <DialogDescription>
-                You should only continue if you have backed up the mnemonic
-                phrases. If you haven't yet, go back now and store it safe.
-              </DialogDescription>
+              <DialogDescription>{continueWarning}</DialogDescription>
             </DialogHeader>
             <DialogFooter className="flex flex-row gap-4">
               <DialogClose asChild>
