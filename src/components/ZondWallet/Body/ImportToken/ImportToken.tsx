@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/UI/Input";
 import { useStore } from "@/stores/store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Download, Loader } from "lucide-react";
+import { Loader, RefreshCw } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -127,9 +127,11 @@ const ImportToken = observer(() => {
                     {isSubmitting ? (
                       <Loader className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
-                      <Download className="mr-2 h-4 w-4" />
+                      <RefreshCw className="mr-2 h-4 w-4" />
                     )}
-                    {isSubmitting ? "Importing token" : "Import token"}
+                    {isSubmitting
+                      ? "Fetching token details"
+                      : "Fetch token details"}
                   </Button>
                 </CardFooter>
               </Card>
