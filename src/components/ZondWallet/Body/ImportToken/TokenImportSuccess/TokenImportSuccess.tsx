@@ -9,7 +9,7 @@ import {
 import { ROUTES } from "@/router/router";
 import { StoreType, useStore } from "@/stores/store";
 import StorageUtil from "@/utilities/storageUtil";
-import { Box, Download, X } from "lucide-react";
+import { Download, FileBadge, X } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 
@@ -51,7 +51,7 @@ const TokenImportSuccess = observer(
         </CardHeader>
         <CardContent className="space-y-8">
           <div className="flex flex-col gap-4">
-            <Box size={64} />
+            <FileBadge size={64} />
             <div className="flex flex-col gap-1">
               <div>Contract address:</div>
               <div className="font-bold text-secondary">{contractAddress}</div>

@@ -1,19 +1,7 @@
-import { Button } from "@/components/UI/Button";
-import { Card } from "@/components/UI/Card";
-import { Label } from "@/components/UI/Label";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/UI/Tooltip";
-import { ROUTES } from "@/router/router";
 import { useStore } from "@/stores/store";
-import { getRandomTailwindTextColor } from "@/utilities/stylingUtil";
-import { Box, Send } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import TokenListItem from "../../TokenItem/TokenItem";
 
 type ImportedTokenProps = {
   contractAddress: string;
@@ -40,38 +28,11 @@ const ImportedToken = observer(({ contractAddress }: ImportedTokenProps) => {
 
   return (
     !!token && (
-      <Card className="flex h-min w-full animate-appear-in items-center justify-between gap-4 p-4 text-foreground hover:bg-accent">
-        <div className="flex items-center gap-4">
-          <span className={getRandomTailwindTextColor()}>
-            <Box size={32} />
-          </span>
-          <div className="flex w-full flex-col gap-1">
-            <div className="text-base font-bold">
-              {token.balance} {token.symbol}
-            </div>
-            <div className="text-xs">{token.name}</div>
-          </div>
-        </div>
-        <TooltipProvider>
-          <Tooltip delayDuration={0}>
-            <TooltipTrigger asChild>
-              <Link to={ROUTES.ACCOUNT_DETAILS}>
-                <Button
-                  className="hover:text-secondary"
-                  variant="outline"
-                  type="button"
-                  size="icon"
-                >
-                  <Send size="18" />
-                </Button>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">
-              <Label>Send {token.symbol}</Label>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </Card>
+      <TokenListItem
+        balance={token.balance.toString()}
+        name={token.name}
+        symbol={token.symbol}
+      />
     )
   );
 });
