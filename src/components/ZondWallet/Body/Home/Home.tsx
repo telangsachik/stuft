@@ -5,7 +5,7 @@ import { AccountCreateImport } from "./AccountCreateImport/AccountCreateImport";
 import { BackgroundVideo } from "./BackgroundVideo/BackgroundVideo";
 import { ConnectionBadge } from "./ConnectionBadge/ConnectionBadge";
 
-export const Home = observer(() => {
+const Home = observer(() => {
   const { zondStore } = useStore();
   const { zondConnection } = zondStore;
   const { isLoading, isConnected } = zondConnection;
@@ -27,3 +27,5 @@ export const Home = observer(() => {
     </>
   );
 });
+
+export default Home;

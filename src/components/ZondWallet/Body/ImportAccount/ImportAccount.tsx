@@ -31,7 +31,7 @@ const FormSchema = z.object({
   mnemonicPhrases: z.string().min(1, "Mnemonic phrases are required"),
 });
 
-export const ImportAccount = observer(() => {
+const ImportAccount = observer(() => {
   const [account, setAccount] = useState<Web3BaseWalletAccount>();
   const [hasAccountImported, setHasAccountImported] = useState(false);
   const { zondStore } = useStore();
@@ -135,3 +135,5 @@ export const ImportAccount = observer(() => {
     </>
   );
 });
+
+export default ImportAccount;

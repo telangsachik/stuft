@@ -2,7 +2,7 @@ import { ActiveAccount } from "@/components/ZondWallet/Body/AccountList/ActiveAc
 import { NewAccount } from "@/components/ZondWallet/Body/AccountList/NewAccount/NewAccount";
 import { OtherAccounts } from "@/components/ZondWallet/Body/AccountList/OtherAccounts/OtherAccounts";
 
-export const AccountList = () => {
+const AccountList = () => {
   return (
     <div className="flex flex-col gap-8 p-8">
       <NewAccount />
@@ -13,3 +13,5 @@ export const AccountList = () => {
     </div>
   );
 };
+
+export default AccountList;

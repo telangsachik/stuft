@@ -6,7 +6,7 @@ import { AccountCreationForm } from "./AccountCreationForm/AccountCreationForm";
 import { AccountCreationSuccess } from "./AccountCreationSuccess/AccountCreationSuccess";
 import { MnemonicDisplay } from "./MnemonicDisplay/MnemonicDisplay";
 
-export const CreateAccount = observer(() => {
+const CreateAccount = observer(() => {
   const { zondStore } = useStore();
   const { setActiveAccount } = zondStore;
 
@@ -51,3 +51,5 @@ export const CreateAccount = observer(() => {
     </>
   );
 });
+
+export default CreateAccount;

@@ -1,8 +1,4 @@
-import { AccountList } from "@/components/ZondWallet/Body/AccountList/AccountList";
-import { CreateAccount } from "@/components/ZondWallet/Body/CreateAccount/CreateAccount";
-import { Home } from "@/components/ZondWallet/Body/Home/Home";
-import { ImportAccount } from "@/components/ZondWallet/Body/ImportAccount/ImportAccount";
-import { ZondWallet } from "@/components/ZondWallet/ZondWallet";
+import { lazy, Suspense } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
 export const ROUTES = {
@@ -14,6 +10,18 @@ export const ROUTES = {
   DEFAULT: "*",
 };
 
+const ZondWallet = lazy(() => import("@/components/ZondWallet/ZondWallet"));
+const Home = lazy(() => import("@/components/ZondWallet/Body/Home/Home"));
+const CreateAccount = lazy(
+  () => import("@/components/ZondWallet/Body/CreateAccount/CreateAccount"),
+);
+const ImportAccount = lazy(
+  () => import("@/components/ZondWallet/Body/ImportAccount/ImportAccount"),
+);
+const AccountList = lazy(
+  () => import("@/components/ZondWallet/Body/AccountList/AccountList"),
+);
+
 const router = createMemoryRouter([
   {
     path: ROUTES.HOME,
@@ -21,23 +29,43 @@ const router = createMemoryRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: (
+          <Suspense>
+            <Home />
+          </Suspense>
+        ),
       },
       {
         path: ROUTES.CREATE_ACCOUNT,
-        element: <CreateAccount />,
+        element: (
+          <Suspense>
+            <CreateAccount />
+          </Suspense>
+        ),
       },
       {
         path: ROUTES.IMPORT_ACCOUNT,
-        element: <ImportAccount />,
+        element: (
+          <Suspense>
+            <ImportAccount />
+          </Suspense>
+        ),
       },
       {
         path: ROUTES.ACCOUNT_DETAILS,
-        element: <AccountList />,
+        element: (
+          <Suspense>
+            <AccountList />
+          </Suspense>
+        ),
       },
       {
         path: ROUTES.ACCOUNT_LIST,
-        element: <AccountList />,
+        element: (
+          <Suspense>
+            <AccountList />
+          </Suspense>
+        ),
       },
     ],
   },
