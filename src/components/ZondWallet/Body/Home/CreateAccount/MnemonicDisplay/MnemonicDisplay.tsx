@@ -17,16 +17,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/UI/Dialog";
+import { getMnemonicFromHexSeed } from "@/functions/getMnemonicFromHexSeed";
+import { Web3BaseWalletAccount } from "@theqrl/web3";
 import { ArrowRight, Copy, Undo } from "lucide-react";
 import { useEffect, useState } from "react";
 import { MnemonicWordListing } from "./MnemonicWordListing/MnemonicWordListing";
 
-export const MnemonicDisplay = () => {
-  const account = "0x20474C36A00aC17239e0c71401f74bCAe12c7D9A";
-  const hexSeed =
-    "0x3500827651de73ea580916b19b042d0656a5ed33cdd09a4c481b000c7606d7aa3f6d7f9cff94fea393230b31a8087bbf";
-  const mnemonic =
-    "crept floor corner lowest darken gunman coupon emit darken daily grew fluffy corner name dairy can defer campus cruise cement corner gunman dairy beam harsh eagle cried dagger half afghan grew embryo cruise lower group adrift corpus crisis daddy affair half kami grew dairy dairy earn havana node havoc gypsy crust haven grew critic crept canary corpus canary coupon beard corner lucy grown census";
+type MnemonicDisplayProps = {
+  account?: Web3BaseWalletAccount;
+  onMnemonicNoted: () => void;
+};
+
+export const MnemonicDisplay = ({
+  account,
+  onMnemonicNoted,
+}: MnemonicDisplayProps) => {
+  const accountAddress = account?.address;
+  const accountHexSeed = account?.seed;
+  const mnemonic = getMnemonicFromHexSeed(accountHexSeed);
 
   const [hasJustCopied, setHasJustCopied] = useState(false);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
@@ -48,9 +56,9 @@ export const MnemonicDisplay = () => {
     setTimer(newTimer);
   };
 
-  const cardDescription = `Don't lose this mnemonic phrases. You may need this someday to import or recover your account ${account.substring(0, 5)}...${account.substring(account.length - 5)}`;
+  const cardDescription = `Don't lose this mnemonic phrases. You may need this someday to import or recover your new account ${accountAddress?.substring(0, 5)}...${accountAddress?.substring(accountAddress?.length - 5)}`;
   const continueWarning =
-    "You should only continue if you have backed up the mnemonic phrases. If you haven't yet, go back now and store it safe.";
+    "You should only continue if you have backed up the mnemonic phrases. If you haven't, go back and store it safe. There is no going back after this!";
 
   return (
     <Card className="text-ellipsis">
@@ -90,7 +98,12 @@ export const MnemonicDisplay = () => {
                   Go back
                 </Button>
               </DialogClose>
-              <Button className="w-full" type="button" variant="destructive">
+              <Button
+                className="w-full"
+                type="button"
+                variant="destructive"
+                onClick={onMnemonicNoted}
+              >
                 <ArrowRight className="mr-2 h-4 w-4" />
                 Continue
               </Button>

@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/UI/Input";
 import { useStore } from "@/stores/store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Web3BaseWalletAccount } from "@theqrl/web3";
 import { Loader, Wallet } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { useForm } from "react-hook-form";
@@ -35,13 +36,13 @@ const FormSchema = z
   });
 
 type AccountCreationFormProps = {
-  onAccountCreation: () => void;
+  onAccountCreated: (account?: Web3BaseWalletAccount) => void;
 };
 
 export const AccountCreationForm = observer(
-  ({ onAccountCreation }: AccountCreationFormProps) => {
+  ({ onAccountCreated }: AccountCreationFormProps) => {
     const { zondStore } = useStore();
-    const { zondInstance, setActiveAccount } = zondStore;
+    const { zondInstance } = zondStore;
 
     const form = useForm<z.infer<typeof FormSchema>>({
       resolver: zodResolver(FormSchema),
@@ -55,30 +56,26 @@ export const AccountCreationForm = observer(
     const {
       handleSubmit,
       control,
-      formState: { isSubmitting },
+      formState: { isSubmitting, isValid },
     } = form;
 
     async function onSubmit(formData: z.infer<typeof FormSchema>) {
       try {
-        // const newAccount = await zondInstance?.personal.newAccount(
-        //   formData.password,
-        // );
-        // setActiveAccount(newAccount);
-        // control.setError("reEnteredPassword", {
-        //   message: `New account ${newAccount} created`,
-        // });
+        const userPassword = formData.password;
+        // use this password for hexseed and account encryption.
+
+        const newAccount = await zondInstance?.accounts.create();
+        onAccountCreated(newAccount);
       } catch (error) {
         control.setError("reEnteredPassword", {
           message: `${error} There was an error while creating the account`,
         });
-      } finally {
-        onAccountCreation();
       }
     }
 
     return (
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
           <Card>
             <CardHeader>
               <CardTitle>Create new account</CardTitle>
@@ -122,7 +119,11 @@ export const AccountCreationForm = observer(
               />
             </CardContent>
             <CardFooter>
-              <Button disabled={isSubmitting} className="w-full" type="submit">
+              <Button
+                disabled={isSubmitting || !isValid}
+                className="w-full"
+                type="submit"
+              >
                 {isSubmitting ? (
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
