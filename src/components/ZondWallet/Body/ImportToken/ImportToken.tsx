@@ -64,6 +64,7 @@ const ImportToken = observer(() => {
   const {
     handleSubmit,
     control,
+    watch,
     formState: { isSubmitting, isValid },
     reset,
   } = form;
@@ -76,7 +77,11 @@ const ImportToken = observer(() => {
       />
       <div className="relative z-10 p-8">
         {hasTokenImported ? (
-          <TokenImportSuccess token={token} onCancelImport={onCancelImport} />
+          <TokenImportSuccess
+            token={token}
+            onCancelImport={onCancelImport}
+            contractAddress={watch().contractAddress}
+          />
         ) : (
           <Form {...form}>
             <BackButton />
