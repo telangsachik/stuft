@@ -1,5 +1,5 @@
-import { AccountList } from "@/components/Body/AccountList/AccountList";
-import { Home } from "@/components/Body/Home/Home";
+import { AccountList } from "@/components/ZondWallet/Body/AccountList/AccountList";
+import { Home } from "@/components/ZondWallet/Body/Home/Home";
 import { ZondWallet } from "@/components/ZondWallet/ZondWallet";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
