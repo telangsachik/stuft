@@ -9,7 +9,7 @@ import {
 } from "@/components/UI/Tooltip";
 import { ROUTES } from "@/router/router";
 import { getRandomTailwindTextColor } from "@/utilities/stylingUtil";
-import { FileBadge, Send } from "lucide-react";
+import { Send, TextSelect } from "lucide-react";
 import { Link } from "react-router-dom";
 
 type TokenListItemProps = {
@@ -27,7 +27,7 @@ const TokenListItem = ({ icon, balance, name, symbol }: TokenListItemProps) => {
           <img className="h-8 w-8" src={icon} />
         ) : (
           <span className={getRandomTailwindTextColor()}>
-            <FileBadge size={32} />
+            <TextSelect size={32} />
           </span>
         )}
         <div className="flex w-full flex-col gap-1">
