@@ -39,7 +39,7 @@ export const ActiveAccount = observer(() => {
                       className="hover:text-secondary"
                       variant="outline"
                       size="icon"
-                      onClick={() => copyAccount()}
+                      onClick={copyAccount}
                     >
                       <Copy size="18" />
                     </Button>
