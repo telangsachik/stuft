@@ -1,3 +1,4 @@
+import { AccountDetails } from "@/components/ZondWallet/Body/AccountDetails/AccountDetails";
 import withSuspense from "@/functions/withSuspense";
 import { lazy } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
@@ -50,7 +51,7 @@ const router = createMemoryRouter([
       },
       {
         path: ROUTES.ACCOUNT_DETAILS,
-        element: <AccountList />,
+        element: <AccountDetails />,
       },
       {
         path: ROUTES.ACCOUNT_LIST,
