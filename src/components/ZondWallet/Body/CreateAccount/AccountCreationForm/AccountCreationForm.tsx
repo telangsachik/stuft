@@ -62,6 +62,7 @@ export const AccountCreationForm = observer(
     async function onSubmit(formData: z.infer<typeof FormSchema>) {
       try {
         const userPassword = formData.password;
+        console.log(">>>", userPassword);
         // use this password for hexseed and account encryption.
 
         const newAccount = await zondInstance?.accounts.create();
