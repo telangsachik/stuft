@@ -1,6 +1,6 @@
 import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
-import TokenListItem from "../TokenItem/TokenItem";
+import TokenListItem from "../TokenListItem/TokenListItem";
 
 const NativeToken = observer(() => {
   const { zondStore } = useStore();
