@@ -1,8 +1,8 @@
 export const getOptimalGasFee = (gas: string, tokenSymbol?: string) => {
   const symbol = tokenSymbol ?? "QRL";
   try {
+    if (Number(gas) == 0) return `0.0 ${symbol}`;
     let precisionFloat = parseFloat(Number(gas).toString()).toFixed(16);
-    if (Number(precisionFloat) == 0) return `0.0 ${symbol}`;
     let deleteIndex = precisionFloat.length - 1;
     const postDecimalIndex = precisionFloat.indexOf(".") + 2;
 

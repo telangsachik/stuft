@@ -16,6 +16,20 @@ describe("getOptimalGasFee", () => {
     expect(getOptimalGasFee(gas)).toBe(qrlGas);
   });
 
+  it("should return the gas fee 0.0 if the gas is 0.", () => {
+    const gas = "0.";
+    const qrlGas = "0.0 QRL";
+
+    expect(getOptimalGasFee(gas)).toBe(qrlGas);
+  });
+
+  it("should return the gas fee 0.0 if the gas is 0", () => {
+    const gas = "0";
+    const qrlGas = "0.0 QRL";
+
+    expect(getOptimalGasFee(gas)).toBe(qrlGas);
+  });
+
   it("should return the gas fee 0.00002255 if the gas is 0.000022554450", () => {
     const gas = "0.000022554450";
     const qrlGas = "0.00002255 QRL";
