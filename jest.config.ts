@@ -10,7 +10,7 @@ const config: Config = {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^webextension-polyfill$": "<rootDir>/src/__mocks__/browser.ts",
   },
-  setupFiles: ["./jest.setup.ts"],
+  setupFiles: ["<rootDir>/jest.setup.ts"],
 };
 
 export default config;
