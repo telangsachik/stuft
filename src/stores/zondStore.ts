@@ -50,7 +50,7 @@ class ZondStore {
   }
 
   async initializeBlockchain() {
-    const selectedBlockChain = StorageUtil.getBlockChain();
+    const selectedBlockChain = await StorageUtil.getBlockChain();
     const { name, url } = ZOND_PROVIDER[selectedBlockChain];
     this.zondConnection = {
       ...this.zondConnection,
@@ -66,9 +66,9 @@ class ZondStore {
     await this.validateActiveAccount();
   }
 
-  selectBlockchain(selectedBlockchain: string) {
-    StorageUtil.setBlockChain(selectedBlockchain);
-    this.initializeBlockchain();
+  async selectBlockchain(selectedBlockchain: string) {
+    await StorageUtil.setBlockChain(selectedBlockchain);
+    await this.initializeBlockchain();
   }
 
   async setActiveAccount(activeAccount?: string) {

@@ -114,13 +114,18 @@ class StorageUtil {
    * A function for storing the blockchain selection.
    * Call the getBlockChain function to retrieve the stored value.
    */
-  static setBlockChain(selectedBlockchain: string) {
-    localStorage.setItem(BLOCKCHAIN_SELECTION_IDENTIFIER, selectedBlockchain);
+  static async setBlockChain(selectedBlockchain: string) {
+    await browser.storage.local.set({
+      [BLOCKCHAIN_SELECTION_IDENTIFIER]: selectedBlockchain,
+    });
   }
 
-  static getBlockChain() {
+  static async getBlockChain() {
     const DEFAULT_BLOCKCHAIN = ZOND_PROVIDER.MAIN_NET.id;
-    return (localStorage.getItem(BLOCKCHAIN_SELECTION_IDENTIFIER) ??
+    const storedBlockchain = await browser.storage.local.get(
+      BLOCKCHAIN_SELECTION_IDENTIFIER,
+    );
+    return (storedBlockchain[BLOCKCHAIN_SELECTION_IDENTIFIER] ??
       DEFAULT_BLOCKCHAIN) as BlockchainType;
   }
 
