@@ -71,7 +71,7 @@ class ZondStore {
     this.initializeBlockchain();
   }
 
-  setActiveAccount(activeAccount?: string) {
+  async setActiveAccount(activeAccount?: string) {
     StorageUtil.setActiveAccount(this.zondConnection.blockchain, activeAccount);
     this.activeAccount = {
       ...this.activeAccount,
@@ -80,7 +80,7 @@ class ZondStore {
 
     let storedAccountList: string[] = [];
     try {
-      const accountListFromStorage = StorageUtil.getAccountList(
+      const accountListFromStorage = await StorageUtil.getAccountList(
         this.zondConnection.blockchain,
       );
       storedAccountList = [...accountListFromStorage];
@@ -89,11 +89,11 @@ class ZondStore {
       }
       storedAccountList = [...new Set(storedAccountList)];
     } finally {
-      StorageUtil.setAccountList(
+      await StorageUtil.setAccountList(
         this.zondConnection.blockchain,
         storedAccountList,
       );
-      this.fetchAccounts();
+      await this.fetchAccounts();
     }
   }
 
@@ -122,7 +122,7 @@ class ZondStore {
     this.zondAccounts = { ...this.zondAccounts, isLoading: true };
 
     let storedAccountsList: string[] = [];
-    const accountListFromStorage = StorageUtil.getAccountList(
+    const accountListFromStorage = await StorageUtil.getAccountList(
       this.zondConnection.blockchain,
     );
     storedAccountsList = accountListFromStorage;

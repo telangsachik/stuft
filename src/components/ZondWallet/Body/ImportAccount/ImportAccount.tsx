@@ -61,7 +61,7 @@ const ImportAccount = observer(() => {
       if (account) {
         window.scrollTo(0, 0);
         setAccount(account);
-        setActiveAccount(account.address);
+        await setActiveAccount(account.address);
         setHasAccountImported(true);
       } else {
         control.setError("mnemonicPhrases", {

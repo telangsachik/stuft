@@ -86,7 +86,7 @@ export const AccountDetails = observer(() => {
           StorageUtil.clearTransactionValues(blockchain);
           resetForm();
           setTransactionReceipt(transactionReceipt);
-          fetchAccounts();
+          await fetchAccounts();
           window.scrollTo(0, 0);
         } else {
           control.setError("mnemonicPhrases", {

@@ -64,19 +64,19 @@ class StorageUtil {
    * A function for storing the accounts created and imported within the zond wallet extension.
    * Call the getAccountList function to retrieve the stored value.
    */
-  static setAccountList(blockchain: string, accountList: string[]) {
+  static async setAccountList(blockchain: string, accountList: string[]) {
     const blockChainAccountListIdentifier = `${blockchain}_${ACCOUNT_LIST_IDENTIFIER}`;
-    localStorage.setItem(
-      blockChainAccountListIdentifier,
-      JSON.stringify(accountList),
-    );
+    await browser.storage.local.set({
+      [blockChainAccountListIdentifier]: accountList,
+    });
   }
 
-  static getAccountList(blockchain: string) {
+  static async getAccountList(blockchain: string) {
     const blockChainAccountListIdentifier = `${blockchain}_${ACCOUNT_LIST_IDENTIFIER}`;
-    return JSON.parse(
-      localStorage.getItem(blockChainAccountListIdentifier) ?? "[]",
+    const storedAccountList = await browser.storage.local.get(
+      blockChainAccountListIdentifier,
     );
+    return storedAccountList[blockChainAccountListIdentifier];
   }
 
   /**
