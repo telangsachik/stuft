@@ -7,6 +7,7 @@ const BackButton = () => {
 
   return (
     <div
+      data-testid="backButtonTestId"
       className="flex w-min cursor-pointer items-center gap-2 pb-4 transition-all hover:-ml-1 hover:text-secondary"
       onClick={() => navigate(-1)}
     >
