@@ -15,6 +15,6 @@ describe("ZondWeb3WalletLogo", () => {
     renderComponent();
 
     expect(screen.getByText("Zond")).toBeInTheDocument();
-    expect(screen.getByText("Wallet")).toBeInTheDocument();
+    expect(screen.getByText("Web3 Wallet")).toBeInTheDocument();
   });
 });
