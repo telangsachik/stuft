@@ -12,7 +12,7 @@ import { useStore } from "@/stores/store";
 import { Copy, Send } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
-import { AccountId } from "../AccountId/AccountId";
+import AccountId from "../AccountId/AccountId";
 
 export const ActiveAccount = observer(() => {
   const { zondStore } = useStore();

@@ -4,7 +4,7 @@ type AccountIdType = {
   account: string;
 };
 
-export const AccountId = observer(({ account }: AccountIdType) => {
+const AccountId = observer(({ account }: AccountIdType) => {
   const splitLength = 5;
   const prefix = account.substring(0, 2);
   const idSplit: string[] = [];
@@ -23,3 +23,5 @@ export const AccountId = observer(({ account }: AccountIdType) => {
     </div>
   );
 });
+
+export default AccountId;

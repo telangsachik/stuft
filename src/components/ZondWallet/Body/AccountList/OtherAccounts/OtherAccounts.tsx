@@ -10,15 +10,12 @@ import {
 import { useStore } from "@/stores/store";
 import { ArrowRight } from "lucide-react";
 import { observer } from "mobx-react-lite";
-import { AccountId } from "../AccountId/AccountId";
+import AccountId from "../AccountId/AccountId";
 
 export const OtherAccounts = observer(() => {
   const { zondStore } = useStore();
-  const {
-    zondAccounts,
-    activeAccount: { accountAddress: activeAccountAddress },
-    setActiveAccount,
-  } = zondStore;
+  const { zondAccounts, activeAccount, setActiveAccount } = zondStore;
+  const { accountAddress: activeAccountAddress } = activeAccount;
   const { accounts } = zondAccounts;
 
   const otherAccountsLabel = `${activeAccountAddress ? "Other accounts" : "Accounts"} in the wallet`;
