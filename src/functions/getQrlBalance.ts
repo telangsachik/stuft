@@ -1,6 +1,6 @@
 export const getQrlBalance = (balance: string) => {
   try {
-    let precisionFloat = parseFloat(balance).toFixed(4);
+    let precisionFloat = parseFloat(Number(balance).toString()).toFixed(4);
     let deleteIndex = precisionFloat.length - 1;
     const postDecimalIndex = precisionFloat.indexOf(".") + 2;
     while (
