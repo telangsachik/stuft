@@ -41,8 +41,12 @@ const FormSchema = z
 
 export const AccountDetails = observer(() => {
   const { zondStore } = useStore();
-  const { activeAccount, getAccountBalance, signAndSendTransaction } =
-    zondStore;
+  const {
+    activeAccount,
+    getAccountBalance,
+    signAndSendTransaction,
+    zondConnection,
+  } = zondStore;
   const { accountAddress } = activeAccount;
 
   const accountBalance = getAccountBalance(accountAddress);
@@ -70,10 +74,11 @@ export const AccountDetails = observer(() => {
         const isTransactionSuccessful =
           transactionReceipt?.status.toString() === "1";
         if (isTransactionSuccessful) {
-          // StorageUtil;
+          StorageUtil.clearTransactionValues(zondConnection.zondNetworkId);
+          reset({ receiverAddress: "", amount: 0, mnemonicPhrases: "" });
         } else {
           control.setError("mnemonicPhrases", {
-            message: `An error occured. ${error}`,
+            message: `Transaction failed.`,
           });
         }
       }
@@ -88,9 +93,12 @@ export const AccountDetails = observer(() => {
     resolver: zodResolver(FormSchema),
     mode: "onChange",
     reValidateMode: "onChange",
-    defaultValues: StorageUtil.getTransactionValues(),
+    defaultValues: StorageUtil.getTransactionValues(
+      zondConnection.zondNetworkId,
+    ),
   });
   const {
+    reset,
     handleSubmit,
     control,
     watch,
@@ -99,7 +107,7 @@ export const AccountDetails = observer(() => {
 
   useEffect(() => {
     const formWatchSubscription = watch((value) => {
-      StorageUtil.setTransactionValues(value);
+      StorageUtil.setTransactionValues(zondConnection.zondNetworkId, value);
     });
     return () => formWatchSubscription.unsubscribe();
   }, [watch]);
