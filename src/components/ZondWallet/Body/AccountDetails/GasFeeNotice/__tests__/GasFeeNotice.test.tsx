@@ -98,7 +98,7 @@ describe("GasFeeNotice", () => {
       expect(screen.getByText("Estimating gas fee")).toBeInTheDocument();
     });
     expect(
-      screen.getByText("Estimated gas fee is 2.6 QRL"),
+      screen.getByText("Estimated gas fee is 2.64 QRL"),
     ).toBeInTheDocument();
   });
 });
