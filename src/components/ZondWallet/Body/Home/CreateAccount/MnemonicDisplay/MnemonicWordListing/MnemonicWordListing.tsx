@@ -17,7 +17,7 @@ export const MnemonicWordListing = ({ mnemonic }: MnemonicWordListingProps) => {
   const words = groupWords(mnemonic);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 text-secondary">
       {words.map((groupedWords) => (
         <div className="grid grid-cols-3 gap-2">
           {groupedWords.map((word) => (
