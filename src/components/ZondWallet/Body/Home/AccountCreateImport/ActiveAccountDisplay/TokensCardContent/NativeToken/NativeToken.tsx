@@ -7,16 +7,12 @@ const NativeToken = observer(() => {
   const { activeAccount, getAccountBalance } = zondStore;
   const { accountAddress } = activeAccount;
 
-  const name = "Quanta";
-  const balance = getAccountBalance(accountAddress);
-  const symbol = "QRL";
-
   return (
     <TokenListItem
       icon="icons/qrl/default.png"
-      balance={balance}
-      name={name}
-      symbol={symbol}
+      balance={getAccountBalance(accountAddress)}
+      name="Quanta"
+      symbol="QRL"
     />
   );
 });
