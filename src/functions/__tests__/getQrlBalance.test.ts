@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { getQrlBalance } from "../getQrlBalance";
 
 describe("getQrlBalance", () => {
-  it("should return the balance 0 if the balance is an empty string", () => {
+  it("should return the balance 0.0 if the balance is an empty string", () => {
     const balance = "";
     const qrlBalance = "0.0 QRL";
 
