@@ -12,11 +12,10 @@
     "default_icon": "qrl-icon.png"
   },
   "background": {
-    "service_worker": "background.js",
-    "scripts": ["background.js"]
+    "scripts": ["browser-polyfill.js", "background.js"],
+    "type": "module"
   },
   "permissions": [
-    "background",
     "scripting",
     "tabs",
     "activeTab",
