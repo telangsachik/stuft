@@ -10,7 +10,7 @@ const MnemonicDisplay = withSuspense(
   lazy(
     () =>
       import(
-        "@/components/ZondWallet/Body/CreateAccount/MnemonicDisplay/MnemonicDisplay"
+        "@/components/ZondWeb3Wallet/Body/CreateAccount/MnemonicDisplay/MnemonicDisplay"
       ),
   ),
 );
@@ -40,7 +40,7 @@ const CreateAccount = observer(() => {
   return (
     <>
       <img
-        className="animate-rotate-scale fixed z-0 h-96 w-96 -translate-x-8 overflow-hidden opacity-30"
+        className="fixed z-0 h-96 w-96 -translate-x-8 animate-rotate-scale overflow-hidden opacity-30"
         src="tree.svg"
       />
       <div className="relative z-10 p-8">

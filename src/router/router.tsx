@@ -1,33 +1,40 @@
-import AllZRC20Tokens from "@/components/ZondWallet/Body/AllZRC20Tokens/AllZRC20Tokens";
+import AllZRC20Tokens from "@/components/ZondWeb3Wallet/Body/AllZRC20Tokens/AllZRC20Tokens";
 import withSuspense from "@/functions/withSuspense";
 import { lazy } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
 const ZondWallet = withSuspense(
-  lazy(() => import("@/components/ZondWallet/ZondWallet")),
+  lazy(() => import("@/components/ZondWeb3Wallet/ZondWallet")),
 );
 const Home = withSuspense(
-  lazy(() => import("@/components/ZondWallet/Body/Home/Home")),
+  lazy(() => import("@/components/ZondWeb3Wallet/Body/Home/Home")),
 );
 const CreateAccount = withSuspense(
   lazy(
-    () => import("@/components/ZondWallet/Body/CreateAccount/CreateAccount"),
+    () =>
+      import("@/components/ZondWeb3Wallet/Body/CreateAccount/CreateAccount"),
   ),
 );
 const ImportAccount = withSuspense(
   lazy(
-    () => import("@/components/ZondWallet/Body/ImportAccount/ImportAccount"),
+    () =>
+      import("@/components/ZondWeb3Wallet/Body/ImportAccount/ImportAccount"),
   ),
 );
 const ImportToken = withSuspense(
-  lazy(() => import("@/components/ZondWallet/Body/ImportToken/ImportToken")),
+  lazy(
+    () => import("@/components/ZondWeb3Wallet/Body/ImportToken/ImportToken"),
+  ),
 );
 const AccountList = withSuspense(
-  lazy(() => import("@/components/ZondWallet/Body/AccountList/AccountList")),
+  lazy(
+    () => import("@/components/ZondWeb3Wallet/Body/AccountList/AccountList"),
+  ),
 );
 const TokenTransfer = withSuspense(
   lazy(
-    () => import("@/components/ZondWallet/Body/TokenTransfer/TokenTransfer"),
+    () =>
+      import("@/components/ZondWeb3Wallet/Body/TokenTransfer/TokenTransfer"),
   ),
 );
 

@@ -1,4 +1,4 @@
-import RouteMonitor from "@/components/ZondWallet/RouteMonitor/RouteMonitor";
+import RouteMonitor from "@/components/ZondWeb3Wallet/RouteMonitor/RouteMonitor";
 import withSuspense from "@/functions/withSuspense";
 import StorageUtil from "@/utilities/storageUtil";
 import { observer } from "mobx-react-lite";
@@ -6,10 +6,10 @@ import { lazy, useEffect, useState } from "react";
 import DAppRequest from "./DAppRequest/DAppRequest";
 
 const Header = withSuspense(
-  lazy(() => import("@/components/ZondWallet/Header/Header")),
+  lazy(() => import("@/components/ZondWeb3Wallet/Header/Header")),
 );
 const Body = withSuspense(
-  lazy(() => import("@/components/ZondWallet/Body/Body")),
+  lazy(() => import("@/components/ZondWeb3Wallet/Body/Body")),
 );
 
 const ZondWallet = observer(() => {

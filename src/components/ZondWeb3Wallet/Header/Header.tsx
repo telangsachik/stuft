@@ -6,12 +6,15 @@ import { lazy } from "react";
 const ZondWalletLogo = withSuspense(
   lazy(
     () =>
-      import("@/components/ZondWallet/Header/ZondWalletLogo/ZondWalletLogo"),
+      import(
+        "@/components/ZondWeb3Wallet/Header/ZondWalletLogo/ZondWalletLogo"
+      ),
   ),
 );
 const AccountBadge = withSuspense(
   lazy(
-    () => import("@/components/ZondWallet/Header/AccountBadge/AccountBadge"),
+    () =>
+      import("@/components/ZondWeb3Wallet/Header/AccountBadge/AccountBadge"),
   ),
 );
 

@@ -6,11 +6,11 @@ import { MemoryRouter } from "react-router-dom";
 import Header from "../Header";
 
 jest.mock(
-  "@/components/ZondWallet/Header/ZondWalletLogo/ZondWalletLogo",
+  "@/components/ZondWeb3Wallet/Header/ZondWalletLogo/ZondWalletLogo",
   () => () => <div>Mocked Zond Wallet Logo</div>,
 );
 jest.mock(
-  "@/components/ZondWallet/Header/AccountBadge/AccountBadge",
+  "@/components/ZondWeb3Wallet/Header/AccountBadge/AccountBadge",
   () => () => <div>Mocked Account Badge</div>,
 );
 

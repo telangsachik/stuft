@@ -10,7 +10,7 @@ const AccountCreateImport = withSuspense(
   lazy(
     () =>
       import(
-        "@/components/ZondWallet/Body/Home/AccountCreateImport/AccountCreateImport"
+        "@/components/ZondWeb3Wallet/Body/Home/AccountCreateImport/AccountCreateImport"
       ),
   ),
 );
@@ -18,7 +18,7 @@ const BackgroundVideo = withSuspense(
   lazy(
     () =>
       import(
-        "@/components/ZondWallet/Body/Home/BackgroundVideo/BackgroundVideo"
+        "@/components/ZondWeb3Wallet/Body/Home/BackgroundVideo/BackgroundVideo"
       ),
   ),
 );
@@ -26,7 +26,7 @@ const ConnectionBadge = withSuspense(
   lazy(
     () =>
       import(
-        "@/components/ZondWallet/Body/Home/ConnectionBadge/ConnectionBadge"
+        "@/components/ZondWeb3Wallet/Body/Home/ConnectionBadge/ConnectionBadge"
       ),
   ),
 );

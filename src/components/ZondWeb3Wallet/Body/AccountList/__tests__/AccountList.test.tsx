@@ -6,15 +6,15 @@ import { MemoryRouter } from "react-router-dom";
 import AccountList from "../AccountList";
 
 jest.mock(
-  "@/components/ZondWallet/Body/AccountList/NewAccount/NewAccount",
+  "@/components/ZondWeb3Wallet/Body/AccountList/NewAccount/NewAccount",
   () => () => <div>Mocked New Account</div>,
 );
 jest.mock(
-  "@/components/ZondWallet/Body/AccountList/ActiveAccount/ActiveAccount",
+  "@/components/ZondWeb3Wallet/Body/AccountList/ActiveAccount/ActiveAccount",
   () => () => <div>Mocked Active Account</div>,
 );
 jest.mock(
-  "@/components/ZondWallet/Body/AccountList/OtherAccounts/OtherAccounts",
+  "@/components/ZondWeb3Wallet/Body/AccountList/OtherAccounts/OtherAccounts",
   () => () => <div>Mocked Other Account</div>,
 );
 

@@ -1,5 +1,5 @@
 import { Checkbox } from "@/components/UI/Checkbox";
-import AccountId from "@/components/ZondWallet/Body/AccountList/AccountId/AccountId";
+import AccountId from "@/components/ZondWeb3Wallet/Body/AccountList/AccountId/AccountId";
 import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
