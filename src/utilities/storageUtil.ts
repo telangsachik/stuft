@@ -86,23 +86,28 @@ class StorageUtil {
    * A function for storing the active account in the wallet.
    * Call the getActiveAccount function to retrieve the stored value, and clearActiveAccount for clearing the stored value.
    */
-  static setActiveAccount(blockchain: string, activeAccount?: string) {
+  static async setActiveAccount(blockchain: string, activeAccount?: string) {
     const blockChainAccountIdentifier = `${blockchain}_${ACTIVE_ACCOUNT_IDENTIFIER}`;
     if (activeAccount) {
-      localStorage.setItem(blockChainAccountIdentifier, activeAccount ?? "");
+      await browser.storage.local.set({
+        [blockChainAccountIdentifier]: activeAccount ?? "",
+      });
     } else {
-      localStorage.removeItem(blockChainAccountIdentifier);
+      await browser.storage.local.remove(blockChainAccountIdentifier);
     }
   }
 
-  static getActiveAccount(blockchain: string) {
+  static async getActiveAccount(blockchain: string) {
     const blockChainAccountIdentifier = `${blockchain}_${ACTIVE_ACCOUNT_IDENTIFIER}`;
-    return localStorage.getItem(blockChainAccountIdentifier) ?? "";
+    const storedActiveAccount = await browser.storage.local.get(
+      blockChainAccountIdentifier,
+    );
+    return (storedActiveAccount[blockChainAccountIdentifier] as string) ?? "";
   }
 
-  static clearActiveAccount(blockchain: string) {
+  static async clearActiveAccount(blockchain: string) {
     const blockChainAccountIdentifier = `${blockchain}_${ACTIVE_ACCOUNT_IDENTIFIER}`;
-    localStorage.removeItem(blockChainAccountIdentifier);
+    await browser.storage.local.remove(blockChainAccountIdentifier);
   }
 
   /**

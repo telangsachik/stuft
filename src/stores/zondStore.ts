@@ -63,7 +63,7 @@ class ZondStore {
 
     await this.fetchZondConnection();
     await this.fetchAccounts();
-    this.validateActiveAccount();
+    await this.validateActiveAccount();
   }
 
   selectBlockchain(selectedBlockchain: string) {
@@ -72,7 +72,10 @@ class ZondStore {
   }
 
   async setActiveAccount(activeAccount?: string) {
-    StorageUtil.setActiveAccount(this.zondConnection.blockchain, activeAccount);
+    await StorageUtil.setActiveAccount(
+      this.zondConnection.blockchain,
+      activeAccount,
+    );
     this.activeAccount = {
       ...this.activeAccount,
       accountAddress: activeAccount ?? "",
@@ -164,8 +167,8 @@ class ZondStore {
     }
   }
 
-  validateActiveAccount() {
-    const storedActiveAccount = StorageUtil.getActiveAccount(
+  async validateActiveAccount() {
+    const storedActiveAccount = await StorageUtil.getActiveAccount(
       this.zondConnection.blockchain,
     );
 
@@ -174,7 +177,7 @@ class ZondStore {
         (account) => account.accountAddress === storedActiveAccount,
       )?.accountAddress ?? "";
     if (!confirmedExistingActiveAccount) {
-      StorageUtil.clearActiveAccount(this.zondConnection.blockchain);
+      await StorageUtil.clearActiveAccount(this.zondConnection.blockchain);
     }
     this.activeAccount = {
       ...this.activeAccount,
