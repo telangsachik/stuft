@@ -26,6 +26,7 @@ import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { GasFeeNotice } from "./GasFeeNotice/GasFeeNotice";
 
 const FormSchema = z
   .object({
@@ -177,6 +178,11 @@ export const AccountDetails = observer(() => {
                       <FormMessage />
                     </FormItem>
                   )}
+                />
+                <GasFeeNotice
+                  from={accountAddress}
+                  to={watch().receiverAddress}
+                  value={watch().amount}
                 />
               </CardContent>
               <CardFooter>
