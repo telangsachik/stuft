@@ -133,16 +133,19 @@ class StorageUtil {
    * A function for storing the route to be displayed on opening the extension.
    * Call the getActivePage function to retrieve the stored value.
    */
-  static setActivePage(activePage: string) {
+  static async setActivePage(activePage: string) {
     if (activePage) {
-      localStorage.setItem(ACTIVE_PAGE_IDENTIFIER, activePage);
+      await browser.storage.local.set({ [ACTIVE_PAGE_IDENTIFIER]: activePage });
     } else {
-      localStorage.removeItem(ACTIVE_PAGE_IDENTIFIER);
+      await browser.storage.local.remove(ACTIVE_PAGE_IDENTIFIER);
     }
   }
 
-  static getActivePage() {
-    return localStorage.getItem(ACTIVE_PAGE_IDENTIFIER);
+  static async getActivePage() {
+    const storedActivePage = await browser.storage.local.get(
+      ACTIVE_PAGE_IDENTIFIER,
+    );
+    return storedActivePage[ACTIVE_PAGE_IDENTIFIER] as string;
   }
 }
 

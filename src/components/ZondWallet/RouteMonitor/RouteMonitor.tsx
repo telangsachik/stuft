@@ -18,12 +18,14 @@ const RouteMonitor = observer(() => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const activePage = StorageUtil.getActivePage();
-    if (activePage && isConnected) {
-      navigate(activePage);
-    } else {
-      navigate(ROUTES.HOME);
-    }
+    (async () => {
+      const activePage = await StorageUtil.getActivePage();
+      if (activePage && isConnected) {
+        navigate(activePage);
+      } else {
+        navigate(ROUTES.HOME);
+      }
+    })();
   }, [isConnected]);
 
   useEffect(() => {
