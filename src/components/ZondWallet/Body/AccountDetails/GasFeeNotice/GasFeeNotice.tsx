@@ -39,12 +39,19 @@ export const GasFeeNotice = ({
 
   const fetchGasFee = async () => {
     try {
-      const calculatedGasFee = await zondInstance?.estimateGas({
+      const transaction = {
         from,
         to,
         value: utils.toWei(value, "ether"),
-      });
-      setGasFee(calculatedGasFee?.toString());
+      };
+      const estimatedGas =
+        (await zondInstance?.estimateGas(transaction)) ?? BigInt(0);
+      const gasPrice = (await zondInstance?.getGasPrice()) ?? BigInt(0);
+      const estimatedCost = utils.fromWei(
+        BigInt(estimatedGas) * BigInt(gasPrice),
+        "ether",
+      );
+      setGasFee(`${estimatedCost} QRL`);
     } catch (error) {
       setGasFee(`not available. ${error}`);
     }
