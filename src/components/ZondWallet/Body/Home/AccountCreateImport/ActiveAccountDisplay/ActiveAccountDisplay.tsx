@@ -10,8 +10,8 @@ const ActiveAccountDisplay = observer(() => {
 
   const prefix = accountAddress.substring(0, 2);
   const addressSplit: string[] = [];
-  for (let i = 2; i < accountAddress.length; i += 4) {
-    addressSplit.push(accountAddress.substring(i, i + 4));
+  for (let i = 2; i < accountAddress.length; i += 5) {
+    addressSplit.push(accountAddress.substring(i, i + 5));
   }
 
   return (
