@@ -73,6 +73,9 @@ class ZondStore {
       this.zondAccounts.accounts.find(
         (account) => account.accountAddress === storedActiveAccount,
       )?.accountAddress ?? "";
+    if (!confirmedExistingActiveAccount) {
+      localStorage.removeItem(blockChainAccountIdentifier);
+    }
     this.activeAccount = {
       ...this.activeAccount,
       accountAddress: confirmedExistingActiveAccount,
