@@ -1,1 +1,0 @@
-class h{static getSplitAddress(i,S=5,g=i!=null&&i.startsWith("Z")?1:2){const b=i==null?void 0:i.substring(0,g),p=[];for(let l=g;l<(i==null?void 0:i.length);l+=S)p.push(i==null?void 0:i.substring(l,l+S));return{prefix:b,addressSplit:p}}}export{h as S};
