@@ -114,6 +114,7 @@ const AccountDetails = observer(() => {
 
   const cancelTransaction = () => {
     resetForm();
+    StorageUtil.clearTransactionValues(blockchain);
     navigate(ROUTES.HOME);
   };
 

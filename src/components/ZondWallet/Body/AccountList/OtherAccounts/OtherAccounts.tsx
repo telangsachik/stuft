@@ -26,6 +26,11 @@ const OtherAccounts = observer(() => {
     ({ accountAddress }) => accountAddress !== activeAccountAddress,
   );
 
+  const onAccountSwitch = async (accountAddress: string) => {
+    await StorageUtil.clearTransactionValues(blockchain);
+    await setActiveAccount(accountAddress);
+  };
+
   return (
     !!otherAccounts.length && (
       <>
@@ -45,9 +50,8 @@ const OtherAccounts = observer(() => {
                       className="hover:text-secondary"
                       variant="outline"
                       size="icon"
-                      onClick={async () => {
-                        await StorageUtil.clearTransactionValues(blockchain);
-                        await setActiveAccount(accountAddress);
+                      onClick={() => {
+                        onAccountSwitch(accountAddress);
                       }}
                     >
                       <ArrowRight size="18" />
