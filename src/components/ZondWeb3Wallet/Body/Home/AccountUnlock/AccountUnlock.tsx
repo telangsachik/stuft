@@ -76,7 +76,7 @@ export const AccountUnlock = observer(() => {
         <Card>
           <CardHeader>
             <CardTitle>
-              Unlock 0x..{accountAddress.substring(accountAddress.length - 5)}
+              Unlock Z..{accountAddress.substring(accountAddress.length - 5)}
             </CardTitle>
             <CardDescription className="break-words">
               {accountAddress}

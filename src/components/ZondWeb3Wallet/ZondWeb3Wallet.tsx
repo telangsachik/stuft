@@ -23,7 +23,7 @@ const ZondWeb3Wallet = observer(() => {
   }, []);
 
   return (
-    <div className="flex min-h-[48rem] w-[26rem] flex-col overflow-x-hidden bg-background text-foreground">
+    <div className="flex min-h-[48rem] w-[23rem] flex-col overflow-x-hidden bg-background text-foreground">
       <RouteMonitor />
       {hasDAppRequest ? (
         <DAppRequest />

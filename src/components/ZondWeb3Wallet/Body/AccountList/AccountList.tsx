@@ -7,7 +7,7 @@ const AccountList = () => {
   return (
     <div className="flex flex-col gap-2 p-8">
       <BackButton />
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
         <NewAccount />
         <ActiveAccount />
         <OtherAccounts />

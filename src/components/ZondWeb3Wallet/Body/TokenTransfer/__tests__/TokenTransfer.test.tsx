@@ -12,7 +12,7 @@ jest.mock("@theqrl/web3", () => {
     jest.requireActual<typeof import("@theqrl/web3")>("@theqrl/web3");
   return {
     ...originalModule,
-    validator: { isAddress: jest.fn(() => true) },
+    validator: { isAddressString: jest.fn(() => true) },
   };
 });
 
@@ -36,10 +36,10 @@ describe("TokenTransfer", () => {
     );
     expect(screen.getByText("Account address")).toBeInTheDocument();
     expect(
-      screen.getByText("0x 2090E 9F387 71876 FB6Fc 51a6b 46412 1d3cC 093A1"),
+      screen.getByText("Z 20B71 4091c F2a62 DADda 28478 03e3f 1B9D2 D3779"),
     ).toBeInTheDocument();
     expect(screen.getByText("Balance")).toBeInTheDocument();
-    expect(screen.getByText("0 ZND")).toBeInTheDocument();
+    expect(screen.getByText("0.0 ZND")).toBeInTheDocument();
     expect(screen.getAllByRole("heading", { level: 3 })[1]).toHaveTextContent(
       "Make a transaction",
     );
@@ -82,7 +82,7 @@ describe("TokenTransfer", () => {
       async () => {
         await userEvent.type(
           receiverAddressField,
-          "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
+          "Z20fB08fF1f1376A14C055E9F56df80563E16722b",
         );
         await userEvent.type(amountField, "2.5");
         await userEvent.type(
@@ -172,7 +172,7 @@ describe("TokenTransfer", () => {
     await waitFor(async () => {
       await userEvent.type(
         receiverAddressField,
-        "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
+        "Z20fB08fF1f1376A14C055E9F56df80563E16722b",
       );
       await userEvent.type(amountField, "2.5");
       await userEvent.type(
@@ -184,6 +184,7 @@ describe("TokenTransfer", () => {
       name: "Send ZND",
     });
     expect(sendZondButton).toBeInTheDocument();
+    expect(sendZondButton).toBeEnabled();
     await act(async () => {
       await userEvent.click(sendZondButton);
     });

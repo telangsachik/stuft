@@ -25,7 +25,7 @@ describe("AccountImportSuccess", () => {
     mockedStoreValues = mockedStore(),
     mockedProps: ComponentProps<typeof AccountImportSuccess> = {
       account: {
-        address: "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
+        address: "Z20fB08fF1f1376A14C055E9F56df80563E16722b",
         seed: "",
         sign: (data: string | Record<string, unknown>) => ({
           messageHash: data.toString(),
@@ -55,7 +55,7 @@ describe("AccountImportSuccess", () => {
       "Account imported",
     );
     expect(
-      screen.getByText("0x 20fB 08fF 1f13 76A1 4C05 5E9F 56df 8056 3E16 722b"),
+      screen.getByText("Z 20fB0 8fF1f 1376A 14C05 5E9F5 6df80 563E1 6722b"),
     ).toBeInTheDocument();
     expect(
       screen.getByText("Your account is successfully imported."),
@@ -91,7 +91,7 @@ describe("AccountImportSuccess", () => {
     jest.advanceTimersByTime(1000);
     expect(clipboardMock).toHaveBeenCalledTimes(1);
     expect(clipboardMock).toHaveBeenCalledWith(
-      "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
+      "Z20fB08fF1f1376A14C055E9F56df80563E16722b",
     );
   });
 });

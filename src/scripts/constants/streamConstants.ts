@@ -3,12 +3,14 @@ export const ZOND_WALLET_PROVIDER_NAME = "zond-wallet-provider";
 export const EXTENSION_MESSAGES = {
   CONNECTION_READY: "ZOND_WALLET_CONNECTION_READY",
   READY: "ZOND_WALLET_EXTENSION_READY",
+  UNRESTRICTED_METHOD_CALLS: "ZOND_UNRESTRICTED_METHOD_CALLS",
   DAPP_RESPONSE: "ZOND_WALLET_DAPP_RESPONSE",
 } as const;
 
 export const ZOND_POST_MESSAGE_STREAM = {
   INPAGE: "zond-wallet-in-page",
   CONTENT_SCRIPT: "zond-wallet-content-script",
+  CONTENT_SCRIPT_KEEP_ALIVE: "zond-wallet-content-script-keep-alive",
 } as const;
 
 export const ZOND_WEB3_WALLET_PROVIDER_INFO = {

@@ -24,7 +24,7 @@ describe("AccountCreationSuccess", () => {
     mockedStoreValues = mockedStore(),
     mockedProps: ComponentProps<typeof AccountCreationSuccess> = {
       account: {
-        address: "0x205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
+        address: "Z205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
         seed: "",
         sign: (data: Record<string, unknown> | string) => {
           data;
@@ -55,7 +55,7 @@ describe("AccountCreationSuccess", () => {
     );
     expect(screen.getByText("Account public address:")).toBeInTheDocument();
     expect(
-      screen.getByText("0x 2050 46e6 A6E1 59eD 6ACe dE46 A36C AD6D 449C 80A1"),
+      screen.getByText("Z 20504 6e6A6 E159e D6ACe dE46A 36CAD 6D449 C80A1"),
     ).toBeInTheDocument();
     expect(
       screen.getByText(
@@ -87,7 +87,7 @@ describe("AccountCreationSuccess", () => {
     jest.advanceTimersByTime(1000);
     expect(clipboardMock).toHaveBeenCalledTimes(1);
     expect(clipboardMock).toHaveBeenCalledWith(
-      "0x205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
+      "Z205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
     );
   });
 });

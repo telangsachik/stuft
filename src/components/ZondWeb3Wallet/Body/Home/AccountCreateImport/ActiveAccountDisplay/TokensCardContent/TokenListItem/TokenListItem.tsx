@@ -60,7 +60,7 @@ const TokenListItem = ({
           </span>
         )}
         <div className="flex w-full flex-col gap-1">
-          <div className="text-base font-bold">{balance}</div>
+          <div className="text-xs font-bold">{balance}</div>
           <div className="text-xs">{name}</div>
         </div>
       </div>

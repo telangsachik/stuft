@@ -89,7 +89,7 @@ describe("ImportAccount", () => {
               seedToAccount: (seed: string | Uint8Array) => {
                 seed;
                 return {
-                  address: "0x2090E9F38771876FB6Fc51a6b464121d3cC093A1",
+                  address: "Z2090E9F38771876FB6Fc51a6b464121d3cC093A1",
                   seed: "",
                   sign: (data: string | Record<string, unknown>) => {
                     data;

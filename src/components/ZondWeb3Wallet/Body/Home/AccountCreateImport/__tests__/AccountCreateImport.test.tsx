@@ -53,7 +53,7 @@ describe("AccountCreateImport", () => {
       mockedStore({
         zondStore: {
           activeAccount: {
-            accountAddress: "0x205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
+            accountAddress: "Z205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
           },
         },
       }),

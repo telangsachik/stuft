@@ -28,6 +28,11 @@ export const TransactionSuccessful = ({
     effectiveGasPrice,
   } = transactionReceipt;
 
+  const { prefix: prefixTxHash, addressSplit: addressSplitTxHash } =
+    StringUtil.getSplitAddress(transactionHash.toString());
+  const { prefix: prefixBlockHash, addressSplit: addressSplitBlockHash } =
+    StringUtil.getSplitAddress(blockHash.toString());
+
   return (
     <div className="w-full">
       <img
@@ -43,13 +48,13 @@ export const TransactionSuccessful = ({
             <div className="flex flex-col gap-2">
               <div>Transaction Hash</div>
               <div className="font-bold text-secondary">
-                {StringUtil.getSplitAddress(transactionHash.toString())}
+                {`${prefixTxHash} ${addressSplitTxHash.join(" ")}`}
               </div>
             </div>
             <div className="flex flex-col gap-2">
               <div>Block hash</div>
               <div className="font-bold text-secondary">
-                {StringUtil.getSplitAddress(blockHash.toString())}
+                {`${prefixBlockHash} ${addressSplitBlockHash.join(" ")}`}
               </div>
             </div>
             <div className="grid grid-cols-2 gap-8">

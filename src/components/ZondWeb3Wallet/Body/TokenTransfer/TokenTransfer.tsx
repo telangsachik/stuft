@@ -47,7 +47,7 @@ const FormSchema = z
     amount: z.coerce.number().gt(0, "Amount should be more than 0"),
     mnemonicPhrases: z.string().min(1, "Menmonic phrases are required"),
   })
-  .refine((fields) => validator.isAddress(fields.receiverAddress), {
+  .refine((fields) => validator.isAddressString(fields.receiverAddress), {
     message: "Address is invalid",
     path: ["receiverAddress"],
   });
@@ -255,7 +255,7 @@ const TokenTransfer = observer(() => {
         <div className="relative z-10 p-8">
           <BackButton />
           <Card className="w-full">
-            <CardHeader className="flex flex-col gap-6">
+            <CardHeader className="flex flex-col gap-4 pb-4">
               <TokenDisplaySection
                 tokenIcon={tokenIcon}
                 tokenName={tokenName}
@@ -263,7 +263,7 @@ const TokenTransfer = observer(() => {
               />
               <CardTitle>Active account</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-8">
+            <CardContent className="space-y-4">
               <AccountAddressSection tokenBalance={tokenBalance} />
               <CardTitle>Make a transaction</CardTitle>
               <FormField
@@ -282,7 +282,7 @@ const TokenTransfer = observer(() => {
                       />
                     </FormControl>
                     <FormDescription>
-                      Receiver&apos;s public address (0x)
+                      Receiver&apos;s public address
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

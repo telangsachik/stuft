@@ -48,13 +48,13 @@ describe("TransactionSuccessful", () => {
     expect(screen.getByText("Transaction Hash")).toBeInTheDocument();
     expect(
       screen.getByText(
-        "0x 5e4c 1bd1 e00d 229f e4d7 2d64 df0b 2f20 b764 9a9e 0be0 0eff 5353 f192 4af3 0e3c",
+        "0x 5e4c1 bd1e0 0d229 fe4d7 2d64d f0b2f 20b76 49a9e 0be00 eff53 53f19 24af3 0e3c",
       ),
     ).toBeInTheDocument();
     expect(screen.getByText("Block hash")).toBeInTheDocument();
     expect(
       screen.getByText(
-        "0x 641d cb99 dfcd 2ad3 c3e7 c3d3 0090 b274 b788 a0f2 9798 d3c0 30aa 2483 5c44 b46d",
+        "0x 641dc b99df cd2ad 3c3e7 c3d30 090b2 74b78 8a0f2 9798d 3c030 aa248 35c44 b46d",
       ),
     ).toBeInTheDocument();
     expect(screen.getByText("Block number")).toBeInTheDocument();

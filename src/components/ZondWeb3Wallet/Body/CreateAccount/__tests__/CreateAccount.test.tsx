@@ -38,7 +38,7 @@ describe("CreateAccount", () => {
           zondInstance: {
             accounts: {
               create: () => ({
-                address: "0x205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
+                address: "Z205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
                 seed: "",
                 sign: (data: Record<string, unknown> | string) => {
                   data;
@@ -71,7 +71,7 @@ describe("CreateAccount", () => {
       "Keep this safe",
     );
     expect(screen.getByRole("paragraph")).toHaveTextContent(
-      "Don't lose this mnemonic phrases. Download it right now. You may need this someday to import or recover your new account 0x205...C80A1",
+      "Don't lose this mnemonic phrases. Download it right now. You may need this someday to import or recover your new account Z20504 ... C80A1",
     );
     const downloadButton = screen.getByRole("button", { name: "Download" });
     const continueButton = screen.getByRole("button", { name: "Continue" });
@@ -88,7 +88,7 @@ describe("CreateAccount", () => {
           zondInstance: {
             accounts: {
               create: () => ({
-                address: "0x205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
+                address: "Z205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
                 seed: "",
                 sign: (data: Record<string, unknown> | string) => {
                   data;
@@ -138,7 +138,7 @@ describe("CreateAccount", () => {
     );
     expect(screen.getByText("Account public address:")).toBeInTheDocument();
     expect(
-      screen.getByText("0x 2050 46e6 A6E1 59eD 6ACe dE46 A36C AD6D 449C 80A1"),
+      screen.getByText("Z 20504 6e6A6 E159e D6ACe dE46A 36CAD 6D449 C80A1"),
     ).toBeInTheDocument();
     expect(
       screen.getByText(

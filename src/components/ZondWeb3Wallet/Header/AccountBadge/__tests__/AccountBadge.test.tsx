@@ -20,12 +20,12 @@ describe("AccountBadge", () => {
       mockedStore({
         zondStore: {
           activeAccount: {
-            accountAddress: "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
+            accountAddress: "Z20fB08fF1f1376A14C055E9F56df80563E16722b",
           },
         },
       }),
     );
 
-    expect(screen.getByText("0x20fB0...6722b")).toBeInTheDocument();
+    expect(screen.getByText("Z20fB0...6722b")).toBeInTheDocument();
   });
 });

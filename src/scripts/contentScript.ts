@@ -1,28 +1,26 @@
-import PortStream from "extension-port-stream";
-import { pipeline } from "readable-stream";
-import browser from "webextension-polyfill";
-
+import StorageUtil from "@/utilities/storageUtil";
+import Web3 from "@theqrl/web3";
 import {
   ObjectMultiplex,
   Substream,
 } from "@theqrl/zond-wallet-provider/object-multiplex";
 import { WindowPostMessageStream } from "@theqrl/zond-wallet-provider/post-message-stream";
+import { BaseProvider } from "@theqrl/zond-wallet-provider/providers";
+import { JsonRpcRequest } from "@theqrl/zond-wallet-provider/utils";
+import PortStream from "extension-port-stream";
+import { pipeline } from "readable-stream";
+import browser from "webextension-polyfill";
+import { UNRESTRICTED_METHODS } from "./constants/requestConstants";
 import {
   EXTENSION_MESSAGES,
   ZOND_POST_MESSAGE_STREAM,
   ZOND_WALLET_PROVIDER_NAME,
 } from "./constants/streamConstants";
-import { checkForLastError } from "./utils/scriptUtils";
+import { checkForLastError, getSerializableObject } from "./utils/scriptUtils";
 
 type MessageType = {
   name: string;
-  data: {
-    jsonrpc: string;
-    method: string;
-    params?: Record<string, unknown>[];
-    id: string;
-    origin?: string;
-  };
+  data: JsonRpcRequest<JsonRpcRequest>;
 };
 
 let pageMux: ObjectMultiplex;
@@ -35,6 +33,15 @@ let extensionChannel: Substream;
 
 // The field below is used to ensure that replay is done only once for each restart.
 let hasExtensionConnectSent = false;
+
+const getZondInstance = async () => {
+  const { ipAddress, port } = await StorageUtil.getBlockChain();
+  const zondHttpProvider = new Web3.providers.HttpProvider(
+    `${ipAddress}:${port}`,
+  );
+  const { zond } = new Web3({ provider: zondHttpProvider });
+  return zond;
+};
 
 const setupPageStreams = () => {
   // the transport-specific streams for communication between inpage and background
@@ -176,16 +183,95 @@ const setupExtensionStreams = () => {
 
 const prepareListeners = () => {
   // listens to messages coming from the service worker(browser.tabs.sendMessage)
-  browser.runtime.onMessage.addListener((message: MessageType) => {
+  browser.runtime.onMessage.addListener(async (message: MessageType) => {
     if (message.name === EXTENSION_MESSAGES.READY) {
       if (!extensionStream) {
         setupExtensionStreams();
       }
-      return Promise.resolve(
-        "ZondWeb3Wallet: handled service worker ready message",
-      );
+      return "ZondWeb3Wallet: handled service worker ready message";
+    } else if (message.name === EXTENSION_MESSAGES.UNRESTRICTED_METHOD_CALLS) {
+      const zond = await getZondInstance();
+      const method = message.data.method;
+      if (method === UNRESTRICTED_METHODS.ZOND_GET_BLOCK_BY_NUMBER) {
+        // @ts-ignore
+        const [block, hydrated] = message?.data?.params;
+        const blockNumber = await zond.getBlock(block, hydrated);
+        return getSerializableObject(blockNumber);
+      } else if (
+        method === UNRESTRICTED_METHODS.ZOND_WEB3_WALLET_GET_PROVIDER_STATE
+      ) {
+        const chainId = (await zond?.getChainId())?.toString() ?? "";
+        const networkVersion = (await zond?.net.getId())?.toString() ?? "";
+        return {
+          chainId: `0x${chainId}`,
+          networkVersion,
+          isUnlocked: false,
+          accounts: [],
+        } as Parameters<BaseProvider["_initializeState"]>[0];
+      } else if (method === UNRESTRICTED_METHODS.NET_VERSION) {
+        const networkId = await zond.net.getId();
+        return "0x".concat(networkId.toString(16));
+      } else if (method === UNRESTRICTED_METHODS.ZOND_ACCOUNTS) {
+        const connectedAccountsData =
+          await StorageUtil.getConnectedAccountsData(
+            new URL(message?.data?.senderData?.url ?? "").origin,
+          );
+        return connectedAccountsData?.accounts ?? [];
+      } else if (method === UNRESTRICTED_METHODS.WALLET_REVOKE_PERMISSIONS) {
+        await StorageUtil.clearConnectedAccountsData(
+          new URL(message?.data?.senderData?.url ?? "").origin,
+        );
+        return "";
+      } else if (method === UNRESTRICTED_METHODS.ZOND_GET_BALANCE) {
+        const [accountAddress, accountBlockNumber] = message.data.params;
+        const balance = await zond?.getBalance(
+          accountAddress,
+          accountBlockNumber,
+        );
+        return "0x".concat(balance.toString(16));
+      } else if (method === UNRESTRICTED_METHODS.ZOND_ESTIMATE_GAS) {
+        const [estimateGasParam] = message.data.params;
+        const estimatedGas = await zond.estimateGas(estimateGasParam);
+        return "0x".concat(estimatedGas.toString(16));
+      } else if (method === UNRESTRICTED_METHODS.ZOND_BLOCK_NUMBER) {
+        const zondBlockNumber = await zond.getBlockNumber();
+        return "0x".concat(zondBlockNumber.toString(16));
+      } else if (method === UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_RECEIPT) {
+        const [txHashForTransactionReceipt] = message.data.params;
+        const transactionReceipt = await zond.getTransactionReceipt(
+          txHashForTransactionReceipt,
+        );
+        return getSerializableObject(transactionReceipt);
+      } else if (method === UNRESTRICTED_METHODS.ZOND_GET_TRANSACTION_BY_HASH) {
+        const [txHashForTransactionByHash] = message.data.params;
+        const transactionDetails = await zond.getTransaction(
+          txHashForTransactionByHash,
+        );
+        return getSerializableObject(transactionDetails);
+      } else if (method === UNRESTRICTED_METHODS.ZOND_CALL) {
+        const [transactionObj, blockParam] = message.data.params;
+        const zondCallResponse = await zond.call(transactionObj, blockParam);
+        return zondCallResponse;
+      } else if (method === UNRESTRICTED_METHODS.ZOND_GET_CODE) {
+        const [address, blockNumber] = message.data.params;
+        const byteCode = await zond.getCode(address, blockNumber);
+        return byteCode;
+      } else {
+        return "";
+      }
     }
+    return "";
   });
+};
+
+const keepServiceWorkerActive = () => {
+  setInterval(() => {
+    browser.runtime
+      .connect({
+        name: ZOND_POST_MESSAGE_STREAM.CONTENT_SCRIPT_KEEP_ALIVE,
+      })
+      .postMessage(ZOND_POST_MESSAGE_STREAM.CONTENT_SCRIPT_KEEP_ALIVE);
+  }, 3000);
 };
 
 const initializeContentScript = () => {
@@ -193,6 +279,7 @@ const initializeContentScript = () => {
     setupPageStreams();
     setupExtensionStreams();
     prepareListeners();
+    keepServiceWorkerActive();
   } catch (error) {
     console.warn(
       "ZondWeb3Wallet: Failed to initialize the content script\n",

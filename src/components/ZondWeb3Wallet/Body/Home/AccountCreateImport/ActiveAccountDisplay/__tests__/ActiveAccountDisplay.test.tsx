@@ -22,7 +22,7 @@ describe("ActiveAccountDisplay", () => {
       mockedStore({
         zondStore: {
           activeAccount: {
-            accountAddress: "0x205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
+            accountAddress: "Z205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
           },
           getAccountBalance: (accountAddress: string) => {
             accountAddress;
@@ -34,7 +34,7 @@ describe("ActiveAccountDisplay", () => {
 
     expect(screen.getByText("2.45 ZND")).toBeInTheDocument();
     expect(
-      screen.getByText("0x 20504 6e6A6 E159e D6ACe dE46A 36CAD 6D449 C80A1"),
+      screen.getByText("Z 20504 6e6A6 E159e D6ACe dE46A 36CAD 6D449 C80A1"),
     ).toBeInTheDocument();
   });
 });

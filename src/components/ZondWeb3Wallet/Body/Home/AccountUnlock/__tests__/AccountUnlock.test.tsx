@@ -23,17 +23,17 @@ describe("AccountUnlock", () => {
       mockedStore({
         zondStore: {
           activeAccount: {
-            accountAddress: "0x2090E9F38771876FB6Fc51a6b464121d3cC093A1",
+            accountAddress: "Z2090E9F38771876FB6Fc51a6b464121d3cC093A1",
           },
         },
       }),
     );
 
     expect(screen.getByRole("heading", { level: 3 })).toHaveTextContent(
-      "Unlock 0x..093A1",
+      "Unlock Z..093A1",
     );
     expect(
-      screen.getByText("0x2090E9F38771876FB6Fc51a6b464121d3cC093A1"),
+      screen.getByText("Z2090E9F38771876FB6Fc51a6b464121d3cC093A1"),
     ).toBeInTheDocument();
     expect(screen.getByLabelText("password")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Unlock" })).toBeInTheDocument();
@@ -44,7 +44,7 @@ describe("AccountUnlock", () => {
       mockedStore({
         zondStore: {
           activeAccount: {
-            accountAddress: "0x2090E9F38771876FB6Fc51a6b464121d3cC093A1",
+            accountAddress: "Z2090E9F38771876FB6Fc51a6b464121d3cC093A1",
           },
         },
       }),
@@ -66,7 +66,7 @@ describe("AccountUnlock", () => {
       mockedStore({
         zondStore: {
           activeAccount: {
-            accountAddress: "0x2090E9F38771876FB6Fc51a6b464121d3cC093A1",
+            accountAddress: "Z2090E9F38771876FB6Fc51a6b464121d3cC093A1",
           },
         },
       }),
@@ -88,7 +88,7 @@ describe("AccountUnlock", () => {
       mockedStore({
         zondStore: {
           activeAccount: {
-            accountAddress: "0x2090E9F38771876FB6Fc51a6b464121d3cC093A1",
+            accountAddress: "Z2090E9F38771876FB6Fc51a6b464121d3cC093A1",
           },
         },
       }),
@@ -109,7 +109,7 @@ describe("AccountUnlock", () => {
       mockedStore({
         zondStore: {
           activeAccount: {
-            accountAddress: "0x2090E9F38771876FB6Fc51a6b464121d3cC093A1",
+            accountAddress: "Z2090E9F38771876FB6Fc51a6b464121d3cC093A1",
           },
         },
       }),

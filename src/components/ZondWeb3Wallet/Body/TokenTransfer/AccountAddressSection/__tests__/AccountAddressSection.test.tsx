@@ -22,9 +22,9 @@ describe("AccountAddressSection", () => {
 
     expect(screen.getByText("Account address")).toBeInTheDocument();
     expect(
-      screen.getByText("0x 2090E 9F387 71876 FB6Fc 51a6b 46412 1d3cC 093A1"),
+      screen.getByText("Z 20B71 4091c F2a62 DADda 28478 03e3f 1B9D2 D3779"),
     ).toBeInTheDocument();
     expect(screen.getByText("Balance")).toBeInTheDocument();
-    expect(screen.getByText("0 ZND")).toBeInTheDocument();
+    expect(screen.getByText("0.0 ZND")).toBeInTheDocument();
   });
 });

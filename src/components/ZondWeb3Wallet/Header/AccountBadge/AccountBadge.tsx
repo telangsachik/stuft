@@ -1,6 +1,7 @@
 import { Button } from "@/components/UI/Button";
 import { ROUTES } from "@/router/router";
 import { useStore } from "@/stores/store";
+import StringUtil from "@/utilities/stringUtil";
 import { Wallet } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
@@ -11,10 +12,8 @@ const AccountBadge = observer(() => {
     activeAccount: { accountAddress },
   } = zondStore;
 
-  const account = accountAddress
-    .substring(0, 7)
-    .concat("...")
-    .concat(accountAddress.substring(accountAddress.length - 5));
+  const { prefix, addressSplit } = StringUtil.getSplitAddress(accountAddress);
+  const account = `${prefix}${addressSplit[0]}...${addressSplit[addressSplit.length - 1]}`;
 
   return (
     !!accountAddress && (

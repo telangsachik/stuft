@@ -1,4 +1,5 @@
 import { useStore } from "@/stores/store";
+import StringUtil from "@/utilities/stringUtil";
 import { observer } from "mobx-react-lite";
 
 const ActiveAccountDisplay = observer(() => {
@@ -7,12 +8,7 @@ const ActiveAccountDisplay = observer(() => {
   const { accountAddress } = activeAccount;
 
   const accountBalance = getAccountBalance(accountAddress);
-
-  const prefix = accountAddress.substring(0, 2);
-  const addressSplit: string[] = [];
-  for (let i = 2; i < accountAddress.length; i += 5) {
-    addressSplit.push(accountAddress.substring(i, i + 5));
-  }
+  const { prefix, addressSplit } = StringUtil.getSplitAddress(accountAddress);
 
   return (
     <div className="flex flex-col gap-4">

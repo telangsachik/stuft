@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/UI/Card";
 import { ROUTES } from "@/router/router";
+import StringUtil from "@/utilities/stringUtil";
 import { Web3BaseWalletAccount } from "@theqrl/web3";
 import { Check, Copy } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -18,11 +19,8 @@ type AccountCreationSuccessProps = {
 
 const AccountCreationSuccess = ({ account }: AccountCreationSuccessProps) => {
   const accountAddress = account?.address ?? "";
-  const accountAddressSplit = [];
-  for (let i = 2; i < accountAddress.length; i += 4) {
-    accountAddressSplit.push(accountAddress.substring(i, i + 4));
-  }
-  const spacedAccountAddress = accountAddressSplit.join(" ");
+  const { prefix, addressSplit } = StringUtil.getSplitAddress(accountAddress);
+  const spacedAccountAddress = addressSplit.join(" ");
 
   const [hasJustCopied, setHasJustCopied] = useState(false);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
@@ -52,7 +50,7 @@ const AccountCreationSuccess = ({ account }: AccountCreationSuccessProps) => {
       <CardContent className="space-y-8">
         <div className="flex flex-col gap-2">
           <div>Account public address:</div>
-          <div className="font-bold text-secondary">{`0x ${spacedAccountAddress}`}</div>
+          <div className="font-bold text-secondary">{`${prefix} ${spacedAccountAddress}`}</div>
           <div>
             You can share this account public address with anyone. Others need
             it to interact with you.
@@ -71,7 +69,7 @@ const AccountCreationSuccess = ({ account }: AccountCreationSuccessProps) => {
         </Button>
         <Link
           className="w-full"
-          to={ROUTES.TOKEN_TRANSFER}
+          to={ROUTES.HOME}
           state={{ shouldStartFresh: true }}
         >
           <Button className="w-full" type="button">

@@ -27,3 +27,14 @@ export function checkForLastError() {
   // repair incomplete error object (eg chromium v77)
   return new Error(lastError.message);
 }
+
+export function getSerializableObject(jsonObject: any) {
+  return JSON.parse(
+    JSON.stringify(jsonObject, (_, value) => {
+      if (typeof value === "bigint") {
+        return "0x".concat(value.toString(16));
+      }
+      return value;
+    }),
+  );
+}

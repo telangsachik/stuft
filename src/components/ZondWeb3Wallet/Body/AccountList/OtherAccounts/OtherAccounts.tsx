@@ -1,6 +1,7 @@
 import { Button } from "@/components/UI/Button";
 import { Card } from "@/components/UI/Card";
 import { Label } from "@/components/UI/Label";
+import { Separator } from "@/components/UI/Separator";
 import {
   Tooltip,
   TooltipContent,
@@ -34,12 +35,13 @@ const OtherAccounts = observer(() => {
   return (
     !!otherAccounts.length && (
       <>
-        <Label className="text-secondary">{otherAccountsLabel}</Label>
+        <Separator className="mt-3" />
+        <Label className="text-lg font-bold">{otherAccountsLabel}</Label>
         {otherAccounts.map(({ accountAddress }) => (
           <Card
             key={accountAddress}
             id={accountAddress}
-            className="flex gap-2 p-4 font-bold text-foreground hover:bg-accent"
+            className="flex gap-3 p-3 font-bold text-foreground hover:bg-accent"
           >
             <AccountId account={accountAddress} />
             <span>

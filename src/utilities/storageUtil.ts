@@ -1,7 +1,12 @@
-import { ZOND_PROVIDER } from "@/configuration/zondConfig";
-import { DAppRequestType } from "@/scripts/middlewares/middlewareTypes";
-import { BaseProvider } from "@theqrl/zond-wallet-provider/providers";
-import { PartialDeep } from "type-fest";
+import {
+  BlockchainDetailsType,
+  BlockchainType,
+  ZOND_BLOCKCHAIN,
+} from "@/configuration/zondBlockchainConfig";
+import {
+  ConnectedAccountsDataType,
+  DAppRequestType,
+} from "@/scripts/middlewares/middlewareTypes";
 import browser from "webextension-polyfill";
 
 const ACTIVE_PAGE_IDENTIFIER = "ACTIVE_PAGE";
@@ -11,9 +16,8 @@ const ACCOUNT_LIST_IDENTIFIER = "ACCOUNT_LIST";
 const TRANSACTION_VALUES_IDENTIFIER = "TRANSACTION_VALUES";
 const TOKENS_LIST_IDENTIFIER = "TOKENS_LIST";
 const DAPP_REQUEST_DATA_IDENTIFIER = "DAPP_REQUEST_DATA";
-const PROVIDER_STATE_IDENTIFIER = "PROVIDER_STATE";
+const CONNECTED_ACCOUNTS_DATA_IDENTIFIER = "CONNECTED_ACCOUNTS_DATA";
 
-type BlockchainType = keyof typeof ZOND_PROVIDER;
 type TransactionValuesType = {
   receiverAddress?: string;
   amount?: number;
@@ -132,20 +136,24 @@ class StorageUtil {
    * A function for storing the blockchain selection.
    * Call the getBlockChain function to retrieve the stored value.
    */
-  static async setBlockChain(selectedBlockchain: string) {
+  static async setBlockChain(selectedBlockchainDeails: BlockchainDetailsType) {
     await browser.storage.local.set({
-      [BLOCKCHAIN_SELECTION_IDENTIFIER]: selectedBlockchain,
+      [BLOCKCHAIN_SELECTION_IDENTIFIER]: selectedBlockchainDeails,
     });
   }
 
   static async getBlockChain() {
-    const DEFAULT_BLOCKCHAIN = ZOND_PROVIDER.MAIN_NET.id;
-    const storedBlockchain = await browser.storage.local.get(
+    const DEFAULT_BLOCKCHAIN: BlockchainDetailsType = {
+      blockchain: ZOND_BLOCKCHAIN.MAIN_NET.id as BlockchainType,
+      ipAddress: ZOND_BLOCKCHAIN.MAIN_NET.ipAddress,
+      port: ZOND_BLOCKCHAIN.MAIN_NET.port,
+    };
+    const storedBlockchainDetails = await browser.storage.local.get(
       BLOCKCHAIN_SELECTION_IDENTIFIER,
     );
 
-    return (storedBlockchain?.[BLOCKCHAIN_SELECTION_IDENTIFIER] ??
-      DEFAULT_BLOCKCHAIN) as BlockchainType;
+    return (storedBlockchainDetails?.[BLOCKCHAIN_SELECTION_IDENTIFIER] ??
+      DEFAULT_BLOCKCHAIN) as BlockchainDetailsType;
   }
 
   /**
@@ -224,7 +232,7 @@ class StorageUtil {
   }
 
   /**
-   * A function for storing the reuqest info temporarily by the dApp, which will be read by the zond web3 wallet.
+   * A function for storing the request info temporarily by the dApp, which will be read by the zond web3 wallet.
    * Call the getDAppRequestData function to retrieve the stored value, and clearFromTokenList for clearing the stored value.
    */
   static async setDAppRequestData(data: DAppRequestType) {
@@ -253,34 +261,37 @@ class StorageUtil {
   }
 
   /**
-   * A function for storing the provider state of wallet.
-   * This will be fetched as the initial state of the wallet provider, via the 'initialStateMiddleware' middleware.
-   * Call the getProviderState function to retrieve the stored value, and clearFromTokenList for clearing the stored value.
+   * A function for storing the connected accounts info temporarily, which will be read by method like 'zond_accounts'.
+   * Call the getConnectedAccountsData function to retrieve the stored value, and clearConnectedAccountsData for clearing the stored value.
    */
-  static async setProviderState(
-    providerState: PartialDeep<Parameters<BaseProvider["_initializeState"]>[0]>,
-  ) {
+  static async setConnectedAccountsData(data: ConnectedAccountsDataType) {
+    const urlOrigin = data.urlOrigin;
     const blockChain = await this.getBlockChain();
-    const providerStateIdentifier = `${blockChain}_${PROVIDER_STATE_IDENTIFIER}`;
-    const storedProviderState = await this.getProviderState();
+    const connectedAccountsDataIdentifier = `${blockChain}_${urlOrigin}_${CONNECTED_ACCOUNTS_DATA_IDENTIFIER}`;
+    const updatedConnectedAccountsData: ConnectedAccountsDataType = {
+      urlOrigin,
+      accounts: data.accounts,
+    };
     await browser.storage.local.set({
-      [providerStateIdentifier]: { ...storedProviderState, ...providerState },
+      [connectedAccountsDataIdentifier]: updatedConnectedAccountsData,
     });
   }
 
-  static async getProviderState() {
+  static async getConnectedAccountsData(urlOrigin: string) {
     const blockChain = await this.getBlockChain();
-    const providerStateIdentifier = `${blockChain}_${PROVIDER_STATE_IDENTIFIER}`;
-    const storedProviderState = await browser.storage.local.get(
-      providerStateIdentifier,
+    const connectedAccountsDataIdentifier = `${blockChain}_${urlOrigin}_${CONNECTED_ACCOUNTS_DATA_IDENTIFIER}`;
+    const storedConnectedAccountsData = await browser.storage.local.get(
+      connectedAccountsDataIdentifier,
     );
-    const providerStateObject = storedProviderState[providerStateIdentifier]
-      ? storedProviderState[providerStateIdentifier]
-      : {};
-    return {
-      ...{ accounts: [], chainId: "", isUnlocked: false, networkVersion: "" },
-      ...providerStateObject,
-    } as Parameters<BaseProvider["_initializeState"]>[0];
+    return storedConnectedAccountsData[connectedAccountsDataIdentifier] as
+      | ConnectedAccountsDataType
+      | undefined;
+  }
+
+  static async clearConnectedAccountsData(urlOrigin: string) {
+    const blockChain = await this.getBlockChain();
+    const connectedAccountsDataIdentifier = `${blockChain}_${urlOrigin}_${CONNECTED_ACCOUNTS_DATA_IDENTIFIER}`;
+    await browser.storage.local.remove(connectedAccountsDataIdentifier);
   }
 }
 

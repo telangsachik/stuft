@@ -12,7 +12,7 @@ describe("AccountId", () => {
   const renderComponent = (
     mockedStoreValues = mockedStore(),
     mockedProps: ComponentProps<typeof AccountId> = {
-      account: "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
+      account: "Z20fB08fF1f1376A14C055E9F56df80563E16722b",
     },
   ) =>
     render(
@@ -24,10 +24,16 @@ describe("AccountId", () => {
     );
 
   it("should render the account id component", () => {
-    renderComponent();
+    renderComponent(
+      mockedStore({
+        zondStore: {
+          getAccountBalance: () => "10.0 ZND",
+        },
+      }),
+    );
 
     const addressSplit = [
-      "0x",
+      "Z",
       "20fB0",
       "8fF1f",
       "1376A",
@@ -36,6 +42,7 @@ describe("AccountId", () => {
       "6df80",
       "563E1",
       "6722b",
+      "10.0 ZND",
     ];
     for (const word of addressSplit) {
       expect(screen.getByText(word)).toBeInTheDocument();

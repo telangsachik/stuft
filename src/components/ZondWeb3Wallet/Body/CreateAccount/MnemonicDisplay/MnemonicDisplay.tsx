@@ -43,14 +43,18 @@ const MnemonicDisplay = ({
 }: MnemonicDisplayProps) => {
   const accountAddress = account?.address;
   const accountHexSeed = account?.seed;
-  const mnemonic = getMnemonicFromHexSeed(accountHexSeed);
+  const mnemonicPhrases = getMnemonicFromHexSeed(accountHexSeed);
 
   const onDownload = () => {
     const mnemonicObject = {
-      "Account public address (can be shared with others)":
-        account?.address ?? "",
-      "Secret Mnemonic phrases (can be used for recovering your account, and should be kept safe)":
-        mnemonic,
+      "Public Address": {
+        address: accountAddress,
+        note: "This is your public account address, and can be shared with others for receiving ZND to your account.",
+      },
+      "Private Key": {
+        key: mnemonicPhrases,
+        note: "This is your secret private key(mnemomic phrases, a 32 words combination), and should be kept safe somewhere. This is required to recover your account and to send ZND from your account to others account. If lost, you will lose access to your account and funds.",
+      },
     };
     const blobData = JSON.stringify(mnemonicObject, null, 2);
     const blob = new Blob([blobData], { type: "application/json" });
@@ -64,7 +68,7 @@ const MnemonicDisplay = ({
     URL.revokeObjectURL(url);
   };
 
-  const cardDescription = `Don't lose this mnemonic phrases. Download it right now. You may need this someday to import or recover your new account ${accountAddress?.substring(0, 5)}...${accountAddress?.substring(accountAddress?.length - 5)}`;
+  const cardDescription = `Don't lose this mnemonic phrases. Download it right now. You may need this someday to import or recover your new account ${accountAddress?.substring(0, 6)} ... ${accountAddress?.substring(accountAddress?.length - 5)}`;
   const continueWarning =
     "You should only continue if you have downloaded the mnemonic phrases. If you haven't, go back, download, and then continue. There is no going back once you click the continue button.";
 
@@ -75,7 +79,7 @@ const MnemonicDisplay = ({
         <CardDescription>{cardDescription}</CardDescription>
       </CardHeader>
       <CardContent>
-        <MnemonicWordListing mnemonic={mnemonic} />
+        <MnemonicWordListing mnemonic={mnemonicPhrases} />
       </CardContent>
       <CardFooter className="gap-4">
         <Button

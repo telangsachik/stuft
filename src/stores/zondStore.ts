@@ -1,4 +1,8 @@
-import { ZOND_PROVIDER } from "@/configuration/zondConfig";
+import {
+  BlockchainDetailsType,
+  BlockchainType,
+  ZOND_BLOCKCHAIN,
+} from "@/configuration/zondBlockchainConfig";
 import { NATIVE_TOKEN_UNITS_OF_GAS } from "@/constants/nativeToken";
 import {
   ZRC_20_CONTRACT_ABI,
@@ -33,8 +37,9 @@ class ZondStore {
   zondConnection = {
     isConnected: false,
     isLoading: false,
-    zondNetworkName: "",
-    blockchain: "",
+    blockchain: ZOND_BLOCKCHAIN.MAIN_NET.id as BlockchainType,
+    ipAddress: ZOND_BLOCKCHAIN.MAIN_NET.ipAddress,
+    port: ZOND_BLOCKCHAIN.MAIN_NET.port,
   };
   zondAccounts: ZondAccountsType = { accounts: [], isLoading: false };
   activeAccount: ActiveAccountType = { accountAddress: "" };
@@ -49,37 +54,38 @@ class ZondStore {
       setActiveAccount: action.bound,
       fetchZondConnection: action.bound,
       fetchAccounts: action.bound,
+      getGasFeeData: action.bound,
       getAccountBalance: action.bound,
       getNativeTokenGas: action.bound,
       signAndSendNativeToken: action.bound,
       getZrc20TokenDetails: action.bound,
       getZrc20TokenGas: action.bound,
       signAndSendZrc20Token: action.bound,
-      storeProviderState: action.bound,
     });
     this.initializeBlockchain();
   }
 
   async initializeBlockchain() {
-    const selectedBlockChain = await StorageUtil.getBlockChain();
-    const { name, url } = ZOND_PROVIDER[selectedBlockChain];
+    const { blockchain, ipAddress, port } = await StorageUtil.getBlockChain();
     this.zondConnection = {
       ...this.zondConnection,
-      zondNetworkName: name,
-      blockchain: selectedBlockChain,
+      blockchain,
+      ipAddress,
+      port,
     };
-    const zondHttpProvider = new Web3.providers.HttpProvider(url);
+    const zondHttpProvider = new Web3.providers.HttpProvider(
+      `${ipAddress}:${port}`,
+    );
     const { zond } = new Web3({ provider: zondHttpProvider });
     this.zondInstance = zond;
 
     await this.fetchZondConnection();
     await this.fetchAccounts();
     await this.validateActiveAccount();
-    await this.storeProviderState();
   }
 
-  async selectBlockchain(selectedBlockchain: string) {
-    await StorageUtil.setBlockChain(selectedBlockchain);
+  async selectBlockchain(selectedBlockchainDetails: BlockchainDetailsType) {
+    await StorageUtil.setBlockChain(selectedBlockchainDetails);
     await this.initializeBlockchain();
   }
 
@@ -168,7 +174,7 @@ class ZondStore {
           ...this.zondAccounts,
           accounts: storedAccountsList.map((account) => ({
             accountAddress: account,
-            accountBalance: "0",
+            accountBalance: "0.0 ZND",
           })),
         };
       });
@@ -195,13 +201,6 @@ class ZondStore {
       ...this.activeAccount,
       accountAddress: confirmedExistingActiveAccount,
     };
-  }
-
-  async storeProviderState() {
-    const chainId = (await this.zondInstance?.getChainId())?.toString() ?? "";
-    const networkVersion =
-      (await this.zondInstance?.net.getId())?.toString() ?? "";
-    StorageUtil.setProviderState({ chainId: `0x${chainId}`, networkVersion });
   }
 
   async getGasFeeData() {
