@@ -1,9 +1,12 @@
 import { ZOND_PROVIDER } from "@/configuration/zondConfig";
 import { getHexSeedFromMnemonic } from "@/functions/getHexSeedFromMnemonic";
 import StorageUtil from "@/utilities/storageUtil";
-import Web3, { Web3ZondInterface, utils } from "@theqrl/web3";
+import Web3, {
+  TransactionReceipt,
+  Web3ZondInterface,
+  utils,
+} from "@theqrl/web3";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
-import { sendSignedTransaction } from "node_modules/@theqrl/web3-zond/lib/types/rpc_method_wrappers";
 
 type ActiveAccountType = {
   accountAddress: string;
@@ -197,7 +200,7 @@ class ZondStore {
     mnemonicPhrases: string,
   ) {
     let transaction: {
-      transactionReceipt: Awaited<ReturnType<typeof sendSignedTransaction>>;
+      transactionReceipt?: TransactionReceipt;
       error: string;
     } = { transactionReceipt: undefined, error: "" };
 
