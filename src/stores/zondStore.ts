@@ -1,6 +1,6 @@
 import { ZOND_PROVIDER } from "@/configuration/zondConfig";
 import { getHexSeedFromMnemonic } from "@/functions/getHexSeedFromMnemonic";
-import { getQrlBalance } from "@/functions/getQrlBalance";
+import { getOptimalTokenBalance } from "@/functions/getOptimalTokenBalance";
 import StorageUtil from "@/utilities/storageUtil";
 import Web3, {
   TransactionReceipt,
@@ -46,6 +46,7 @@ class ZondStore {
       fetchAccounts: action.bound,
       getAccountBalance: action.bound,
       signAndSendTransaction: action.bound,
+      getErc20TokenDetails: action.bound,
     });
     this.initializeBlockchain();
   }
@@ -136,7 +137,7 @@ class ZondStore {
           storedAccountsList.map(async (account) => {
             const accountBalance =
               (await this.zondInstance?.getBalance(account)) ?? BigInt(0);
-            const convertedAccountBalance = getQrlBalance(
+            const convertedAccountBalance = getOptimalTokenBalance(
               utils.fromWei(accountBalance, "ether"),
             );
             return {
@@ -235,6 +236,85 @@ class ZondStore {
     }
 
     return transaction;
+  }
+
+  async getErc20TokenDetails(contractAddress: string) {
+    let tokenDetails = {
+      token: undefined,
+      error: "",
+    };
+
+    const contractAbi = [
+      {
+        inputs: [],
+        name: "name",
+        outputs: [{ internalType: "string", name: "", type: "string" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "symbol",
+        outputs: [{ internalType: "string", name: "", type: "string" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "decimals",
+        outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "totalSupply",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "address", name: "", type: "address" }],
+        name: "balanceOf",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+    ] as const;
+
+    if (this.zondInstance && this.zondInstance.Contract) {
+      try {
+        const contract = new this.zondInstance.Contract(
+          contractAbi,
+          contractAddress,
+        );
+        const name = (await contract.methods.name().call()) as string;
+        const symbol = (await contract.methods.symbol().call()) as string;
+        const decimals = (await contract.methods.decimals().call()) as bigint;
+        const totalSupplyUnformatted = (await contract.methods
+          .totalSupply()
+          .call()) as bigint;
+        const totalSupply =
+          Number(totalSupplyUnformatted) / Math.pow(10, Number(decimals));
+        const balanceUnformatted = (await contract.methods
+          .balanceOf(this.activeAccount.accountAddress)
+          .call()) as bigint;
+        const balance =
+          Number(balanceUnformatted) / Math.pow(10, Number(decimals));
+        return {
+          ...tokenDetails,
+          token: { name, symbol, decimals, totalSupply, balance },
+        };
+      } catch (error) {
+        return {
+          ...tokenDetails,
+          error:
+            "Could not retreive the token with the entered contract address",
+        };
+      }
+    }
+
+    return tokenDetails;
   }
 }
 

@@ -21,7 +21,7 @@ const AccountAddressSection = () => {
         <div className="font-bold text-secondary">{`${prefix} ${addressSplit.join(" ")}`}</div>
       </div>
       <div className="flex flex-col gap-2">
-        <div>Available amount</div>
+        <div>Account balance</div>
         <div className="font-bold text-secondary">{accountBalance}</div>
       </div>
       <Separator />

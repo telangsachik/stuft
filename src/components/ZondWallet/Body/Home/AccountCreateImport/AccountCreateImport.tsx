@@ -16,11 +16,23 @@ import { Link, useLocation } from "react-router-dom";
 import ActiveAccountDisplay from "./ActiveAccountDisplay/ActiveAccountDisplay";
 import TokensCardContent from "./ActiveAccountDisplay/TokensCardContent/TokensCardContent";
 
-const accountCreationClasses = cva("w-full", {
+const tokensClasses = cva("w-full", {
+  variants: {
+    hasTokensPreference: {
+      true: ["order-first"],
+      false: ["order-2"],
+    },
+  },
+  defaultVariants: {
+    hasTokensPreference: false,
+  },
+});
+
+const addAccountsClasses = cva("w-full", {
   variants: {
     hasAccountCreationPreference: {
       true: ["order-first"],
-      false: ["order-last"],
+      false: ["order-3"],
     },
   },
   defaultVariants: {
@@ -36,6 +48,7 @@ const AccountCreateImport = observer(() => {
 
   const hasActiveAccount = !!accountAddress;
   const hasAccountCreationPreference = !!state?.hasAccountCreationPreference;
+  const hasTokensPreference = !!state?.hasTokensPreference;
 
   return (
     <div className="flex flex-col gap-8">
@@ -57,7 +70,7 @@ const AccountCreateImport = observer(() => {
               </Link>
             </CardFooter>
           </Card>
-          <Card className="order-2 w-full">
+          <Card className={tokensClasses({ hasTokensPreference })}>
             <CardHeader>
               <CardTitle>Tokens</CardTitle>
             </CardHeader>
@@ -67,9 +80,7 @@ const AccountCreateImport = observer(() => {
           </Card>
         </>
       )}
-      <Card
-        className={accountCreationClasses({ hasAccountCreationPreference })}
-      >
+      <Card className={addAccountsClasses({ hasAccountCreationPreference })}>
         <CardHeader>
           <CardTitle>
             {hasActiveAccount ? "Add accounts" : "Let's start"}
