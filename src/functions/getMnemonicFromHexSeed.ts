@@ -1,6 +1,8 @@
 import { WORD_LIST } from "@/constants/wordList";
 
-export const getMnemonicFromHexSeed = (hexSeed: string) => {
+export const getMnemonicFromHexSeed = (hexSeed?: string) => {
+  if (!hexSeed) return "";
+
   const hexSeedUIntArray = new TextEncoder().encode(hexSeed.replace(/\W/g, ""));
   const mnemonic = [];
   for (let nibble = 0; nibble < hexSeedUIntArray.length * 2; nibble += 3) {
