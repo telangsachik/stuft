@@ -54,7 +54,7 @@ const ConnectionBadge = observer(() => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="flex gap-2 rounded-full">
+        <Button variant="outline" className="flex w-min gap-2 rounded-full">
           <Card
             className={networkStatusClasses({
               networkStatus: isConnected,

@@ -41,7 +41,7 @@ const AccountCreateImport = observer(() => {
       className={accountCreateImportClasses({ hasAccountCreationPreference })}
     >
       {hasActiveAccount && (
-        <Card className="w-full">
+        <Card className="animate-active-account-in h-64 w-full overflow-hidden">
           <CardHeader>
             <CardTitle>Active account</CardTitle>
           </CardHeader>
