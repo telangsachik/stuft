@@ -1,5 +1,6 @@
 import { ZOND_PROVIDER } from "@/configuration/zondConfig";
 import { getHexSeedFromMnemonic } from "@/functions/getHexSeedFromMnemonic";
+import { getQrlBalance } from "@/functions/getQrlBalance";
 import StorageUtil from "@/utilities/storageUtil";
 import Web3, {
   TransactionReceipt,
@@ -135,11 +136,9 @@ class ZondStore {
           storedAccountsList.map(async (account) => {
             const accountBalance =
               (await this.zondInstance?.getBalance(account)) ?? BigInt(0);
-            const convertedAccountBalance = parseFloat(
+            const convertedAccountBalance = getQrlBalance(
               utils.fromWei(accountBalance, "ether"),
-            )
-              .toFixed(4)
-              .concat(" QRL");
+            );
             return {
               accountAddress: account,
               accountBalance: convertedAccountBalance,
