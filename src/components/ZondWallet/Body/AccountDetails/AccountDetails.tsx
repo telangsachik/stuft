@@ -17,14 +17,16 @@ import {
 import { Input } from "@/components/UI/Input";
 import { Label } from "@/components/UI/Label";
 import { Separator } from "@/components/UI/Separator";
+import { ROUTES } from "@/router/router";
 import { useStore } from "@/stores/store";
 import StorageUtil from "@/utilities/storageUtil";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TransactionReceipt, validator } from "@theqrl/web3";
-import { Loader, Send } from "lucide-react";
+import { Loader, Send, X } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { GasFeeNotice } from "./GasFeeNotice/GasFeeNotice";
 import { TransactionSuccessful } from "./TransactionSuccessful/TransactionSuccessful";
@@ -41,6 +43,7 @@ const FormSchema = z
   });
 
 export const AccountDetails = observer(() => {
+  const navigate = useNavigate();
   const { zondStore } = useStore();
   const {
     activeAccount,
@@ -80,7 +83,7 @@ export const AccountDetails = observer(() => {
           transactionReceipt?.status.toString() === "1";
         if (isTransactionSuccessful) {
           StorageUtil.clearTransactionValues(zondConnection.zondNetworkId);
-          reset({ receiverAddress: "", amount: 0, mnemonicPhrases: "" });
+          resetForm();
           setTransactionReceipt(transactionReceipt);
           fetchAccounts();
           window.scrollTo(0, 0);
@@ -96,6 +99,15 @@ export const AccountDetails = observer(() => {
       });
     }
   }
+
+  const resetForm = () => {
+    reset({ receiverAddress: "", amount: 0, mnemonicPhrases: "" });
+  };
+
+  const cancelTransaction = () => {
+    resetForm();
+    navigate(ROUTES.HOME);
+  };
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -217,7 +229,16 @@ export const AccountDetails = observer(() => {
                 isSubmitting={isSubmitting}
               />
             </CardContent>
-            <CardFooter>
+            <CardFooter className="gap-4">
+              <Button
+                className="w-full"
+                type="button"
+                variant="outline"
+                onClick={() => cancelTransaction()}
+              >
+                <X className="mr-2 h-4 w-4" />
+                Cancel
+              </Button>
               <Button disabled={isSubmitting || !isValid} className="w-full">
                 {isSubmitting ? (
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
