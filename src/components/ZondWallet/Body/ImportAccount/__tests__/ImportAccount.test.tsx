@@ -9,9 +9,6 @@ import ImportAccount from "../ImportAccount";
 jest.mock("@/router/router", () => ({
   ROUTES: { HOME: "/" },
 }));
-jest.mock("@/components/ZondWallet/RouteMonitor/RouteMonitor", () => () => (
-  <div>Mocked Route Monitor</div>
-));
 
 describe("ImportAccount", () => {
   afterEach(cleanup);
@@ -66,6 +63,7 @@ describe("ImportAccount", () => {
 
   it("should call the submit callback on clicking the import account button", async () => {
     renderComponent();
+
     const handleOnSubmitMock = jest.fn();
     await waitFor(async () => {
       await userEvent.type(
@@ -77,7 +75,6 @@ describe("ImportAccount", () => {
       const button = screen.getByRole("button", { name: "Import account" });
       await userEvent.click(button);
     });
-
     expect(handleOnSubmitMock).toHaveBeenCalledTimes(1);
   });
 });
