@@ -35,9 +35,9 @@ describe("ActiveAccount", () => {
     expect(screen.getByText("Mocked Active Id")).toBeInTheDocument();
     const buttons = screen.getAllByRole("button");
     const copyButton = buttons[0];
-    const sendQuantaButton = buttons[1];
+    const sendZondButton = buttons[1];
     expect(copyButton).toBeInTheDocument();
-    expect(sendQuantaButton).toBeInTheDocument();
+    expect(sendZondButton).toBeInTheDocument();
   });
 
   it("should call the copyAccount function on clicking the copy button", async () => {

@@ -13,9 +13,9 @@ describe("TokenListItem", () => {
       <StoreProvider value={mockedStoreValues}>
         <MemoryRouter>
           <TokenListItem
-            balance="25 QRL"
-            name="QRL TOKEN"
-            symbol="QRL"
+            balance="25 ZND"
+            name="ZND TOKEN"
+            symbol="ZND"
             contractAddress="0x0db3981cb93db985e4e3a62ff695f7a1b242dd7c"
             decimals={18}
             isZrc20Token={false}
@@ -27,9 +27,9 @@ describe("TokenListItem", () => {
   it("should render the token list item component", () => {
     renderComponent();
 
-    expect(screen.getByText("25 QRL")).toBeInTheDocument();
-    expect(screen.getByText("QRL TOKEN")).toBeInTheDocument();
-    const sendButton = screen.getByRole("button", { name: "QRL" });
+    expect(screen.getByText("25 ZND")).toBeInTheDocument();
+    expect(screen.getByText("ZND TOKEN")).toBeInTheDocument();
+    const sendButton = screen.getByRole("button", { name: "ZND" });
     expect(sendButton).toBeInTheDocument();
     expect(sendButton).toBeEnabled();
   });

@@ -26,13 +26,13 @@ describe("ActiveAccountDisplay", () => {
           },
           getAccountBalance: (accountAddress: string) => {
             accountAddress;
-            return "2.45 QRL";
+            return "2.45 ZND";
           },
         },
       }),
     );
 
-    expect(screen.getByText("2.45 QRL")).toBeInTheDocument();
+    expect(screen.getByText("2.45 ZND")).toBeInTheDocument();
     expect(
       screen.getByText("0x 20504 6e6A6 E159e D6ACe dE46A 36CAD 6D449 C80A1"),
     ).toBeInTheDocument();

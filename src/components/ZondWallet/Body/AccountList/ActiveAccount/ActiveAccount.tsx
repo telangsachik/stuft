@@ -60,7 +60,7 @@ const ActiveAccount = observer(() => {
           >
             <Button variant="outline" className="w-full hover:text-secondary">
               <Send className="mr-2 h-4 w-4" />
-              Send Quanta
+              Send Zond
             </Button>
           </Link>
         </Card>

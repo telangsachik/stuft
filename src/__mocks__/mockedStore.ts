@@ -24,7 +24,7 @@ const mockedStoreValues: StoreType = {
     fetchZondConnection: async () => {},
     getAccountBalance: (accountAddress: string) => {
       accountAddress;
-      return "0 QRL";
+      return "0 ZND";
     },
     initializeBlockchain: async () => {},
     selectBlockchain: async (selectedBlockchain: string) => {

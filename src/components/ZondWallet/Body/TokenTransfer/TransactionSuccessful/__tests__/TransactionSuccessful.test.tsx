@@ -60,7 +60,7 @@ describe("TransactionSuccessful", () => {
     expect(screen.getByText("Block number")).toBeInTheDocument();
     expect(screen.getByText("300504")).toBeInTheDocument();
     expect(screen.getByText("Gas used")).toBeInTheDocument();
-    expect(screen.getByText("0.000000000441 QRL")).toBeInTheDocument();
+    expect(screen.getByText("0.000000000441 ZND")).toBeInTheDocument();
     const doneButton = screen.getByRole("button", { name: "Done" });
     expect(doneButton).toBeInTheDocument();
     expect(doneButton).toBeEnabled();

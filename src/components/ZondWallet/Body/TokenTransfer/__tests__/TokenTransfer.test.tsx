@@ -39,7 +39,7 @@ describe("TokenTransfer", () => {
       screen.getByText("0x 2090E 9F387 71876 FB6Fc 51a6b 46412 1d3cC 093A1"),
     ).toBeInTheDocument();
     expect(screen.getByText("Balance")).toBeInTheDocument();
-    expect(screen.getByText("0 QRL")).toBeInTheDocument();
+    expect(screen.getByText("0 ZND")).toBeInTheDocument();
     expect(screen.getAllByRole("heading", { level: 3 })[1]).toHaveTextContent(
       "Make a transaction",
     );
@@ -61,14 +61,14 @@ describe("TokenTransfer", () => {
     const cancelButton = screen.getByRole("button", { name: "Cancel" });
     expect(cancelButton).toBeInTheDocument();
     expect(cancelButton).toBeEnabled();
-    const sendQuantaButton = screen.getByRole("button", {
-      name: "Send QRL",
+    const sendZondButton = screen.getByRole("button", {
+      name: "Send ZND",
     });
-    expect(sendQuantaButton).toBeInTheDocument();
-    expect(sendQuantaButton).toBeDisabled();
+    expect(sendZondButton).toBeInTheDocument();
+    expect(sendZondButton).toBeDisabled();
   });
 
-  it("should enable the send quanta button once receiver address, amount and mnemonic phrases are entered", async () => {
+  it("should enable the send zond button once receiver address, amount and mnemonic phrases are entered", async () => {
     renderComponent();
 
     const receiverAddressField = screen.getByRole("textbox", {
@@ -92,11 +92,11 @@ describe("TokenTransfer", () => {
       },
       { timeout: 5000 },
     );
-    const sendQuantaButton = screen.getByRole("button", {
-      name: "Send QRL",
+    const sendZondButton = screen.getByRole("button", {
+      name: "Send ZND",
     });
-    expect(sendQuantaButton).toBeInTheDocument();
-    expect(sendQuantaButton).toBeEnabled();
+    expect(sendZondButton).toBeInTheDocument();
+    expect(sendZondButton).toBeEnabled();
   });
 
   it("should display the error message if amount is not valid", async () => {
@@ -180,12 +180,12 @@ describe("TokenTransfer", () => {
         "knight paddy action glow play chew lame mature sock ill deadly olive blink marble breach mile hey mature tacit mean polo crawl khaya stud number speed viking windy jump subtle mildew sewage",
       );
     });
-    const sendQuantaButton = screen.getByRole("button", {
-      name: "Send QRL",
+    const sendZondButton = screen.getByRole("button", {
+      name: "Send ZND",
     });
-    expect(sendQuantaButton).toBeInTheDocument();
+    expect(sendZondButton).toBeInTheDocument();
     await act(async () => {
-      await userEvent.click(sendQuantaButton);
+      await userEvent.click(sendZondButton);
     });
     expect(screen.getByText("Transaction completed")).toBeInTheDocument();
   });

@@ -20,9 +20,9 @@ describe("NativeToken", () => {
   it("should render the native token component", () => {
     renderComponent();
 
-    expect(screen.getByText("0 QRL")).toBeInTheDocument();
-    expect(screen.getByText("Quanta")).toBeInTheDocument();
-    const sendButton = screen.getByRole("button", { name: "QRL" });
+    expect(screen.getByText("0 ZND")).toBeInTheDocument();
+    expect(screen.getByText("Zond")).toBeInTheDocument();
+    const sendButton = screen.getByRole("button", { name: "ZND" });
     expect(sendButton).toBeInTheDocument();
     expect(sendButton).toBeEnabled();
   });

@@ -220,7 +220,7 @@ class ZondStore {
     return (
       this.zondAccounts.accounts.find(
         (account) => account.accountAddress === accountAddress,
-      )?.accountBalance ?? "0.0 QRL"
+      )?.accountBalance ?? "0.0 ZND"
     );
   }
 
