@@ -71,15 +71,7 @@ export const CreateAccount = observer(() => {
       <form className="w-80" onSubmit={handleSubmit(onSubmit)}>
         <Card>
           <CardHeader>
-            <CardTitle
-              onClick={() => {
-                zondInstance?.personal.getAccounts().then((data) => {
-                  console.log(">>>data", data);
-                });
-              }}
-            >
-              Create new account
-            </CardTitle>
+            <CardTitle>Create new account</CardTitle>
           </CardHeader>
           <CardContent className="space-y-8">
             <FormField
