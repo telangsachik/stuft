@@ -1,7 +1,6 @@
 import { ZOND_PROVIDER } from "@/configuration/zondConfig";
 import Web3, { Web3ZondInterface, utils } from "@theqrl/web3";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
-
 const BLOCKCHAIN_SELECTION_IDENTIFIER = "BLOCKCHAIN_SELECTION";
 const DEFAULT_BLOCKCHAIN = ZOND_PROVIDER.TEST_NET.id;
 const ACTIVE_ACCOUNT_IDENTIFIER = "ACTIVE_ACCOUNT";
@@ -60,7 +59,7 @@ class ZondStore {
       zondNetworkId: selectedBlockChain,
     };
     const zondHttpProvider = new Web3.providers.HttpProvider(url);
-    const { zond } = new Web3(zondHttpProvider);
+    const { zond } = new Web3({ provider: zondHttpProvider });
     this.zondInstance = zond;
 
     await this.fetchZondConnection();
