@@ -25,6 +25,8 @@ const RouteMonitor = observer(() => {
         await StorageUtil.clearActivePage();
         setPreviousRouteUsed(true);
         navigate(activePage);
+      } else if (!activePage && isConnected) {
+        setPreviousRouteUsed(true);
       } else {
         navigate(ROUTES.HOME);
       }
