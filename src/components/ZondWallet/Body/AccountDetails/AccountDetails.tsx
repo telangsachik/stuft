@@ -16,6 +16,7 @@ import {
 } from "@/components/UI/Form";
 import { Input } from "@/components/UI/Input";
 import { Label } from "@/components/UI/Label";
+import { Separator } from "@/components/UI/Separator";
 import { useStore } from "@/stores/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validator } from "@theqrl/web3";
@@ -98,6 +99,7 @@ export const AccountDetails = observer(() => {
                     {accountBalance}
                   </div>
                 </div>
+                <Separator />
                 <FormField
                   control={control}
                   name="receiverAddress"
