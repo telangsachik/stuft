@@ -1,6 +1,6 @@
 import commonjs from "@rollup/plugin-commonjs";
 import react from "@vitejs/plugin-react-swc";
-import path from "path";
+import path, { resolve } from "path";
 import nodePolyfills from "rollup-plugin-node-polyfills";
 import { Plugin, defineConfig } from "vite";
 
@@ -11,6 +11,13 @@ export default defineConfig({
     outDir: "Extension",
     rollupOptions: {
       plugins: [commonjs(), nodePolyfills() as Plugin],
+      input: {
+        background: resolve(__dirname, "public/background.ts"),
+      },
+      output: {
+        entryFileNames: "[name].js",
+        format: "es",
+      },
     },
   },
   resolve: {
