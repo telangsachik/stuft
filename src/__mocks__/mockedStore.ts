@@ -1,12 +1,7 @@
 import { StoreType } from "@/stores/store";
 import deepmerge from "deepmerge";
 import { createContext, useContext } from "react";
-
-type IsObject<T> = T extends object ? true : false;
-type DeepPartial<T> = {
-  [P in keyof T]?: IsObject<T[P]> extends true ? DeepPartial<T[P]> : T[P];
-};
-type OverrideStoreType = DeepPartial<StoreType>;
+import type { PartialDeep } from "type-fest";
 
 const mockedStoreValues: StoreType = {
   settingsStore: { isDarkMode: true, theme: "dark" },
@@ -52,7 +47,9 @@ const mockedStoreValues: StoreType = {
   },
 };
 
-export const mockedStore = (overrideStoreValues: OverrideStoreType = {}) => {
+export const mockedStore = (
+  overrideStoreValues: PartialDeep<StoreType> = {},
+) => {
   return deepmerge(mockedStoreValues, overrideStoreValues) as StoreType;
 };
 const StoreContext = createContext(mockedStore);
