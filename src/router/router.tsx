@@ -1,4 +1,4 @@
-import { AccountDetails } from "@/components/ZondWallet/Body/AccountDetails/AccountDetails";
+import AccountDetails from "@/components/ZondWallet/Body/AccountDetails/AccountDetails";
 import withSuspense from "@/functions/withSuspense";
 import { lazy } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
