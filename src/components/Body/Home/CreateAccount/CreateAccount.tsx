@@ -48,20 +48,20 @@ export const CreateAccount = observer(() => {
   const {
     handleSubmit,
     control,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting },
   } = form;
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
-    console.log(">>>", zondInstance?.accounts);
-
-    const unlocked = false;
-    if (unlocked) {
-      control.setError("password", {
-        message: "The entered password is correct",
+    try {
+      const newAccount = await zondInstance?.personal.newAccount(
+        formData.password,
+      );
+      control.setError("reEnteredPassword", {
+        message: `New account ${newAccount} created`,
       });
-    } else {
-      control.setError("password", {
-        message: "The entered password is incorrect",
+    } catch (error) {
+      control.setError("reEnteredPassword", {
+        message: "There was an error while creating the account",
       });
     }
   }
@@ -71,7 +71,15 @@ export const CreateAccount = observer(() => {
       <form className="w-80" onSubmit={handleSubmit(onSubmit)}>
         <Card>
           <CardHeader>
-            <CardTitle>Create new account</CardTitle>
+            <CardTitle
+              onClick={() => {
+                zondInstance?.personal.getAccounts().then((data) => {
+                  console.log(">>>data", data);
+                });
+              }}
+            >
+              Create new account
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-8">
             <FormField
