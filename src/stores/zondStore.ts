@@ -39,6 +39,7 @@ class ZondStore {
       fetchZondConnection: action.bound,
       fetchAccounts: action.bound,
       getAccountBalance: action.bound,
+      signAndSendTransaction: action.bound,
     });
     this.initializeBlockchain();
   }
@@ -179,6 +180,38 @@ class ZondStore {
         (account) => account.accountAddress === accountAddress,
       )?.accountBalance ?? "0 QRL"
     );
+  }
+
+  async signAndSendTransaction(
+    from: string,
+    to: string,
+    value: number,
+    hexSeed: string,
+  ) {
+    let transactionReceipt;
+    try {
+      const transactionObject = {
+        from,
+        to,
+        value,
+        maxFeePerGas: 21000,
+        maxPriorityFeePerGas: 21000,
+      };
+      const signedTransaction =
+        await this.zondInstance?.accounts.signTransaction(
+          transactionObject,
+          hexSeed,
+        );
+      if (signedTransaction) {
+        transactionReceipt = await this.zondInstance?.sendSignedTransaction(
+          signedTransaction?.rawTransaction,
+        );
+      }
+    } catch (error) {
+      transactionReceipt = null;
+    }
+
+    return transactionReceipt;
   }
 }
 
