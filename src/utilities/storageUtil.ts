@@ -27,7 +27,7 @@ class StorageUtil {
    * A function for storing the route to be displayed on opening the extension.
    * Call the getActivePage function to retrieve the stored value, and clearActivePage for clearing the stored value.
    */
-  static setActivePage(activePage?: string) {
+  static setActivePage(activePage: string) {
     if (activePage) {
       localStorage.setItem(ACTIVE_PAGE_IDENTIFIER, activePage);
     } else {
@@ -40,7 +40,7 @@ class StorageUtil {
   }
 
   static clearActivePage() {
-    this.setActivePage();
+    localStorage.removeItem(ACTIVE_PAGE_IDENTIFIER);
   }
 }
 
