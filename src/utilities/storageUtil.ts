@@ -3,6 +3,7 @@ import { ZOND_PROVIDER } from "@/configuration/zondConfig";
 const ACTIVE_PAGE_IDENTIFIER = "ACTIVE_PAGE";
 const BLOCKCHAIN_SELECTION_IDENTIFIER = "BLOCKCHAIN_SELECTION";
 const ACTIVE_ACCOUNT_IDENTIFIER = "ACTIVE_ACCOUNT";
+const ACCOUNT_LIST_IDENTIFIER = "ACCOUNT_LIST";
 
 type BlockchainType = keyof typeof ZOND_PROVIDER;
 
@@ -10,6 +11,25 @@ type BlockchainType = keyof typeof ZOND_PROVIDER;
  * A utility for storing and retrieving states of different components to and from the browser storage.
  */
 class StorageUtil {
+  /**
+   * A function for storing the accounts created and imported within the zond wallet extension.
+   * Call the getAccountList function to retrieve the stored value.
+   */
+  static setAccountList(blockchain: string, accountList: string[]) {
+    const blockChainAccountListIdentifier = `${blockchain}_${ACCOUNT_LIST_IDENTIFIER}`;
+    localStorage.setItem(
+      blockChainAccountListIdentifier,
+      JSON.stringify(accountList),
+    );
+  }
+
+  static getAccountList(blockchain: string) {
+    const blockChainAccountListIdentifier = `${blockchain}_${ACCOUNT_LIST_IDENTIFIER}`;
+    return JSON.parse(
+      localStorage.getItem(blockChainAccountListIdentifier) ?? "[]",
+    );
+  }
+
   /**
    * A function for storing the active account in the wallet.
    * Call the getActiveAccount function to retrieve the stored value, and clearActiveAccount for clearing the stored value.
