@@ -51,6 +51,34 @@ describe("getOptimalTokenBalance", () => {
     expect(getOptimalTokenBalance(balance)).toBe(tokenBalance);
   });
 
+  it("should return the balance 3.999 if the balance is 3.999", () => {
+    const balance = "3.999";
+    const tokenBalance = "3.999 QRL";
+
+    expect(getOptimalTokenBalance(balance)).toBe(tokenBalance);
+  });
+
+  it("should return the balance 6.9999 if the balance is 6.9999", () => {
+    const balance = "6.9999";
+    const tokenBalance = "6.9999 QRL";
+
+    expect(getOptimalTokenBalance(balance)).toBe(tokenBalance);
+  });
+
+  it("should return the balance 9.9999 if the balance is 9.999999", () => {
+    const balance = "9.999999";
+    const tokenBalance = "9.9999 QRL";
+
+    expect(getOptimalTokenBalance(balance)).toBe(tokenBalance);
+  });
+
+  it("should return the balance 1.9999 if the balance is 1.999999999999999999", () => {
+    const balance = "1.999999999999999999";
+    const tokenBalance = "1.9999 QRL";
+
+    expect(getOptimalTokenBalance(balance)).toBe(tokenBalance);
+  });
+
   it("should return the balance 7.0 if the balance is 7", () => {
     const balance = "7";
     const tokenBalance = "7.0 QRL";
