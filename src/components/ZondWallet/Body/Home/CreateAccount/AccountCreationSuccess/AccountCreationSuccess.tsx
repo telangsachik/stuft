@@ -6,9 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/UI/Card";
+import { ROUTES } from "@/router/router";
 import { Web3BaseWalletAccount } from "@theqrl/web3";
-import { ArrowRight, Copy } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 type AccountCreationSuccessProps = {
   account?: Web3BaseWalletAccount;
@@ -70,10 +72,12 @@ export const AccountCreationSuccess = ({
           <Copy className="mr-2 h-4 w-4" />
           {hasJustCopied ? "Copied" : "Copy"}
         </Button>
-        <Button className="w-full" type="button">
-          <ArrowRight className="mr-2 h-4 w-4" />
-          Continue
-        </Button>
+        <Link to={ROUTES.ACCOUNT_DETAILS}>
+          <Button className="w-full" type="button">
+            <Check className="mr-2 h-4 w-4" />
+            Done
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );
