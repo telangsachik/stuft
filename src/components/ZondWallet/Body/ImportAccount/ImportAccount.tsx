@@ -56,7 +56,7 @@ const ImportAccount = observer(() => {
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     try {
       const account = zondInstance?.accounts.seedToAccount(
-        getHexSeedFromMnemonic(formData.mnemonicPhrases),
+        getHexSeedFromMnemonic(formData.mnemonicPhrases.trim()),
       );
       if (account) {
         window.scrollTo(0, 0);

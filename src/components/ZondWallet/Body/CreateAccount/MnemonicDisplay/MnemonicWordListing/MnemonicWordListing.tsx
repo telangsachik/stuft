@@ -15,7 +15,7 @@ type MnemonicWordListingProps = {
 };
 
 const MnemonicWordListing = ({ mnemonic }: MnemonicWordListingProps) => {
-  const words = groupWords(mnemonic);
+  const words = groupWords(mnemonic.trim());
 
   return (
     <div className="flex flex-col gap-2 text-secondary">
