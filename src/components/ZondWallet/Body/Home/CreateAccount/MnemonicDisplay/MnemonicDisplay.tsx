@@ -38,10 +38,12 @@ export const MnemonicDisplay = () => {
     setTimer(newTimer);
   };
 
+  const onContinue = () => {};
+
   const cardDescription = `Don't lose this. You may need this someday to import or recover your account ${account.substring(0, 5)}...${account.substring(account.length - 5)}`;
 
   return (
-    <Card className="w-80 text-ellipsis">
+    <Card className="text-ellipsis">
       <CardHeader>
         <CardTitle>Keep this safe</CardTitle>
         <CardDescription>{cardDescription}</CardDescription>
@@ -54,7 +56,7 @@ export const MnemonicDisplay = () => {
           <Copy className="mr-2 h-4 w-4" />
           {hasJustCopied ? "Copied" : "Copy"}
         </Button>
-        <Button className="w-full" type="submit">
+        <Button className="w-full" type="submit" onClick={onContinue}>
           <ArrowRight className="mr-2 h-4 w-4" />
           Continue
         </Button>
