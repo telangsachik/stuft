@@ -1,4 +1,5 @@
 import { ZOND_PROVIDER } from "@/configuration/zondConfig";
+import { getHexSeedFromMnemonic } from "@/functions/getHexSeedFromMnemonic";
 import StorageUtil from "@/utilities/storageUtil";
 import Web3, { Web3ZondInterface, utils } from "@theqrl/web3";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
@@ -187,7 +188,7 @@ class ZondStore {
     from: string,
     to: string,
     value: number,
-    hexSeed: string,
+    mnemonicPhrases: string,
   ) {
     let transaction: {
       transactionReceipt: Awaited<ReturnType<typeof sendSignedTransaction>>;
@@ -205,7 +206,7 @@ class ZondStore {
       const signedTransaction =
         await this.zondInstance?.accounts.signTransaction(
           transactionObject,
-          hexSeed,
+          getHexSeedFromMnemonic(mnemonicPhrases),
         );
       if (signedTransaction) {
         const transactionReceipt =
