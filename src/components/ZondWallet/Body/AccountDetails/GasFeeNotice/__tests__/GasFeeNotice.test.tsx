@@ -44,7 +44,9 @@ describe("GasFeeNotice", () => {
     await act(async () => {
       expect(screen.getByText("Estimating gas fee")).toBeInTheDocument();
     });
-    expect(screen.getByText("Estimated gas fee is 0 QRL")).toBeInTheDocument();
+    expect(
+      screen.getByText("Estimated gas fee is 0.0 QRL"),
+    ).toBeInTheDocument();
   });
 
   it("should not render the gas fee notice component if value, to or from are not available", () => {
@@ -96,7 +98,7 @@ describe("GasFeeNotice", () => {
       expect(screen.getByText("Estimating gas fee")).toBeInTheDocument();
     });
     expect(
-      screen.getByText("Estimated gas fee is 2.64 QRL"),
+      screen.getByText("Estimated gas fee is 2.6 QRL"),
     ).toBeInTheDocument();
   });
 });
