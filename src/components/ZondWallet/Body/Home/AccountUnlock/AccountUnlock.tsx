@@ -24,7 +24,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const FormSchema = z.object({
-  password: z.string().min(8, "Password are atleast 8 characters"),
+  password: z.string().min(8, "Password should be atleast 8 characters"),
 });
 
 /**
@@ -47,7 +47,7 @@ export const AccountUnlock = observer(() => {
   const {
     handleSubmit,
     control,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid },
   } = form;
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
@@ -102,7 +102,11 @@ export const AccountUnlock = observer(() => {
             />
           </CardContent>
           <CardFooter>
-            <Button disabled={isSubmitting} className="w-full" type="submit">
+            <Button
+              disabled={isSubmitting || !isValid}
+              className="w-full"
+              type="submit"
+            >
               {isSubmitting ? (
                 <Loader className="mr-2 h-4 w-4 animate-spin" />
               ) : (
