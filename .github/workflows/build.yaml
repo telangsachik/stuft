@@ -5,6 +5,9 @@ on:
     types:
       - created
 
+permissions:
+  contents: write
+
 jobs:
   publish-zond-web3-wallet-chrome-extension:
     runs-on: ubuntu-latest
