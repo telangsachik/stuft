@@ -52,6 +52,7 @@ export const AccountDetails = observer(() => {
     zondConnection,
     fetchAccounts,
   } = zondStore;
+  const { blockchain } = zondConnection;
   const { accountAddress } = activeAccount;
 
   const [transactionReceipt, setTransactionReceipt] =
@@ -82,7 +83,7 @@ export const AccountDetails = observer(() => {
         const isTransactionSuccessful =
           transactionReceipt?.status.toString() === "1";
         if (isTransactionSuccessful) {
-          StorageUtil.clearTransactionValues(zondConnection.zondNetworkId);
+          StorageUtil.clearTransactionValues(blockchain);
           resetForm();
           setTransactionReceipt(transactionReceipt);
           fetchAccounts();
@@ -113,8 +114,7 @@ export const AccountDetails = observer(() => {
     resolver: zodResolver(FormSchema),
     mode: "onChange",
     reValidateMode: "onChange",
-    defaultValues: async () =>
-      StorageUtil.getTransactionValues(zondConnection.zondNetworkId),
+    defaultValues: async () => StorageUtil.getTransactionValues(blockchain),
   });
   const {
     reset,
@@ -126,7 +126,7 @@ export const AccountDetails = observer(() => {
 
   useEffect(() => {
     const formWatchSubscription = watch(async (value) => {
-      StorageUtil.setTransactionValues(zondConnection.zondNetworkId, value);
+      StorageUtil.setTransactionValues(blockchain, value);
     });
     return () => formWatchSubscription.unsubscribe();
   }, [watch]);

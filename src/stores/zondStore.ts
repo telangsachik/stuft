@@ -28,7 +28,7 @@ class ZondStore {
     isConnected: false,
     isLoading: false,
     zondNetworkName: "",
-    zondNetworkId: "",
+    blockchain: "",
   };
   zondAccounts: ZondAccountsType = { accounts: [], isLoading: false };
   activeAccount: ActiveAccountType = { accountAddress: "" };
@@ -55,7 +55,7 @@ class ZondStore {
     this.zondConnection = {
       ...this.zondConnection,
       zondNetworkName: name,
-      zondNetworkId: selectedBlockChain,
+      blockchain: selectedBlockChain,
     };
     const zondHttpProvider = new Web3.providers.HttpProvider(url);
     const { zond } = new Web3({ provider: zondHttpProvider });
@@ -72,10 +72,7 @@ class ZondStore {
   }
 
   setActiveAccount(activeAccount?: string) {
-    StorageUtil.setActiveAccount(
-      this.zondConnection.zondNetworkId,
-      activeAccount,
-    );
+    StorageUtil.setActiveAccount(this.zondConnection.blockchain, activeAccount);
     this.activeAccount = {
       ...this.activeAccount,
       accountAddress: activeAccount ?? "",
@@ -84,7 +81,7 @@ class ZondStore {
     let storedAccountList: string[] = [];
     try {
       const accountListFromStorage = StorageUtil.getAccountList(
-        this.zondConnection.zondNetworkId,
+        this.zondConnection.blockchain,
       );
       storedAccountList = [...accountListFromStorage];
       if (activeAccount) {
@@ -93,7 +90,7 @@ class ZondStore {
       storedAccountList = [...new Set(storedAccountList)];
     } finally {
       StorageUtil.setAccountList(
-        this.zondConnection.zondNetworkId,
+        this.zondConnection.blockchain,
         storedAccountList,
       );
       this.fetchAccounts();
@@ -126,7 +123,7 @@ class ZondStore {
 
     let storedAccountsList: string[] = [];
     const accountListFromStorage = StorageUtil.getAccountList(
-      this.zondConnection.zondNetworkId,
+      this.zondConnection.blockchain,
     );
     storedAccountsList = accountListFromStorage;
     try {
@@ -169,7 +166,7 @@ class ZondStore {
 
   validateActiveAccount() {
     const storedActiveAccount = StorageUtil.getActiveAccount(
-      this.zondConnection.zondNetworkId,
+      this.zondConnection.blockchain,
     );
 
     const confirmedExistingActiveAccount =
@@ -177,7 +174,7 @@ class ZondStore {
         (account) => account.accountAddress === storedActiveAccount,
       )?.accountAddress ?? "";
     if (!confirmedExistingActiveAccount) {
-      StorageUtil.clearActiveAccount(this.zondConnection.zondNetworkId);
+      StorageUtil.clearActiveAccount(this.zondConnection.blockchain);
     }
     this.activeAccount = {
       ...this.activeAccount,
