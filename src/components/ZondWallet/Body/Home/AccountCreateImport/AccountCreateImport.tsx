@@ -9,20 +9,37 @@ import {
 } from "@/components/UI/Card";
 import { ROUTES } from "@/router/router";
 import { useStore } from "@/stores/store";
+import { cva } from "class-variance-authority";
 import { Download, FileText, Plus } from "lucide-react";
 import { observer } from "mobx-react-lite";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ActiveAccountDisplay } from "./ActiveAccountDisplay/ActiveAccountDisplay";
 
+const accountCreateImportClasses = cva("flex gap-8", {
+  variants: {
+    hasAccountCreationPreference: {
+      true: ["flex-col-reverse"],
+      false: ["flex-col"],
+    },
+  },
+  defaultVariants: {
+    hasAccountCreationPreference: false,
+  },
+});
+
 const AccountCreateImport = observer(() => {
+  const { state } = useLocation();
   const { zondStore } = useStore();
   const { activeAccount } = zondStore;
   const { accountAddress } = activeAccount;
 
   const hasActiveAccount = !!accountAddress;
+  const hasAccountCreationPreference = !!state?.hasAccountCreationPreference;
 
   return (
-    <div className="flex flex-col gap-8">
+    <div
+      className={accountCreateImportClasses({ hasAccountCreationPreference })}
+    >
       {hasActiveAccount && (
         <Card className="w-full">
           <CardHeader>
