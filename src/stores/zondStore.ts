@@ -55,6 +55,7 @@ class ZondStore {
       getErc20TokenDetails: action.bound,
       getErc20TokenGas: action.bound,
       signAndSendErc20Token: action.bound,
+      storeProviderState: action.bound,
     });
     this.initializeBlockchain();
   }
@@ -74,6 +75,7 @@ class ZondStore {
     await this.fetchZondConnection();
     await this.fetchAccounts();
     await this.validateActiveAccount();
+    await this.storeProviderState();
   }
 
   async selectBlockchain(selectedBlockchain: string) {
@@ -193,6 +195,13 @@ class ZondStore {
       ...this.activeAccount,
       accountAddress: confirmedExistingActiveAccount,
     };
+  }
+
+  async storeProviderState() {
+    const chainId = (await this.zondInstance?.getChainId())?.toString() ?? "";
+    const networkVersion =
+      (await this.zondInstance?.net.getId())?.toString() ?? "";
+    StorageUtil.setProviderState({ chainId: `0x${chainId}`, networkVersion });
   }
 
   async getGasFeeData() {

@@ -88,6 +88,7 @@ const mockedStoreValues: StoreType = {
       decimals;
       return { transactionReceipt: undefined, error: "" };
     },
+    storeProviderState: async () => {},
   },
 };
 

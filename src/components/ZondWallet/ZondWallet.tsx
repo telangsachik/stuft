@@ -1,7 +1,9 @@
 import RouteMonitor from "@/components/ZondWallet/RouteMonitor/RouteMonitor";
 import withSuspense from "@/functions/withSuspense";
+import StorageUtil from "@/utilities/storageUtil";
 import { observer } from "mobx-react-lite";
-import { lazy } from "react";
+import { lazy, useEffect, useState } from "react";
+import DAppRequest from "./DAppRequest/DAppRequest";
 
 const Header = withSuspense(
   lazy(() => import("@/components/ZondWallet/Header/Header")),
@@ -11,11 +13,26 @@ const Body = withSuspense(
 );
 
 const ZondWallet = observer(() => {
+  const [hasDAppRequest, setHasDAppRequest] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      const storedDAppRequestData = await StorageUtil.getDAppRequestData();
+      setHasDAppRequest(!!storedDAppRequestData);
+    })();
+  }, []);
+
   return (
     <div className="flex min-h-[48rem] w-[26rem] flex-col overflow-x-hidden bg-background text-foreground">
       <RouteMonitor />
-      <Header />
-      <Body />
+      {hasDAppRequest ? (
+        <DAppRequest />
+      ) : (
+        <>
+          <Header />
+          <Body />
+        </>
+      )}
     </div>
   );
 });

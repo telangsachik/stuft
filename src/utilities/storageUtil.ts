@@ -1,4 +1,7 @@
 import { ZOND_PROVIDER } from "@/configuration/zondConfig";
+import { DAppRequestType } from "@/scripts/middlewares/middlewareTypes";
+import { BaseProvider } from "@theqrl/zond-wallet-provider/providers";
+import { PartialDeep } from "type-fest";
 import browser from "webextension-polyfill";
 
 const ACTIVE_PAGE_IDENTIFIER = "ACTIVE_PAGE";
@@ -7,6 +10,8 @@ const ACTIVE_ACCOUNT_IDENTIFIER = "ACTIVE_ACCOUNT";
 const ACCOUNT_LIST_IDENTIFIER = "ACCOUNT_LIST";
 const TRANSACTION_VALUES_IDENTIFIER = "TRANSACTION_VALUES";
 const TOKENS_LIST_IDENTIFIER = "TOKENS_LIST";
+const DAPP_REQUEST_DATA_IDENTIFIER = "DAPP_REQUEST_DATA";
+const PROVIDER_STATE_IDENTIFIER = "PROVIDER_STATE";
 
 type BlockchainType = keyof typeof ZOND_PROVIDER;
 type TransactionValuesType = {
@@ -216,6 +221,66 @@ class StorageUtil {
         ),
       ),
     });
+  }
+
+  /**
+   * A function for storing the reuqest info temporarily by the dApp, which will be read by the zond wallet.
+   * Call the getDAppRequestData function to retrieve the stored value, and clearFromTokenList for clearing the stored value.
+   */
+  static async setDAppRequestData(data: DAppRequestType) {
+    const blockChain = await this.getBlockChain();
+    const dAppRequestDataIdentifier = `${blockChain}_${DAPP_REQUEST_DATA_IDENTIFIER}`;
+    await browser.storage.session.set({
+      [dAppRequestDataIdentifier]: data,
+    });
+  }
+
+  static async getDAppRequestData() {
+    const blockChain = await this.getBlockChain();
+    const dAppRequestDataIdentifier = `${blockChain}_${DAPP_REQUEST_DATA_IDENTIFIER}`;
+    const storedDAppRequestData = await browser.storage.session.get(
+      dAppRequestDataIdentifier,
+    );
+    return storedDAppRequestData[dAppRequestDataIdentifier] as
+      | DAppRequestType
+      | undefined;
+  }
+
+  static async clearDAppRequestData() {
+    const blockChain = await this.getBlockChain();
+    const dAppRequestDataIdentifier = `${blockChain}_${DAPP_REQUEST_DATA_IDENTIFIER}`;
+    await browser.storage.session.remove(dAppRequestDataIdentifier);
+  }
+
+  /**
+   * A function for storing the provider state of wallet.
+   * This will be fetched as the initial state of the wallet provider, via the 'initialStateMiddleware' middleware.
+   * Call the getProviderState function to retrieve the stored value, and clearFromTokenList for clearing the stored value.
+   */
+  static async setProviderState(
+    providerState: PartialDeep<Parameters<BaseProvider["_initializeState"]>[0]>,
+  ) {
+    const blockChain = await this.getBlockChain();
+    const providerStateIdentifier = `${blockChain}_${PROVIDER_STATE_IDENTIFIER}`;
+    const storedProviderState = await this.getProviderState();
+    await browser.storage.local.set({
+      [providerStateIdentifier]: { ...storedProviderState, ...providerState },
+    });
+  }
+
+  static async getProviderState() {
+    const blockChain = await this.getBlockChain();
+    const providerStateIdentifier = `${blockChain}_${PROVIDER_STATE_IDENTIFIER}`;
+    const storedProviderState = await browser.storage.local.get(
+      providerStateIdentifier,
+    );
+    const providerStateObject = storedProviderState[providerStateIdentifier]
+      ? storedProviderState[providerStateIdentifier]
+      : {};
+    return {
+      ...{ accounts: [], chainId: "", isUnlocked: false, networkVersion: "" },
+      ...providerStateObject,
+    } as Parameters<BaseProvider["_initializeState"]>[0];
   }
 }
 

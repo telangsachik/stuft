@@ -1,62 +1,29 @@
 import commonjs from "@rollup/plugin-commonjs";
 import react from "@vitejs/plugin-react-swc";
-import { readdirSync, unlinkSync } from "fs";
-import path, { parse, resolve } from "path";
+import path from "path";
 import nodePolyfills from "rollup-plugin-node-polyfills";
 import { Plugin, defineConfig } from "vite";
-
-const outDir = "Extension";
+import webExtension from "vite-plugin-web-extension";
+import { version } from "./package.json";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    {
-      name: "clean-up-extension-build",
-      apply: "build",
-      closeBundle() {
-        const extensionReplacements = { ".ts": ".js" };
-        const dirPath = resolve(outDir);
-        const files = readdirSync(dirPath);
-        files.forEach((file) => {
-          const filePath = resolve(dirPath, file);
-          const { name, ext, base } = parse(filePath);
-          Object.entries(extensionReplacements).forEach(
-            ([extension, replacement]) => {
-              const expectedReplacement = `${name}${replacement}`;
-              if (extension === ext && files.includes(expectedReplacement)) {
-                try {
-                  unlinkSync(filePath);
-                  console.log(
-                    `Removed "${ext}" file "${base}" (transpiled to "${expectedReplacement}") from the build directory "${outDir}"`,
-                  );
-                } catch (err) {
-                  console.error(
-                    `Failed to remove "${ext}" file "${base}": `,
-                    err,
-                  );
-                }
-              }
-            },
-          );
-        });
+    webExtension({
+      additionalInputs: ["src/scripts/inPageScript.ts"],
+      disableAutoLaunch: true,
+      transformManifest: (manifest) => {
+        manifest.version = version;
+        return manifest;
       },
-    },
+    }),
   ],
   build: {
-    outDir,
+    outDir: "Extension",
+    emptyOutDir: true,
     rollupOptions: {
       plugins: [commonjs(), nodePolyfills() as Plugin],
-      input: {
-        main: resolve(__dirname, "index.html"),
-        background: resolve(__dirname, "public/background.ts"),
-      },
-      output: {
-        entryFileNames: "[name].js",
-        chunkFileNames: "assets/[name].js",
-        assetFileNames: "assets/[name].[ext]",
-        format: "es",
-      },
     },
   },
   resolve: {
