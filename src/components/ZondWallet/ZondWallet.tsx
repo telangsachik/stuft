@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 
 export const ZondWallet = observer(() => {
   return (
-    <div className="flex min-h-[48rem] w-96 flex-col overflow-x-hidden bg-background text-foreground">
+    <div className="flex min-h-[48rem] w-[26rem] flex-col overflow-x-hidden bg-background text-foreground">
       <ScrollToTop />
       <Header />
       <Body />
