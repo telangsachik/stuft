@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/UI/Tooltip";
 import { useStore } from "@/stores/store";
-import { Copy, Lock } from "lucide-react";
+import { Copy, FileText } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { AccountId } from "../AccountId/AccountId";
 
@@ -52,8 +52,8 @@ export const ActiveAccount = observer(() => {
             </span>
           </div>
           <Button variant="outline" className="hover:text-secondary">
-            <Lock className="mr-2 h-4 w-4" />
-            Lock account
+            <FileText className="mr-2 h-4 w-4" />
+            Account details
           </Button>
         </Card>
       </>

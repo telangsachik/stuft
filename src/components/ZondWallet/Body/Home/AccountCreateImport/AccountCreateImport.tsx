@@ -9,7 +9,7 @@ import {
 } from "@/components/UI/Card";
 import { ROUTES } from "@/router/router";
 import { useStore } from "@/stores/store";
-import { ArrowRight, Download, Plus } from "lucide-react";
+import { Download, FileText, Plus } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import { ActiveAccountDisplay } from "./ActiveAccountDisplay/ActiveAccountDisplay";
@@ -32,10 +32,10 @@ const AccountCreateImport = observer(() => {
             <ActiveAccountDisplay />
           </CardContent>
           <CardFooter className="justify-end">
-            <Link to={ROUTES.ACCOUNT_DETAILS}>
-              <Button type="button">
-                <ArrowRight className="mr-2 h-4 w-4" />
-                Continue
+            <Link className="w-full" to={ROUTES.ACCOUNT_DETAILS}>
+              <Button className="w-full" type="button">
+                <FileText className="mr-2 h-4 w-4" />
+                Account details
               </Button>
             </Link>
           </CardFooter>
