@@ -12,8 +12,16 @@
     "default_icon": "qrl-icon.png"
   },
   "background": {
+    "service_worker": "background.js",
     "scripts": ["background.js"]
   },
-  "permissions": ["scripting", "activeTab", "storage", "unlimitedStorage"],
+  "permissions": [
+    "background",
+    "scripting",
+    "tabs",
+    "activeTab",
+    "storage",
+    "unlimitedStorage"
+  ],
   "host_permissions": ["http://localhost/*", "http://209.250.255.226/*"]
 }
