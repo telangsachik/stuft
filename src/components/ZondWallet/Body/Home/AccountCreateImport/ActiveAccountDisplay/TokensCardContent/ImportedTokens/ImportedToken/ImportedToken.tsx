@@ -22,7 +22,6 @@ const ImportedToken = observer(({ contractAddress }: ImportedTokenProps) => {
       if (!tokenDetails.error) {
         setToken(tokenDetails.token);
       }
-      console.log(">>> ", contractAddress, " > ", tokenDetails);
     })();
   }, [blockchain, accountAddress]);
 
