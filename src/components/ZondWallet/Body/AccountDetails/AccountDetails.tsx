@@ -20,7 +20,7 @@ import { Separator } from "@/components/UI/Separator";
 import { useStore } from "@/stores/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validator } from "@theqrl/web3";
-import { SendHorizonal } from "lucide-react";
+import { Send } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -100,6 +100,7 @@ export const AccountDetails = observer(() => {
                   </div>
                 </div>
                 <Separator />
+                <CardTitle>Make a transaction</CardTitle>
                 <FormField
                   control={control}
                   name="receiverAddress"
@@ -147,8 +148,8 @@ export const AccountDetails = observer(() => {
               </CardContent>
               <CardFooter>
                 <Button disabled={isSubmitting || !isValid} className="w-full">
-                  <SendHorizonal className="mr-2 h-4 w-4" />
-                  Make transaction
+                  <Send className="mr-2 h-4 w-4" />
+                  Send quanta
                 </Button>
               </CardFooter>
             </Card>
