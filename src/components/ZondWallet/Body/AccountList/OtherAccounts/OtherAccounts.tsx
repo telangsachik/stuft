@@ -8,15 +8,18 @@ import {
   TooltipTrigger,
 } from "@/components/UI/Tooltip";
 import { useStore } from "@/stores/store";
+import StorageUtil from "@/utilities/storageUtil";
 import { ArrowRight } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import AccountId from "../AccountId/AccountId";
 
 const OtherAccounts = observer(() => {
   const { zondStore } = useStore();
-  const { zondAccounts, activeAccount, setActiveAccount } = zondStore;
+  const { zondAccounts, activeAccount, setActiveAccount, zondConnection } =
+    zondStore;
   const { accountAddress: activeAccountAddress } = activeAccount;
   const { accounts } = zondAccounts;
+  const { blockchain } = zondConnection;
 
   const otherAccountsLabel = `${activeAccountAddress ? "Other accounts" : "Accounts"} in the wallet`;
   const otherAccounts = accounts.filter(
@@ -42,7 +45,10 @@ const OtherAccounts = observer(() => {
                       className="hover:text-secondary"
                       variant="outline"
                       size="icon"
-                      onClick={() => setActiveAccount(accountAddress)}
+                      onClick={async () => {
+                        await StorageUtil.clearTransactionValues(blockchain);
+                        await setActiveAccount(accountAddress);
+                      }}
                     >
                       <ArrowRight size="18" />
                     </Button>
