@@ -134,7 +134,7 @@ class StorageUtil {
 
   /**
    * A function for storing the route to be displayed on opening the extension.
-   * Call the getActivePage function to retrieve the stored value.
+   * Call the getActivePage function to retrieve the stored value, and clearActivePage for clearing the stored value.
    */
   static async setActivePage(activePage: string) {
     if (activePage) {
@@ -149,6 +149,10 @@ class StorageUtil {
       ACTIVE_PAGE_IDENTIFIER,
     );
     return (storedActivePage?.[ACTIVE_PAGE_IDENTIFIER] ?? "") as string;
+  }
+
+  static async clearActivePage() {
+    await browser.storage.local.remove(ACTIVE_PAGE_IDENTIFIER);
   }
 }
 
