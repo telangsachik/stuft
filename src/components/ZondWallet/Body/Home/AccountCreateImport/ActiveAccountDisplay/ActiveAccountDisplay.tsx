@@ -16,18 +16,10 @@ export const ActiveAccountDisplay = observer(() => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1">
-        <div>Account Address:</div>
-        <div className="text-base font-bold text-secondary">
-          {`${prefix} ${idSplit.join(" ")}`}
-        </div>
+      <div className="flex justify-around text-xl font-bold text-secondary">
+        {accountBalance}
       </div>
-      <div className="flex flex-col gap-1">
-        <div>Account Balance</div>
-        <div className="text-base font-bold text-secondary">
-          {accountBalance}
-        </div>
-      </div>
+      <div className="text-center text-sm">{`${prefix} ${idSplit.join(" ")}`}</div>
     </div>
   );
 });

@@ -26,7 +26,7 @@ const AccountCreateImport = observer(() => {
       {hasActiveAccount && (
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Let's continue</CardTitle>
+            <CardTitle>Active account</CardTitle>
           </CardHeader>
           <CardContent>
             <ActiveAccountDisplay />
@@ -44,7 +44,7 @@ const AccountCreateImport = observer(() => {
       <Card className="w-full">
         <CardHeader>
           <CardTitle>
-            {hasActiveAccount ? "Other options" : "Let's start"}
+            {hasActiveAccount ? "Add accounts" : "Let's start"}
           </CardTitle>
           <CardDescription>
             You are connected to the blockchain. Create a new account or import
