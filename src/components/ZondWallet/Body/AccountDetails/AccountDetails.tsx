@@ -29,6 +29,7 @@ const FormSchema = z
   .object({
     receiverAddress: z.string().min(1, "Receiver address is required"),
     amount: z.coerce.number().gt(0, "Amount should be more than 0"),
+    mnemonicPhrases: z.string().min(1, "Menmonic phrases are required"),
   })
   .refine((fields) => validator.isAddress(fields.receiverAddress), {
     message: "Address is invalid",
@@ -71,6 +72,7 @@ export const AccountDetails = observer(() => {
     defaultValues: {
       receiverAddress: "",
       amount: 0,
+      mnemonicPhrases: "",
     },
   });
   const {
@@ -149,6 +151,27 @@ export const AccountDetails = observer(() => {
                   />
                   <div className="w-8 pt-8 text-lg">QRL</div>
                 </div>
+                <FormField
+                  control={control}
+                  name="mnemonicPhrases"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Label>Mnemonic phrases</Label>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          autoComplete="off"
+                          disabled={isSubmitting}
+                          placeholder="Mnemonic phrases"
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Your secret mnemonic phrases
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </CardContent>
               <CardFooter>
                 <Button disabled={isSubmitting || !isValid} className="w-full">
