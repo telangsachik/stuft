@@ -14,6 +14,7 @@ import { Download, Plus, Send } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { Link, useLocation } from "react-router-dom";
 import ActiveAccountDisplay from "./ActiveAccountDisplay/ActiveAccountDisplay";
+import TokensCardContent from "./ActiveAccountDisplay/TokensCardContent/TokensCardContent";
 
 const accountCreationClasses = cva("w-full", {
   variants: {
@@ -61,12 +62,7 @@ const AccountCreateImport = observer(() => {
               <CardTitle>Tokens</CardTitle>
             </CardHeader>
             <CardContent>
-              <Link className="w-full" to={ROUTES.HOME}>
-                <Button className="w-full" type="button">
-                  <Plus className="mr-2 h-4 w-4" />
-                  Import token
-                </Button>
-              </Link>
+              <TokensCardContent />
             </CardContent>
           </Card>
         </>
