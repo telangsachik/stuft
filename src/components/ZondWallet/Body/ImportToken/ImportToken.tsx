@@ -15,8 +15,10 @@ import {
   FormMessage,
 } from "@/components/UI/Form";
 import { Input } from "@/components/UI/Input";
+import { useStore } from "@/stores/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Download, Loader } from "lucide-react";
+import { observer } from "mobx-react-lite";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import BackButton from "../Shared/BackButton/BackButton";
@@ -25,8 +27,17 @@ const FormSchema = z.object({
   contractAddress: z.string().min(1, "Contract address is required"),
 });
 
-const ImportToken = () => {
-  async function onSubmit(formData: z.infer<typeof FormSchema>) {}
+const ImportToken = observer(() => {
+  const { zondStore } = useStore();
+  const { getTokenDetails } = zondStore;
+
+  async function onSubmit(formData: z.infer<typeof FormSchema>) {
+    console.log(">>>formData", formData);
+    const result = await getTokenDetails(
+      "0x28c4113a9d3a2e836f28c23ed8e3c1e7c243f566",
+    );
+    console.log(">>>result", result);
+  }
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -104,6 +115,6 @@ const ImportToken = () => {
       </div>
     </>
   );
-};
+});
 
 export default ImportToken;
