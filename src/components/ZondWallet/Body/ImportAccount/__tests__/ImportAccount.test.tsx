@@ -3,8 +3,14 @@ import { StoreProvider } from "@/stores/store";
 import { afterEach, describe, expect, it, jest } from "@jest/globals";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { Transaction } from "@theqrl/web3";
 import { MemoryRouter } from "react-router-dom";
 import ImportAccount from "../ImportAccount";
+
+jest.mock(
+  "@/components/ZondWallet/Body/ImportAccount/AccountImportSuccess/AccountImportSuccess",
+  () => () => <div>Mocked Account Import Success</div>,
+);
 
 describe("ImportAccount", () => {
   afterEach(cleanup);
@@ -72,5 +78,54 @@ describe("ImportAccount", () => {
       await userEvent.click(button);
     });
     expect(handleOnSubmitMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should display the account import success component on successful submit", async () => {
+    renderComponent(
+      mockedStore({
+        zondStore: {
+          zondInstance: {
+            accounts: {
+              seedToAccount: (seed: string | Uint8Array) => {
+                seed;
+                return {
+                  address: "0x2090E9F38771876FB6Fc51a6b464121d3cC093A1",
+                  seed: "",
+                  sign: (data: string | Record<string, unknown>) => {
+                    data;
+                    return { messageHash: "", signature: "" };
+                  },
+                  signTransaction: async (tx: Transaction) => {
+                    tx;
+                    return {
+                      messageHash: "",
+                      rawTransaction: "",
+                      signature: "",
+                      transactionHash: "",
+                    };
+                  },
+                };
+              },
+            },
+          },
+        },
+      }),
+    );
+
+    const handleOnSubmitMock = jest.fn();
+    await waitFor(async () => {
+      await userEvent.type(
+        screen.getByRole("textbox", { name: "mnemonicPhrases" }),
+        "knight paddy india glow play chew lame mature sock ill deadly olive blink marble breach hey mile mature tacit mean polo crawl khaya stud number speed viking windy jump subtle mildew sewage",
+      );
+      screen.getByRole("form", { name: "importAccount" }).onsubmit =
+        handleOnSubmitMock;
+      const button = screen.getByRole("button", { name: "Import account" });
+      await userEvent.click(button);
+    });
+    expect(handleOnSubmitMock).toHaveBeenCalledTimes(1);
+    expect(
+      screen.getByText("Mocked Account Import Success"),
+    ).toBeInTheDocument();
   });
 });
