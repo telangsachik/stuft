@@ -101,7 +101,12 @@ const ImportAccount = observer(() => {
           <AccountImportSuccess account={account} />
         ) : (
           <Form {...form}>
-            <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+            <form
+              name="importAccount"
+              aria-label="importAccount"
+              className="w-full"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <Card>
                 <CardHeader>
                   <CardTitle>Import an existing account</CardTitle>
