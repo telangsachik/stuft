@@ -62,7 +62,7 @@ describe("AccountDetails", () => {
     expect(cancelButton).toBeInTheDocument();
     expect(cancelButton).toBeEnabled();
     const sendQuantaButton = screen.getByRole("button", {
-      name: "Send Quanta",
+      name: "Send QRL",
     });
     expect(sendQuantaButton).toBeInTheDocument();
     expect(sendQuantaButton).toBeDisabled();
@@ -90,7 +90,7 @@ describe("AccountDetails", () => {
       );
     });
     const sendQuantaButton = screen.getByRole("button", {
-      name: "Send Quanta",
+      name: "Send QRL",
     });
     expect(sendQuantaButton).toBeInTheDocument();
     expect(sendQuantaButton).toBeEnabled();
@@ -178,7 +178,7 @@ describe("AccountDetails", () => {
       );
     });
     const sendQuantaButton = screen.getByRole("button", {
-      name: "Send Quanta",
+      name: "Send QRL",
     });
     expect(sendQuantaButton).toBeInTheDocument();
     await act(async () => {
