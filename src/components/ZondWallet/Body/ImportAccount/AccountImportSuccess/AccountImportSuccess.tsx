@@ -66,7 +66,11 @@ const AccountImportSuccess = ({ account }: AccountImportSuccessProps) => {
           <Copy className="mr-2 h-4 w-4" />
           {hasJustCopied ? "Copied" : "Copy"}
         </Button>
-        <Link className="w-full" to={ROUTES.ACCOUNT_DETAILS}>
+        <Link
+          className="w-full"
+          to={ROUTES.ACCOUNT_DETAILS}
+          state={{ shouldStartFresh: true }}
+        >
           <Button className="w-full" type="button">
             <Check className="mr-2 h-4 w-4" />
             Done

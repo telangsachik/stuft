@@ -60,18 +60,10 @@ const AccountDetails = observer(() => {
   const [transactionReceipt, setTransactionReceipt] =
     useState<TransactionReceipt>();
 
-  let tokenIcon = "icons/qrl/default.png";
-  let tokenBalance = "";
-  let tokenName = "Quanta";
-  let tokenSymbol = "QRL";
-
-  const tokenDetails = state?.tokenDetails;
-  if (tokenDetails) {
-    tokenIcon = tokenDetails?.tokenIcon;
-    tokenBalance = tokenDetails?.tokenBalance;
-    tokenName = tokenDetails?.tokenName;
-    tokenSymbol = tokenDetails?.tokenSymbol;
-  }
+  const [tokenIcon, setTokenIcon] = useState("icons/qrl/default.png");
+  const [tokenBalance, setTokenBalance] = useState("");
+  const [tokenName, setTokenName] = useState("Quanta");
+  const [tokenSymbol, setTokenSymbol] = useState("QRL");
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     try {
@@ -90,7 +82,6 @@ const AccountDetails = observer(() => {
         const isTransactionSuccessful =
           transactionReceipt?.status.toString() === "1";
         if (isTransactionSuccessful) {
-          StorageUtil.clearTransactionValues(blockchain);
           resetForm();
           setTransactionReceipt(transactionReceipt);
           await fetchAccounts();
@@ -109,12 +100,12 @@ const AccountDetails = observer(() => {
   }
 
   const resetForm = () => {
+    StorageUtil.clearTransactionValues(blockchain);
     reset({ receiverAddress: "", amount: 0, mnemonicPhrases: "" });
   };
 
   const cancelTransaction = () => {
     resetForm();
-    StorageUtil.clearTransactionValues(blockchain);
     navigate(ROUTES.HOME);
   };
 
@@ -122,7 +113,15 @@ const AccountDetails = observer(() => {
     resolver: zodResolver(FormSchema),
     mode: "onChange",
     reValidateMode: "onChange",
-    defaultValues: async () => StorageUtil.getTransactionValues(blockchain),
+    defaultValues: async () => {
+      const storedTransactionValues =
+        await StorageUtil.getTransactionValues(blockchain);
+      return {
+        amount: storedTransactionValues?.amount ?? 0,
+        mnemonicPhrases: storedTransactionValues?.mnemonicPhrases ?? "",
+        receiverAddress: storedTransactionValues?.receiverAddress ?? "",
+      };
+    },
   });
   const {
     reset,
@@ -133,11 +132,66 @@ const AccountDetails = observer(() => {
   } = form;
 
   useEffect(() => {
+    (async () => {
+      const shouldStartFresh = state?.shouldStartFresh;
+      if (shouldStartFresh) {
+        resetForm();
+      } else {
+        const storedTransactionValues =
+          await StorageUtil.getTransactionValues(blockchain);
+        const tokenDetailsFromStorage = storedTransactionValues?.tokenDetails;
+        const tokenDetailsFromState = state?.tokenDetails;
+        let tokenDetails = {
+          tokenIcon,
+          tokenBalance,
+          tokenName,
+          tokenSymbol,
+        };
+
+        if (tokenDetailsFromState) {
+          setTokenIcon(tokenDetailsFromState?.tokenIcon);
+          setTokenBalance(tokenDetailsFromState?.tokenBalance);
+          setTokenName(tokenDetailsFromState?.tokenName);
+          setTokenSymbol(tokenDetailsFromState?.tokenSymbol);
+          tokenDetails = {
+            tokenIcon: tokenDetailsFromState?.tokenIcon,
+            tokenBalance: tokenDetailsFromState?.tokenBalance,
+            tokenName: tokenDetailsFromState?.tokenName,
+            tokenSymbol: tokenDetailsFromState?.tokenSymbol,
+          };
+        } else if (tokenDetailsFromStorage) {
+          setTokenIcon(tokenDetailsFromStorage?.tokenIcon);
+          setTokenBalance(tokenDetailsFromStorage?.tokenBalance);
+          setTokenName(tokenDetailsFromStorage?.tokenName);
+          setTokenSymbol(tokenDetailsFromStorage?.tokenSymbol);
+          tokenDetails = {
+            tokenIcon: tokenDetailsFromStorage?.tokenIcon,
+            tokenBalance: tokenDetailsFromStorage?.tokenBalance,
+            tokenName: tokenDetailsFromStorage?.tokenName,
+            tokenSymbol: tokenDetailsFromStorage?.tokenSymbol,
+          };
+        }
+
+        await StorageUtil.setTransactionValues(blockchain, {
+          amount: watch().amount,
+          mnemonicPhrases: watch().mnemonicPhrases,
+          receiverAddress: watch().receiverAddress,
+          tokenDetails,
+        });
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
     const formWatchSubscription = watch(async (value) => {
-      StorageUtil.setTransactionValues(blockchain, value);
+      console.log(">>>", tokenSymbol);
+      await StorageUtil.setTransactionValues(blockchain, {
+        ...value,
+        tokenDetails: { tokenIcon, tokenBalance, tokenName, tokenSymbol },
+      });
     });
     return () => formWatchSubscription.unsubscribe();
-  }, [watch]);
+  }, [watch, tokenIcon, tokenBalance, tokenName, tokenSymbol]);
 
   return transactionReceipt ? (
     <TransactionSuccessful transactionReceipt={transactionReceipt} />

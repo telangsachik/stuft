@@ -13,6 +13,12 @@ type TransactionValuesType = {
   receiverAddress?: string;
   amount?: number;
   mnemonicPhrases?: string;
+  tokenDetails?: {
+    tokenIcon: string;
+    tokenBalance: string;
+    tokenName: string;
+    tokenSymbol: string;
+  };
 };
 
 /**
@@ -31,6 +37,7 @@ class StorageUtil {
     const transactionValuesWithDefaultValues = {
       receiverAddress: transactionValues.receiverAddress ?? "",
       amount: transactionValues.amount ?? 0,
+      tokenDetails: transactionValues.tokenDetails,
     };
     await browser.storage.local.set({
       [transactionValuesIdentifier]: transactionValuesWithDefaultValues,
@@ -39,7 +46,7 @@ class StorageUtil {
 
   static async getTransactionValues(blockchain: string) {
     const transactionValuesIdentifier = `${blockchain}_${TRANSACTION_VALUES_IDENTIFIER}`;
-    let transactionValues = {
+    let transactionValues: TransactionValuesType = {
       receiverAddress: "",
       amount: 0,
       mnemonicPhrases: "",
