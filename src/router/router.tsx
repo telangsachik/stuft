@@ -1,6 +1,6 @@
 import { AccountList } from "@/components/Body/AccountList/AccountList";
 import { AddNewAccount } from "@/components/Body/AddNewAccount/AddNewAccount";
-import { Home } from "@/components/Home/Home";
+import { Home } from "@/components/Body/Home/Home";
 import { ZondWallet } from "@/components/ZondWallet/ZondWallet";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
