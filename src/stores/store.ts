@@ -16,3 +16,4 @@ export const store = new Store();
 const StoreContext = createContext(store);
 export const useStore = () => useContext(StoreContext);
 export const StoreProvider = StoreContext.Provider;
+export type StoreType = InstanceType<typeof Store>;
