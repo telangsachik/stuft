@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/UI/Card";
+import { getOptimalGasFee } from "@/functions/getOptimalGasFee";
 import { ROUTES } from "@/router/router";
 import StringUtil from "@/utilities/stringUtil";
 import { TransactionReceipt, utils } from "@theqrl/web3";
@@ -30,7 +31,7 @@ export const TransactionSuccessful = ({
   return (
     <div className="w-full">
       <img
-        className="animate-rotate-scale fixed z-0 h-96 w-96 -translate-x-8 overflow-hidden opacity-30"
+        className="fixed z-0 h-96 w-96 -translate-x-8 animate-rotate-scale overflow-hidden opacity-30"
         src="tree.svg"
       />
       <div className="relative z-10 p-8">
@@ -61,10 +62,12 @@ export const TransactionSuccessful = ({
               <div className="flex flex-col gap-2">
                 <div>Gas used</div>
                 <div className="font-bold text-secondary">
-                  {`${utils.fromWei(
-                    BigInt(gasUsed) * BigInt(effectiveGasPrice ?? 0),
-                    "ether",
-                  )} QRL`}
+                  {getOptimalGasFee(
+                    utils.fromWei(
+                      Number(gasUsed) * Number(effectiveGasPrice ?? 0),
+                      "ether",
+                    ),
+                  )}
                 </div>
               </div>
             </div>

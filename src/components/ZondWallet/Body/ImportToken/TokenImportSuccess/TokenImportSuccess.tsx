@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/UI/Card";
+import { getOptimalTokenBalance } from "@/functions/getOptimalTokenBalance";
 import { ROUTES } from "@/router/router";
 import { StoreType, useStore } from "@/stores/store";
 import StorageUtil from "@/utilities/storageUtil";
@@ -72,7 +73,9 @@ const TokenImportSuccess = observer(
             </div>
             <div className="flex flex-col gap-1">
               <div>Balance:</div>
-              <div className="font-bold text-secondary">{balance}</div>
+              <div className="font-bold text-secondary">
+                {getOptimalTokenBalance(balance?.toString() ?? "0", symbol)}
+              </div>
             </div>
             <div className="flex flex-col gap-1">
               <div>Decimals:</div>

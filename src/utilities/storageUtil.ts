@@ -14,6 +14,9 @@ type TransactionValuesType = {
   amount?: number;
   mnemonicPhrases?: string;
   tokenDetails?: {
+    isErc20Token: boolean;
+    tokenContractAddress: string;
+    tokenDecimals: number;
     tokenIcon: string;
     tokenBalance: string;
     tokenName: string;

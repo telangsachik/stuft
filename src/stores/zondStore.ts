@@ -1,4 +1,9 @@
 import { ZOND_PROVIDER } from "@/configuration/zondConfig";
+import {
+  ERC_20_CONTRACT_ABI,
+  ERC_20_TOKEN_UNITS_OF_GAS,
+} from "@/constants/erc20Token";
+import { NATIVE_TOKEN_UNITS_OF_GAS } from "@/constants/nativeToken";
 import { getHexSeedFromMnemonic } from "@/functions/getHexSeedFromMnemonic";
 import { getOptimalTokenBalance } from "@/functions/getOptimalTokenBalance";
 import StorageUtil from "@/utilities/storageUtil";
@@ -45,8 +50,11 @@ class ZondStore {
       fetchZondConnection: action.bound,
       fetchAccounts: action.bound,
       getAccountBalance: action.bound,
-      signAndSendTransaction: action.bound,
+      getNativeTokenGas: action.bound,
+      signAndSendNativeToken: action.bound,
       getErc20TokenDetails: action.bound,
+      getErc20TokenGas: action.bound,
+      signAndSendErc20Token: action.bound,
     });
     this.initializeBlockchain();
   }
@@ -187,15 +195,36 @@ class ZondStore {
     };
   }
 
+  async getGasFeeData() {
+    const latestBlock = await this.zondInstance?.getBlock("latest");
+    const baseFeePerGas = latestBlock?.baseFeePerGas ?? BigInt(0);
+    const maxPriorityFeePerGas = utils.toWei("2", "gwei");
+    const maxFeePerGas = baseFeePerGas + BigInt(maxPriorityFeePerGas);
+    return {
+      baseFeePerGas,
+      maxPriorityFeePerGas,
+      maxFeePerGas,
+    };
+  }
+
   getAccountBalance(accountAddress: string) {
     return (
       this.zondAccounts.accounts.find(
         (account) => account.accountAddress === accountAddress,
-      )?.accountBalance ?? "0 QRL"
+      )?.accountBalance ?? "0.0 QRL"
     );
   }
 
-  async signAndSendTransaction(
+  async getNativeTokenGas() {
+    const gasLimit = NATIVE_TOKEN_UNITS_OF_GAS;
+    const baseFee = Number((await this.getGasFeeData()).baseFeePerGas);
+    const priorityFee = Number(
+      (await this.getGasFeeData()).maxPriorityFeePerGas,
+    );
+    return utils.fromWei(gasLimit * (baseFee + priorityFee), "ether");
+  }
+
+  async signAndSendNativeToken(
     from: string,
     to: string,
     value: number,
@@ -211,8 +240,13 @@ class ZondStore {
         from,
         to,
         value: utils.toWei(value, "ether"),
-        maxFeePerGas: 21000,
-        maxPriorityFeePerGas: 21000,
+        nonce: await this.zondInstance?.getTransactionCount(from),
+        gasLimit: NATIVE_TOKEN_UNITS_OF_GAS,
+        maxFeePerGas: Number((await this.getGasFeeData()).maxFeePerGas),
+        maxPriorityFeePerGas: Number(
+          (await this.getGasFeeData()).maxPriorityFeePerGas,
+        ),
+        type: 2,
       };
       const signedTransaction =
         await this.zondInstance?.accounts.signTransaction(
@@ -244,43 +278,7 @@ class ZondStore {
       error: "",
     };
 
-    const contractAbi = [
-      {
-        inputs: [],
-        name: "name",
-        outputs: [{ internalType: "string", name: "", type: "string" }],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "symbol",
-        outputs: [{ internalType: "string", name: "", type: "string" }],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "decimals",
-        outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "totalSupply",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [{ internalType: "address", name: "", type: "address" }],
-        name: "balanceOf",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-      },
-    ] as const;
+    const contractAbi = ERC_20_CONTRACT_ABI;
 
     if (this.zondInstance && this.zondInstance.Contract) {
       try {
@@ -315,6 +313,99 @@ class ZondStore {
     }
 
     return tokenDetails;
+  }
+
+  async getErc20TokenGas(
+    from: string,
+    to: string,
+    value: number,
+    contractAddress: string,
+    decimals: number,
+  ) {
+    if (this.zondInstance && this.zondInstance.Contract) {
+      const contract = new this.zondInstance.Contract(
+        ERC_20_CONTRACT_ABI,
+        contractAddress,
+      );
+      const contractTransfer = contract.methods.transfer(
+        to,
+        BigInt(value * 10 ** decimals),
+      );
+      const gasLimit = Number(
+        await contractTransfer.estimateGas({
+          from,
+        }),
+      );
+      const baseFee = Number((await this.getGasFeeData()).baseFeePerGas);
+      const priorityFee = Number(
+        (await this.getGasFeeData()).maxPriorityFeePerGas,
+      );
+      return utils.fromWei(gasLimit * (baseFee + priorityFee), "ether");
+    }
+    return "";
+  }
+
+  async signAndSendErc20Token(
+    from: string,
+    to: string,
+    value: number,
+    mnemonicPhrases: string,
+    contractAddress: string,
+    decimals: number,
+  ) {
+    let transaction: {
+      transactionReceipt?: TransactionReceipt;
+      error: string;
+    } = { transactionReceipt: undefined, error: "" };
+
+    const contractAbi = ERC_20_CONTRACT_ABI;
+
+    if (this.zondInstance && this.zondInstance.Contract) {
+      try {
+        this.zondInstance.wallet?.add(getHexSeedFromMnemonic(mnemonicPhrases));
+        this.zondInstance.transactionConfirmationBlocks = 12;
+        const contract = new this.zondInstance.Contract(
+          contractAbi,
+          contractAddress,
+        );
+        const contractTransfer = contract.methods.transfer(
+          to,
+          BigInt(value * 10 ** decimals),
+        );
+        const transactionObject = {
+          from,
+          to: contractAddress,
+          data: contractTransfer.encodeABI(),
+          nonce: await this.zondInstance?.getTransactionCount(from),
+          gasLimit: ERC_20_TOKEN_UNITS_OF_GAS,
+          maxFeePerGas: Number((await this.getGasFeeData()).maxFeePerGas),
+          maxPriorityFeePerGas: Number(
+            (await this.getGasFeeData()).maxPriorityFeePerGas,
+          ),
+          type: 2,
+        };
+
+        const transactionReceipt = await this.zondInstance.sendTransaction(
+          transactionObject,
+          undefined,
+          {
+            checkRevertBeforeSending: true,
+          },
+        );
+
+        transaction = {
+          ...transaction,
+          transactionReceipt,
+        };
+      } catch (error) {
+        transaction = {
+          ...transaction,
+          error: `Transaction could not be completed. ${error}`,
+        };
+      }
+    }
+
+    return transaction;
   }
 }
 

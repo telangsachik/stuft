@@ -1,3 +1,4 @@
+import AllERC20Tokens from "@/components/ZondWallet/Body/AllERC20Tokens/AllERC20Tokens";
 import withSuspense from "@/functions/withSuspense";
 import { lazy } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
@@ -35,6 +36,7 @@ export const ROUTES = {
   CREATE_ACCOUNT: "/create-account",
   IMPORT_ACCOUNT: "/import-account",
   IMPORT_TOKEN: "/import-token",
+  ALL_ERC_20_TOKENS: "/all-erc-20-tokens",
   TOKEN_TRANSFER: "/token-transfer",
   ACCOUNT_LIST: "/account-list",
   DEFAULT: "*",
@@ -60,6 +62,10 @@ const router = createMemoryRouter([
       {
         path: ROUTES.IMPORT_TOKEN,
         element: <ImportToken />,
+      },
+      {
+        path: ROUTES.ALL_ERC_20_TOKENS,
+        element: <AllERC20Tokens />,
       },
       {
         path: ROUTES.TOKEN_TRANSFER,

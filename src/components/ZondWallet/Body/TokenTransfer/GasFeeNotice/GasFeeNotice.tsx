@@ -1,11 +1,14 @@
 import { getOptimalGasFee } from "@/functions/getOptimalGasFee";
 import { useStore } from "@/stores/store";
-import { utils } from "@theqrl/web3";
 import { cva } from "class-variance-authority";
 import { Loader } from "lucide-react";
+import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 
 type GasFeeNoticeProps = {
+  isErc20Token: boolean;
+  tokenContractAddress: string;
+  tokenDecimals: number;
   from: string;
   to: string;
   value: number;
@@ -27,63 +30,79 @@ const gasFeeNoticeClasses = cva(
   },
 );
 
-export const GasFeeNotice = ({
-  from,
-  to,
-  value,
-  isSubmitting,
-}: GasFeeNoticeProps) => {
-  const { zondStore } = useStore();
-  const { zondInstance } = zondStore;
+export const GasFeeNotice = observer(
+  ({
+    isErc20Token,
+    tokenContractAddress,
+    tokenDecimals,
+    from,
+    to,
+    value,
+    isSubmitting,
+  }: GasFeeNoticeProps) => {
+    const { zondStore } = useStore();
+    const { getNativeTokenGas, getErc20TokenGas } = zondStore;
 
-  const hasValuesForGasCalculation = !!from && !!to && !!value;
+    const hasValuesForGasCalculation = !!from && !!to && !!value;
 
-  const [gasFee, setGasFee] = useState({
-    estimatedGas: "",
-    isLoading: true,
-    error: "",
-  });
+    const [gasFee, setGasFee] = useState({
+      estimatedGas: "",
+      isLoading: true,
+      error: "",
+    });
 
-  const fetchGasFee = async () => {
-    setGasFee({ ...gasFee, isLoading: true, error: "" });
-    try {
-      const transaction = {
+    const calculateNativeTokenGas = async () => {
+      return await getNativeTokenGas();
+    };
+
+    const calculateErc20TokenGas = async () => {
+      return await getErc20TokenGas(
         from,
         to,
-        value: utils.toWei(value, "ether"),
-      };
-      const estimatedTransactionGas =
-        (await zondInstance?.estimateGas(transaction)) ?? BigInt(0);
-      const gasPrice = (await zondInstance?.getGasPrice()) ?? BigInt(0);
-      const estimatedGas = getOptimalGasFee(
-        utils.fromWei(estimatedTransactionGas * gasPrice, "ether"),
+        value,
+        tokenContractAddress,
+        tokenDecimals,
       );
-      setGasFee({ ...gasFee, estimatedGas, error: "", isLoading: false });
-    } catch (error) {
-      setGasFee({ ...gasFee, error: `${error}`, isLoading: false });
-    }
-  };
+    };
 
-  useEffect(() => {
-    fetchGasFee();
-  }, [from, to, value]);
+    const calculateGasFee = async () => {
+      setGasFee({ ...gasFee, isLoading: true, error: "" });
+      try {
+        const gasFeeAmount = await (isErc20Token
+          ? calculateErc20TokenGas()
+          : calculateNativeTokenGas());
+        setGasFee({
+          ...gasFee,
+          estimatedGas: getOptimalGasFee(gasFeeAmount),
+          error: "",
+          isLoading: false,
+        });
+      } catch (error) {
+        setGasFee({ ...gasFee, error: `${error}`, isLoading: false });
+      }
+    };
 
-  return (
-    hasValuesForGasCalculation && (
-      <div className={gasFeeNoticeClasses({ isSubmitting })}>
-        {gasFee.isLoading ? (
-          <div className="flex gap-2">
-            <Loader className="h-4 w-4 animate-spin" />
-            Estimating gas fee
-          </div>
-        ) : gasFee.error ? (
-          <div>{gasFee.error}</div>
-        ) : (
-          <div className="w-full overflow-hidden">
-            Estimated gas fee is {gasFee?.estimatedGas}
-          </div>
-        )}
-      </div>
-    )
-  );
-};
+    useEffect(() => {
+      calculateGasFee();
+    }, [from, to, value]);
+
+    return (
+      hasValuesForGasCalculation && (
+        <div className={gasFeeNoticeClasses({ isSubmitting })}>
+          {gasFee.isLoading ? (
+            <div className="flex gap-2">
+              <Loader className="h-4 w-4 animate-spin" />
+              Estimating gas fee
+            </div>
+          ) : gasFee.error ? (
+            <div>{gasFee.error}</div>
+          ) : (
+            <div className="w-full overflow-hidden">
+              Estimated gas fee is {gasFee?.estimatedGas}
+            </div>
+          )}
+        </div>
+      )
+    );
+  },
+);

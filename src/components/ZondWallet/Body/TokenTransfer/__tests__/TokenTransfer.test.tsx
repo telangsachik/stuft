@@ -78,17 +78,20 @@ describe("TokenTransfer", () => {
     const mnemonicPhrasesField = screen.getByRole("textbox", {
       name: "mnemonicPhrases",
     });
-    await waitFor(async () => {
-      await userEvent.type(
-        receiverAddressField,
-        "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
-      );
-      await userEvent.type(amountField, "2.5");
-      await userEvent.type(
-        mnemonicPhrasesField,
-        "knight paddy action glow play chew lame mature sock ill deadly olive blink marble breach mile hey mature tacit mean polo crawl khaya stud number speed viking windy jump subtle mildew sewage",
-      );
-    });
+    await waitFor(
+      async () => {
+        await userEvent.type(
+          receiverAddressField,
+          "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
+        );
+        await userEvent.type(amountField, "2.5");
+        await userEvent.type(
+          mnemonicPhrasesField,
+          "knight paddy action glow play chew lame mature sock ill deadly olive blink marble breach mile hey mature tacit mean polo crawl khaya stud number speed viking windy jump subtle mildew sewage",
+        );
+      },
+      { timeout: 5000 },
+    );
     const sendQuantaButton = screen.getByRole("button", {
       name: "Send QRL",
     });
@@ -127,7 +130,7 @@ describe("TokenTransfer", () => {
     renderComponent(
       mockedStore({
         zondStore: {
-          signAndSendTransaction: async (
+          signAndSendNativeToken: async (
             from: string,
             to: string,
             value: number,

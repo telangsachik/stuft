@@ -38,9 +38,6 @@ const ImportToken = observer(() => {
   const [hasTokenImported, setHasTokenImported] = useState(false);
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
-    // Use form data for importing token
-    formData;
-
     const tokenDetails = await getErc20TokenDetails(formData.contractAddress);
     if (tokenDetails.error) {
       control.setError("contractAddress", { message: tokenDetails.error });

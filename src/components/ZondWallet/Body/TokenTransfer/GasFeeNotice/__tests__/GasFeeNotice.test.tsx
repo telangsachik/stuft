@@ -1,14 +1,7 @@
 import { mockedStore } from "@/__mocks__/mockedStore";
 import { StoreProvider } from "@/stores/store";
-import { afterEach, describe, expect, it } from "@jest/globals";
+import { afterEach, describe, expect, it, jest } from "@jest/globals";
 import { act, cleanup, render, screen } from "@testing-library/react";
-import {
-  BlockNumberOrTag,
-  DataFormat,
-  DEFAULT_RETURN_FORMAT,
-  NumberTypes,
-  Transaction,
-} from "@theqrl/web3";
 import { ComponentProps } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { GasFeeNotice } from "../GasFeeNotice";
@@ -19,6 +12,9 @@ describe("GasFeeNotice", () => {
   const renderComponent = (
     mockedStoreValues = mockedStore(),
     mockedProps: ComponentProps<typeof GasFeeNotice> = {
+      isErc20Token: false,
+      tokenContractAddress: "",
+      tokenDecimals: 18,
       isSubmitting: false,
       from: "",
       to: "",
@@ -35,6 +31,9 @@ describe("GasFeeNotice", () => {
 
   it("should render the gas fee notice component", async () => {
     renderComponent(undefined, {
+      isErc20Token: false,
+      tokenContractAddress: "",
+      tokenDecimals: 18,
       isSubmitting: false,
       from: "0x205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
       to: "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
@@ -58,35 +57,19 @@ describe("GasFeeNotice", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("should display the estimated gas fee", async () => {
+  it("should display the estimated gas fee for native token", async () => {
     renderComponent(
       mockedStore({
         zondStore: {
-          zondInstance: {
-            estimateGas: async <
-              ReturnFormat extends DataFormat = typeof DEFAULT_RETURN_FORMAT,
-            >(
-              transaction: Transaction,
-              blockNumber?: BlockNumberOrTag,
-              returnFormat: ReturnFormat = DEFAULT_RETURN_FORMAT as ReturnFormat,
-            ) => {
-              transaction;
-              blockNumber;
-              returnFormat;
-              return 24000000000 as NumberTypes[ReturnFormat["number"]];
-            },
-            getGasPrice: async <
-              ReturnFormat extends DataFormat = typeof DEFAULT_RETURN_FORMAT,
-            >(
-              returnFormat: ReturnFormat = DEFAULT_RETURN_FORMAT as ReturnFormat,
-            ) => {
-              returnFormat;
-              return 110000000 as NumberTypes[ReturnFormat["number"]];
-            },
-          },
+          getNativeTokenGas: jest.fn(async () => {
+            return "2.64";
+          }),
         },
       }),
       {
+        isErc20Token: false,
+        tokenContractAddress: "",
+        tokenDecimals: 18,
         isSubmitting: false,
         from: "0x205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
         to: "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
@@ -99,6 +82,47 @@ describe("GasFeeNotice", () => {
     });
     expect(
       screen.getByText("Estimated gas fee is 2.64 QRL"),
+    ).toBeInTheDocument();
+  });
+
+  it("should display the estimated gas fee for ERC 20 token", async () => {
+    renderComponent(
+      mockedStore({
+        zondStore: {
+          getErc20TokenGas: jest.fn(
+            async (
+              from: string,
+              to: string,
+              value: number,
+              contractAddress: string,
+              decimals: number,
+            ) => {
+              from;
+              to;
+              value;
+              contractAddress;
+              decimals;
+              return "5.2564854";
+            },
+          ),
+        },
+      }),
+      {
+        isErc20Token: true,
+        tokenContractAddress: "0x28c4113a9d3a2e836f28c23ed8e3c1e7c243f566",
+        tokenDecimals: 18,
+        isSubmitting: false,
+        from: "0x205046e6A6E159eD6ACedE46A36CAD6D449C80A1",
+        to: "0x20fB08fF1f1376A14C055E9F56df80563E16722b",
+        value: 1.45,
+      },
+    );
+
+    await act(async () => {
+      expect(screen.getByText("Estimating gas fee")).toBeInTheDocument();
+    });
+    expect(
+      screen.getByText("Estimated gas fee is 5.2564 QRL"),
     ).toBeInTheDocument();
   });
 });

@@ -1,3 +1,10 @@
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/UI/AlertDialog";
 import { Button } from "@/components/UI/Button";
 import {
   Card,
@@ -51,29 +58,53 @@ const TokenTransfer = observer(() => {
   const { zondStore } = useStore();
   const {
     activeAccount,
-    signAndSendTransaction,
+    signAndSendNativeToken,
     zondConnection,
     fetchAccounts,
+    signAndSendErc20Token,
   } = zondStore;
   const { blockchain } = zondConnection;
   const { accountAddress } = activeAccount;
 
   const [transactionReceipt, setTransactionReceipt] =
     useState<TransactionReceipt>();
-
+  const [isErc20Token, setIsErc20Token] = useState(false);
+  const [tokenContractAddress, setTokenContractAddress] = useState("");
+  const [tokenDecimals, setTokenDecimals] = useState(0);
   const [tokenIcon, setTokenIcon] = useState(NATIVE_TOKEN.icon);
   const [tokenBalance, setTokenBalance] = useState("");
   const [tokenName, setTokenName] = useState(NATIVE_TOKEN.name);
   const [tokenSymbol, setTokenSymbol] = useState(NATIVE_TOKEN.symbol);
 
+  const sendNativeToken = async (formData: z.infer<typeof FormSchema>) => {
+    return await signAndSendNativeToken(
+      accountAddress,
+      formData.receiverAddress,
+      formData.amount,
+      formData.mnemonicPhrases,
+    );
+  };
+
+  const sendErc20Token = async (formData: z.infer<typeof FormSchema>) => {
+    return await signAndSendErc20Token(
+      accountAddress,
+      formData.receiverAddress,
+      formData.amount,
+      formData.mnemonicPhrases,
+      tokenContractAddress,
+      tokenDecimals,
+    );
+  };
+
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     try {
-      const { transactionReceipt, error } = await signAndSendTransaction(
-        accountAddress,
-        formData.receiverAddress,
-        formData.amount,
-        formData.mnemonicPhrases,
-      );
+      let transactionData;
+      if (isErc20Token) {
+        transactionData = await sendErc20Token(formData);
+      } else {
+        transactionData = await sendNativeToken(formData);
+      }
+      const { transactionReceipt, error } = transactionData;
 
       if (error) {
         control.setError("mnemonicPhrases", {
@@ -83,7 +114,7 @@ const TokenTransfer = observer(() => {
         const isTransactionSuccessful =
           transactionReceipt?.status.toString() === "1";
         if (isTransactionSuccessful) {
-          resetForm();
+          await resetForm();
           setTransactionReceipt(transactionReceipt);
           await fetchAccounts();
           window.scrollTo(0, 0);
@@ -100,8 +131,8 @@ const TokenTransfer = observer(() => {
     }
   }
 
-  const resetForm = () => {
-    StorageUtil.clearTransactionValues(blockchain);
+  const resetForm = async () => {
+    await StorageUtil.clearTransactionValues(blockchain);
     reset({ receiverAddress: "", amount: 0, mnemonicPhrases: "" });
   };
 
@@ -136,13 +167,16 @@ const TokenTransfer = observer(() => {
     (async () => {
       const shouldStartFresh = state?.shouldStartFresh;
       if (shouldStartFresh) {
-        resetForm();
+        await resetForm();
       } else {
         const storedTransactionValues =
           await StorageUtil.getTransactionValues(blockchain);
         const tokenDetailsFromStorage = storedTransactionValues?.tokenDetails;
         const tokenDetailsFromState = state?.tokenDetails;
         let tokenDetails = {
+          isErc20Token,
+          tokenContractAddress,
+          tokenDecimals,
           tokenIcon,
           tokenBalance,
           tokenName,
@@ -150,27 +184,26 @@ const TokenTransfer = observer(() => {
         };
 
         if (tokenDetailsFromState) {
+          await resetForm();
+          setIsErc20Token(tokenDetailsFromState?.isErc20Token);
+          setTokenContractAddress(tokenDetailsFromState?.tokenContractAddress);
+          setTokenDecimals(tokenDetailsFromState?.tokenDecimals);
           setTokenIcon(tokenDetailsFromState?.tokenIcon);
           setTokenBalance(tokenDetailsFromState?.tokenBalance);
           setTokenName(tokenDetailsFromState?.tokenName);
           setTokenSymbol(tokenDetailsFromState?.tokenSymbol);
-          tokenDetails = {
-            tokenIcon: tokenDetailsFromState?.tokenIcon,
-            tokenBalance: tokenDetailsFromState?.tokenBalance,
-            tokenName: tokenDetailsFromState?.tokenName,
-            tokenSymbol: tokenDetailsFromState?.tokenSymbol,
-          };
+          tokenDetails = { ...tokenDetailsFromState };
         } else if (tokenDetailsFromStorage) {
+          setIsErc20Token(tokenDetailsFromStorage?.isErc20Token ?? false);
+          setTokenContractAddress(
+            tokenDetailsFromStorage?.tokenContractAddress,
+          );
+          setTokenDecimals(tokenDetailsFromStorage?.tokenDecimals);
           setTokenIcon(tokenDetailsFromStorage?.tokenIcon);
           setTokenBalance(tokenDetailsFromStorage?.tokenBalance);
           setTokenName(tokenDetailsFromStorage?.tokenName);
           setTokenSymbol(tokenDetailsFromStorage?.tokenSymbol);
-          tokenDetails = {
-            tokenIcon: tokenDetailsFromStorage?.tokenIcon,
-            tokenBalance: tokenDetailsFromStorage?.tokenBalance,
-            tokenName: tokenDetailsFromStorage?.tokenName,
-            tokenSymbol: tokenDetailsFromStorage?.tokenSymbol,
-          };
+          tokenDetails = { ...tokenDetailsFromStorage };
         }
 
         await StorageUtil.setTransactionValues(blockchain, {
@@ -187,11 +220,28 @@ const TokenTransfer = observer(() => {
     const formWatchSubscription = watch(async (value) => {
       await StorageUtil.setTransactionValues(blockchain, {
         ...value,
-        tokenDetails: { tokenIcon, tokenBalance, tokenName, tokenSymbol },
+        tokenDetails: {
+          isErc20Token,
+          tokenContractAddress,
+          tokenDecimals,
+          tokenIcon,
+          tokenBalance,
+          tokenName,
+          tokenSymbol,
+        },
       });
     });
     return () => formWatchSubscription.unsubscribe();
-  }, [watch, tokenIcon, tokenBalance, tokenName, tokenSymbol]);
+  }, [
+    watch,
+    isErc20Token,
+    tokenContractAddress,
+    tokenDecimals,
+    tokenIcon,
+    tokenBalance,
+    tokenName,
+    tokenSymbol,
+  ]);
 
   return transactionReceipt ? (
     <TransactionSuccessful transactionReceipt={transactionReceipt} />
@@ -285,6 +335,9 @@ const TokenTransfer = observer(() => {
                 )}
               />
               <GasFeeNotice
+                isErc20Token={isErc20Token}
+                tokenContractAddress={tokenContractAddress}
+                tokenDecimals={tokenDecimals}
                 from={accountAddress}
                 to={watch().receiverAddress}
                 value={watch().amount}
@@ -313,6 +366,24 @@ const TokenTransfer = observer(() => {
               </Button>
             </CardFooter>
           </Card>
+          <AlertDialog open={isSubmitting}>
+            <AlertDialogContent className="w-80 rounded-md">
+              <AlertDialogHeader className="text-left">
+                <AlertDialogTitle>
+                  <div className="flex items-center gap-2">
+                    <Loader
+                      className="animate-spin text-foreground"
+                      size="18"
+                    />
+                    Transaction running
+                  </div>
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  Please wait while the transaction completes.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </form>
     </Form>

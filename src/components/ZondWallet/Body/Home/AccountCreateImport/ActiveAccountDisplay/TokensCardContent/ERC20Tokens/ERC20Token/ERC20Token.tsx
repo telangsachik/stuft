@@ -3,12 +3,13 @@ import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import TokenListItem from "../../TokenListItem/TokenListItem";
+import TokenListItemLoading from "../../TokenListItemLoading/TokenListItemLoading";
 
-type ImportedTokenProps = {
+type ERC20TokenProps = {
   contractAddress: string;
 };
 
-const ImportedToken = observer(({ contractAddress }: ImportedTokenProps) => {
+const ERC20Token = observer(({ contractAddress }: ERC20TokenProps) => {
   const { zondStore } = useStore();
   const { zondConnection, activeAccount, getErc20TokenDetails } = zondStore;
   const { blockchain } = zondConnection;
@@ -26,15 +27,18 @@ const ImportedToken = observer(({ contractAddress }: ImportedTokenProps) => {
     })();
   }, [blockchain, accountAddress]);
 
-  return (
-    !!token && (
-      <TokenListItem
-        balance={getOptimalTokenBalance(token.balance.toString(), token.symbol)}
-        name={token.name}
-        symbol={token.symbol}
-      />
-    )
+  return !token ? (
+    <TokenListItemLoading />
+  ) : (
+    <TokenListItem
+      isErc20Token={true}
+      contractAddress={contractAddress}
+      decimals={Number(token.decimals)}
+      balance={getOptimalTokenBalance(token.balance.toString(), token.symbol)}
+      name={token.name}
+      symbol={token.symbol}
+    />
   );
 });
 
-export default ImportedToken;
+export default ERC20Token;
