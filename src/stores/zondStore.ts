@@ -120,13 +120,13 @@ class ZondStore {
 
   async fetchAccounts() {
     this.zondAccounts = { ...this.zondAccounts, isLoading: true };
-    try {
-      let storedAccountsList: string[] = [];
-      const accountListFromStorage = StorageUtil.getAccountList(
-        this.zondConnection.zondNetworkId,
-      );
-      storedAccountsList = accountListFromStorage;
 
+    let storedAccountsList: string[] = [];
+    const accountListFromStorage = StorageUtil.getAccountList(
+      this.zondConnection.zondNetworkId,
+    );
+    storedAccountsList = accountListFromStorage;
+    try {
       const accountsWithBalance: ZondAccountsType["accounts"] =
         await Promise.all(
           storedAccountsList.map(async (account) => {
@@ -149,7 +149,13 @@ class ZondStore {
       });
     } catch (error) {
       runInAction(() => {
-        this.zondAccounts = { ...this.zondAccounts };
+        this.zondAccounts = {
+          ...this.zondAccounts,
+          accounts: storedAccountsList.map((account) => ({
+            accountAddress: account,
+            accountBalance: "0",
+          })),
+        };
       });
     } finally {
       runInAction(() => {
