@@ -63,10 +63,9 @@ class ZondStore {
     const { zond } = new Web3(zondHttpProvider);
     this.zondInstance = zond;
 
+    const blockChainAccountIdentifier = `${this.zondConnection.zondNetworkId}_${ACTIVE_ACCOUNT_IDENTIFIER}`;
     const storedActiveAccount =
-      localStorage.getItem(
-        `${this.zondConnection.zondNetworkId}${ACTIVE_ACCOUNT_IDENTIFIER}`,
-      ) ?? "";
+      localStorage.getItem(blockChainAccountIdentifier) ?? "";
     this.activeAccount = {
       ...this.activeAccount,
       accountAddress: storedActiveAccount,
@@ -82,10 +81,8 @@ class ZondStore {
   }
 
   setActiveAccount(activeAccount?: string) {
-    localStorage.setItem(
-      `${this.zondConnection.zondNetworkId}${ACTIVE_ACCOUNT_IDENTIFIER}`,
-      activeAccount ?? "",
-    );
+    const blockChainAccountIdentifier = `${this.zondConnection.zondNetworkId}_${ACTIVE_ACCOUNT_IDENTIFIER}`;
+    localStorage.setItem(blockChainAccountIdentifier, activeAccount ?? "");
     this.activeAccount = {
       ...this.activeAccount,
       accountAddress: activeAccount ?? "",
