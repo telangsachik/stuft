@@ -27,7 +27,7 @@ type MnemonicDisplayProps = {
   onMnemonicNoted: () => void;
 };
 
-export const MnemonicDisplay = ({
+const MnemonicDisplay = ({
   account,
   onMnemonicNoted,
 }: MnemonicDisplayProps) => {
@@ -111,3 +111,5 @@ export const MnemonicDisplay = ({
     </Card>
   );
 };
+
+export default MnemonicDisplay;
