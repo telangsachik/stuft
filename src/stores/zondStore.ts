@@ -1,5 +1,5 @@
 import { ZOND_PROVIDER } from "@/configuration/zondConfig";
-import Web3, { Web3ZondInterface } from "@theqrl/web3";
+import Web3, { Web3ZondInterface, utils } from "@theqrl/web3";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
 
 const BLOCKCHAIN_SELECTION_IDENTIFIER = "BLOCKCHAIN_SELECTION";
@@ -14,7 +14,7 @@ type ActiveAccountType = {
 
 type ZondAccountType = {
   accountAddress: string;
-  accountBalance: bigint;
+  accountBalance: string;
 };
 
 type ZondAccountsType = {
@@ -43,6 +43,7 @@ class ZondStore {
       setActiveAccount: action.bound,
       fetchZondConnection: action.bound,
       fetchAccounts: action.bound,
+      getAccountBalance: action.bound,
     });
     this.initializeBlockchain();
   }
@@ -142,7 +143,13 @@ class ZondStore {
           storedAccountsList.map(async (account) => {
             const accountBalance =
               (await this.zondInstance?.getBalance(account)) ?? BigInt(0);
-            return { accountAddress: account, accountBalance };
+            const convertedAccountBalance = utils
+              .fromWei(accountBalance, "ether")
+              .concat(" QRL");
+            return {
+              accountAddress: account,
+              accountBalance: convertedAccountBalance,
+            };
           }),
         );
       runInAction(() => {
@@ -160,6 +167,14 @@ class ZondStore {
         this.zondAccounts = { ...this.zondAccounts, isLoading: false };
       });
     }
+  }
+
+  getAccountBalance(accountAddress: string) {
+    return (
+      this.zondAccounts.accounts.find(
+        (account) => account.accountAddress === accountAddress,
+      )?.accountBalance ?? "0 QRL"
+    );
   }
 }
 
