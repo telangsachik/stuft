@@ -25,5 +25,6 @@ export default [
         { extensions: [".js", ".jsx", ".ts", ".tsx"] },
       ],
     },
+    ...require("eslint-plugin-jest-dom").configs["flat/recommended"],
   },
 ];
