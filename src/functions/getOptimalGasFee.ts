@@ -1,4 +1,4 @@
-export const getQrlGas = (gas: string) => {
+export const getOptimalGasFee = (gas: string) => {
   try {
     let precisionFloat = parseFloat(Number(gas).toString()).toFixed(16);
     if (Number(precisionFloat) == 0) return "0.0 QRL";
