@@ -26,7 +26,7 @@ const NativeToken = observer(() => {
           <div className="text-base font-bold">
             {getAccountBalance(accountAddress)}
           </div>
-          <div className="text-xs">Quanta</div>
+          <div className="text-xs">Quanta (native token)</div>
         </div>
       </div>
       <TooltipProvider>
