@@ -76,7 +76,10 @@ class StorageUtil {
     const storedAccountList = await browser.storage.local.get(
       blockChainAccountListIdentifier,
     );
-    return storedAccountList[blockChainAccountListIdentifier];
+
+    return Object.keys(storedAccountList).length
+      ? storedAccountList[blockChainAccountListIdentifier]
+      : [];
   }
 
   /**
