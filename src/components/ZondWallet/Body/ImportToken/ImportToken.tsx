@@ -33,9 +33,7 @@ const ImportToken = observer(() => {
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     console.log(">>>formData", formData);
-    const result = await getTokenDetails(
-      "0x28c4113a9d3a2e836f28c23ed8e3c1e7c243f566",
-    );
+    const result = await getTokenDetails(formData.contractAddress);
     console.log(">>>result", result);
   }
 
