@@ -60,14 +60,6 @@ export const AccountCreationForm = observer(
 
     async function onSubmit(formData: z.infer<typeof FormSchema>) {
       try {
-        const account =
-          zondInstance?.accounts.seedToAccount(
-            "0x3500827651de73ea580916b19b042d0656a5ed33cdd09a4c481b000c7606d7aa3f6d7f9cff94fea393230b31a8087bbf",
-          ) ?? "";
-        console.log(">>> account ", account);
-        zondInstance?.accounts.wallet.add(account);
-        console.log(">>> wallet", zondInstance?.accounts.wallet.entries());
-
         // const newAccount = await zondInstance?.personal.newAccount(
         //   formData.password,
         // );
