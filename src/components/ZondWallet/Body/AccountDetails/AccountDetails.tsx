@@ -30,6 +30,7 @@ import { z } from "zod";
 import BackButton from "../Shared/BackButton/BackButton";
 import AccountAddressSection from "./AccountAddressSection/AccountAddressSection";
 import { GasFeeNotice } from "./GasFeeNotice/GasFeeNotice";
+import TokenDisplaySection from "./TokenDisplaySection/TokenDisplaySection";
 import { TransactionSuccessful } from "./TransactionSuccessful/TransactionSuccessful";
 
 const FormSchema = z
@@ -135,7 +136,8 @@ const AccountDetails = observer(() => {
         <div className="relative z-10 p-8">
           <BackButton />
           <Card className="w-full">
-            <CardHeader>
+            <CardHeader className="flex flex-col gap-6">
+              <TokenDisplaySection />
               <CardTitle>Active account</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
