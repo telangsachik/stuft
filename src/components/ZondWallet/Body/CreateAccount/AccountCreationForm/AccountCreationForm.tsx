@@ -18,7 +18,7 @@ import { Input } from "@/components/UI/Input";
 import { useStore } from "@/stores/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Web3BaseWalletAccount } from "@theqrl/web3";
-import { Loader, Wallet } from "lucide-react";
+import { Loader, Plus } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -106,10 +106,10 @@ export const AccountCreationForm = observer(
                   <FormItem>
                     <FormControl>
                       <Input
+                        {...field}
                         disabled={isSubmitting}
                         placeholder="Re-enter the password"
                         type="password"
-                        {...field}
                       />
                     </FormControl>
                     <FormDescription>Re-enter the password</FormDescription>
@@ -127,7 +127,7 @@ export const AccountCreationForm = observer(
                 {isSubmitting ? (
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
-                  <Wallet className="mr-2 h-4 w-4" />
+                  <Plus className="mr-2 h-4 w-4" />
                 )}
                 Create account
               </Button>
