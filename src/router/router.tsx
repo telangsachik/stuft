@@ -5,6 +5,9 @@ import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
 export const ROUTES = {
   HOME: "/",
+  CREATE_ACCOUNT: "/create-account",
+  IMPORT_ACCOUNT: "/import-account",
+  ACCOUNT_DETAILS: "/account-details",
   ACCOUNT_LIST: "/account-list",
   DEFAULT: "*",
 };
@@ -17,6 +20,18 @@ const router = createMemoryRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: ROUTES.CREATE_ACCOUNT,
+        element: <AccountList />,
+      },
+      {
+        path: ROUTES.IMPORT_ACCOUNT,
+        element: <AccountList />,
+      },
+      {
+        path: ROUTES.ACCOUNT_DETAILS,
+        element: <AccountList />,
       },
       {
         path: ROUTES.ACCOUNT_LIST,
