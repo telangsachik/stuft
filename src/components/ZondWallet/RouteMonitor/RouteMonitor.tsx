@@ -1,3 +1,4 @@
+import StorageUtility from "@/utility/storageUtility";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -6,16 +7,16 @@ export default function RouteMonitor() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const activePage = localStorage.getItem("ACTIVE_PAGE");
+    const activePage = StorageUtility.getActivePage();
     if (activePage) {
-      localStorage.removeItem("ACTIVE_PAGE");
+      StorageUtility.clearActivePage();
       navigate(activePage);
     }
   }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    localStorage.setItem("ACTIVE_PAGE", pathname);
+    StorageUtility.setActivePage(pathname);
   }, [pathname]);
 
   return null;

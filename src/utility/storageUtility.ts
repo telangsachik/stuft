@@ -12,6 +12,10 @@ class StorageUtility {
   static getActivePage() {
     return localStorage.getItem(ACTIVE_PAGE_IDENTIFIER);
   }
+
+  static clearActivePage() {
+    this.setActivePage();
+  }
 }
 
 export default StorageUtility;
