@@ -85,6 +85,10 @@ class ZondStore {
       `${this.zondConnection.zondNetworkId}${ACTIVE_ACCOUNT_IDENTIFIER}`,
       activeAccount ?? "",
     );
+    this.activeAccount = {
+      ...this.activeAccount,
+      accountAddress: activeAccount ?? "",
+    };
   }
 
   async fetchZondConnection() {

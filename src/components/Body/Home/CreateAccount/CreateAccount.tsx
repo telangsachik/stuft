@@ -34,7 +34,7 @@ const FormSchema = z
 
 export const CreateAccount = observer(() => {
   const { zondStore } = useStore();
-  const { zondInstance } = zondStore;
+  const { zondInstance, setActiveAccount } = zondStore;
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -56,6 +56,7 @@ export const CreateAccount = observer(() => {
       const newAccount = await zondInstance?.personal.newAccount(
         formData.password,
       );
+      setActiveAccount(newAccount);
       control.setError("reEnteredPassword", {
         message: `New account ${newAccount} created`,
       });
