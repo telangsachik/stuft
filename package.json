@@ -37,6 +37,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
     "@jest/globals": "^29.7.0",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@types/node": "^20.14.9",
@@ -46,6 +48,7 @@
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.19",
+    "babel-jest": "^29.7.0",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
