@@ -1,5 +1,13 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/UI/Card";
+import { Button } from "@/components/UI/Button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/UI/Card";
 import { useStore } from "@/stores/store";
+import { SendHorizonal } from "lucide-react";
 import { observer } from "mobx-react-lite";
 
 export const AccountDetails = observer(() => {
@@ -33,11 +41,18 @@ export const AccountDetails = observer(() => {
                 <div className="font-bold text-secondary">{`${prefix} ${addressSplit.join(" ")}`}</div>
               </div>
               <div className="flex flex-col gap-2">
-                <div>Account balance</div>
+                <div>Available balance</div>
                 <div className="font-bold text-secondary">{accountBalance}</div>
               </div>
             </div>
+            <div className="h-full"></div>
           </CardContent>
+          <CardFooter>
+            <Button className="w-full">
+              <SendHorizonal className="mr-2 h-4 w-4" />
+              Make transaction
+            </Button>
+          </CardFooter>
         </Card>
       </div>
     </>
