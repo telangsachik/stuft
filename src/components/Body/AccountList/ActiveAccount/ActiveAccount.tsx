@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/UI/Tooltip";
 import { useStore } from "@/stores/store";
-import { Copy } from "lucide-react";
+import { Copy, Lock } from "lucide-react";
 import { observer } from "mobx-react-lite";
 
 export const ActiveAccount = observer(() => {
@@ -33,7 +33,7 @@ export const ActiveAccount = observer(() => {
     !!accountAddress && (
       <>
         <Label className="text-secondary">{activeAccountLabel}</Label>
-        <Card className="flex w-full flex-col gap-2 p-4 font-bold text-foreground hover:bg-accent">
+        <Card className="flex w-full flex-col gap-4 p-4 font-bold text-foreground hover:bg-accent">
           <div className="flex gap-2">
             <div className="flex gap-2">
               <div>{prefix}</div>
@@ -63,7 +63,10 @@ export const ActiveAccount = observer(() => {
               </TooltipProvider>
             </span>
           </div>
-          <div>footer content</div>
+          <Button variant="outline" className="hover:text-secondary">
+            <Lock className="mr-2 h-4 w-4" />
+            Lock account
+          </Button>
         </Card>
       </>
     )
