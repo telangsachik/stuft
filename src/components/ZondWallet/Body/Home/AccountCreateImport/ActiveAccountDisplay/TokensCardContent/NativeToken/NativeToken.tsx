@@ -18,15 +18,17 @@ const NativeToken = observer(() => {
   const { activeAccount, getAccountBalance } = zondStore;
   const { accountAddress } = activeAccount;
 
+  const name = "Quanta";
+  const balance = getAccountBalance(accountAddress);
+  const symbol = "QRL";
+
   return (
     <Card className="flex h-min w-full items-center justify-between gap-4 p-4 text-foreground hover:bg-accent">
       <div className="flex items-center gap-4">
         <img className="h-8 w-8" src="icons/qrl/default.png" />
-        <div className="flex w-full flex-col">
-          <div className="text-base font-bold">
-            {getAccountBalance(accountAddress)}
-          </div>
-          <div className="text-xs">Quanta (native token)</div>
+        <div className="flex w-full flex-col gap-1">
+          <div className="text-base font-bold">{balance}</div>
+          <div className="text-xs">{name} (native token)</div>
         </div>
       </div>
       <TooltipProvider>
@@ -44,7 +46,7 @@ const NativeToken = observer(() => {
             </Link>
           </TooltipTrigger>
           <TooltipContent side="bottom">
-            <Label>Send</Label>
+            <Label>Send {symbol}</Label>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
