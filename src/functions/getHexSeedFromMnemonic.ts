@@ -3,6 +3,8 @@ import { Buffer } from "buffer";
 
 export const getHexSeedFromMnemonic = (mnemonic?: string) => {
   if (!mnemonic) return "";
-  const seedBin = MnemonicToSeedBin(mnemonic);
+  const trimmedMnemonic = mnemonic.trim();
+  if (!trimmedMnemonic) return "";
+  const seedBin = MnemonicToSeedBin(trimmedMnemonic);
   return "0x".concat(Buffer.from(seedBin).toString("hex"));
 };
