@@ -29,6 +29,7 @@ describe("MnemonicWordListing", () => {
   it("should render the mnemonic word listing component", () => {
     renderComponent();
 
+    expect(screen.getByText("Mnemonic Phrases")).toBeInTheDocument();
     const words = mnemonicPhrases.split(" ");
     for (let i = 0; i < 32; i++) {
       expect(screen.getByText(`${i + 1}. ${words[i]}`)).toBeInTheDocument();
