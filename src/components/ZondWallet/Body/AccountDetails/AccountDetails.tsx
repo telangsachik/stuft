@@ -142,7 +142,7 @@ export const AccountDetails = observer(() => {
                       </FormItem>
                     )}
                   />
-                  <div className="w-8 text-lg font-bold">QRL</div>
+                  <div className="w-8 text-lg">QRL</div>
                 </div>
               </CardContent>
               <CardFooter>
