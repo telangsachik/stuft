@@ -16,7 +16,7 @@ export const ActiveAccountDisplay = observer(() => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-around text-xl font-bold text-secondary">
+      <div className="flex justify-around text-center text-xl font-bold text-secondary">
         {accountBalance}
       </div>
       <div className="text-center text-sm">{`${prefix} ${addressSplit.join(" ")}`}</div>
