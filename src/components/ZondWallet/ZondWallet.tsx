@@ -1,7 +1,14 @@
-import { Body } from "@/components/ZondWallet/Body/Body";
-import { Header } from "@/components/ZondWallet/Header/Header";
 import ScrollToTop from "@/components/ZondWallet/ScrollToTop/ScrollToTop";
+import withSuspense from "@/functions/withSuspense";
 import { observer } from "mobx-react-lite";
+import { lazy } from "react";
+
+const Header = withSuspense(
+  lazy(() => import("@/components/ZondWallet/Header/Header")),
+);
+const Body = withSuspense(
+  lazy(() => import("@/components/ZondWallet/Body/Body")),
+);
 
 const ZondWallet = observer(() => {
   return (

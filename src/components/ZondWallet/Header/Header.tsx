@@ -15,7 +15,7 @@ const AccountBadge = withSuspense(
   ),
 );
 
-export const Header = observer(() => {
+const Header = observer(() => {
   const { zondStore } = useStore();
   const { zondConnection } = zondStore;
   const { isConnected } = zondConnection;
@@ -27,3 +27,5 @@ export const Header = observer(() => {
     </div>
   );
 });
+
+export default Header;
