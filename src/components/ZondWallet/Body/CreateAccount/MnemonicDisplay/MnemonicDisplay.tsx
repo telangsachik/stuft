@@ -66,7 +66,7 @@ const MnemonicDisplay = ({
 
   const cardDescription = `Don't lose this mnemonic phrases. Download it right now. You may need this someday to import or recover your new account ${accountAddress?.substring(0, 5)}...${accountAddress?.substring(accountAddress?.length - 5)}`;
   const continueWarning =
-    "You should only continue if you have downloaded the mnemonic phrases. If you haven't, go back, download, and store it safe. There is no going back once you click the continue button.";
+    "You should only continue if you have downloaded the mnemonic phrases. If you haven't, go back, download, and then continue. There is no going back once you click the continue button.";
 
   return (
     <Card className="text-ellipsis">
