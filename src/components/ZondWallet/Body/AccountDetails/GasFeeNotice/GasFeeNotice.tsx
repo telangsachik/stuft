@@ -35,25 +35,32 @@ export const GasFeeNotice = ({
   const { zondStore } = useStore();
   const { zondInstance } = zondStore;
 
-  const [gasFee, setGasFee] = useState<string>();
+  const hasValuesForGasCalculation = !!from && !!to && !!value;
+
+  const [gasFee, setGasFee] = useState({
+    estimatedGas: "",
+    isLoading: true,
+    error: "",
+  });
 
   const fetchGasFee = async () => {
+    setGasFee({ ...gasFee, isLoading: true, error: "" });
     try {
       const transaction = {
         from,
         to,
         value: utils.toWei(value, "ether"),
       };
-      const estimatedGas =
+      const estimatedTransactionGas =
         (await zondInstance?.estimateGas(transaction)) ?? BigInt(0);
       const gasPrice = (await zondInstance?.getGasPrice()) ?? BigInt(0);
-      const estimatedCost = utils.fromWei(
-        BigInt(estimatedGas) * BigInt(gasPrice),
+      const estimatedGas = utils.fromWei(
+        BigInt(estimatedTransactionGas) * BigInt(gasPrice),
         "ether",
       );
-      setGasFee(`${estimatedCost} QRL`);
+      setGasFee({ ...gasFee, estimatedGas, error: "", isLoading: false });
     } catch (error) {
-      setGasFee(`not available. ${error}`);
+      setGasFee({ ...gasFee, error: `${error}`, isLoading: false });
     }
   };
 
@@ -62,17 +69,21 @@ export const GasFeeNotice = ({
   }, [from, to, value]);
 
   return (
-    <div className={gasFeeNoticeClasses({ isSubmitting })}>
-      {gasFee ? (
-        <div className="w-full overflow-hidden">
-          Estimated gas fee is {gasFee?.toString()}
-        </div>
-      ) : (
-        <div className="flex gap-2">
-          <Loader className="h-4 w-4 animate-spin" />
-          Estimating gas fee
-        </div>
-      )}
-    </div>
+    hasValuesForGasCalculation && (
+      <div className={gasFeeNoticeClasses({ isSubmitting })}>
+        {gasFee.isLoading ? (
+          <div className="flex gap-2">
+            <Loader className="h-4 w-4 animate-spin" />
+            Estimating gas fee
+          </div>
+        ) : gasFee.error ? (
+          <div>{gasFee.error}</div>
+        ) : (
+          <div className="w-full overflow-hidden">
+            Estimated gas fee is {gasFee?.estimatedGas.toString()}
+          </div>
+        )}
+      </div>
+    )
   );
 };
