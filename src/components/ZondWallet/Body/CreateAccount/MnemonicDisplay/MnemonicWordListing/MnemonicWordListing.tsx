@@ -20,9 +20,12 @@ const MnemonicWordListing = ({ mnemonic }: MnemonicWordListingProps) => {
   return (
     <div className="flex flex-col gap-2 text-secondary">
       {words.map((groupedWords) => (
-        <div className="grid grid-cols-3 gap-2">
+        <div key={groupedWords.toString()} className="grid grid-cols-3 gap-2">
           {groupedWords.map((word) => (
-            <div className="transition-transform hover:scale-110 hover:font-bold">
+            <div
+              key={word}
+              className="transition-transform hover:scale-110 hover:font-bold"
+            >
               {word}
             </div>
           ))}
