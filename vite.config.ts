@@ -42,6 +42,16 @@ export default defineConfig({
     outDir,
     rollupOptions: {
       plugins: [commonjs(), nodePolyfills() as Plugin],
+      input: {
+        main: resolve(__dirname, "index.html"),
+        background: resolve(__dirname, "public/background.ts"),
+      },
+      output: {
+        entryFileNames: "[name].js",
+        chunkFileNames: "assets/[name].js",
+        assetFileNames: "assets/[name].[ext]",
+        format: "es",
+      },
     },
   },
   resolve: {
