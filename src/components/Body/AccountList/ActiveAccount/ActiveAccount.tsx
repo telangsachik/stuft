@@ -10,19 +10,13 @@ import {
 import { useStore } from "@/stores/store";
 import { Copy, Lock } from "lucide-react";
 import { observer } from "mobx-react-lite";
+import { AccountId } from "../AccountId/AccountId";
 
 export const ActiveAccount = observer(() => {
   const { zondStore } = useStore();
   const {
     activeAccount: { accountAddress },
   } = zondStore;
-
-  const splitLength = 5;
-  const prefix = accountAddress.substring(0, 2);
-  const idSplit = [];
-  for (let i = 2; i < accountAddress.length; i += splitLength) {
-    idSplit.push(accountAddress.substring(i, i + splitLength));
-  }
 
   const activeAccountLabel = `${accountAddress ? "Active account" : ""}`;
 
@@ -36,14 +30,7 @@ export const ActiveAccount = observer(() => {
         <Label className="text-secondary">{activeAccountLabel}</Label>
         <Card className="flex w-full flex-col gap-4 p-4 font-bold text-foreground hover:bg-accent">
           <div className="flex gap-2">
-            <div className="flex gap-2">
-              <div>{prefix}</div>
-              <div className="flex flex-wrap gap-1 font-bold">
-                {idSplit.map((part) => (
-                  <div key={part}>{part}</div>
-                ))}
-              </div>
-            </div>
+            <AccountId account={accountAddress} />
             <span>
               <TooltipProvider>
                 <Tooltip delayDuration={0}>
@@ -64,13 +51,7 @@ export const ActiveAccount = observer(() => {
               </TooltipProvider>
             </span>
           </div>
-          <Button
-            variant="outline"
-            className="hover:text-secondary"
-            onClick={() => {
-              localStorage.clear();
-            }}
-          >
+          <Button variant="outline" className="hover:text-secondary">
             <Lock className="mr-2 h-4 w-4" />
             Lock account
           </Button>

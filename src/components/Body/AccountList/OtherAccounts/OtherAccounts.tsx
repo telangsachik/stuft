@@ -10,6 +10,7 @@ import {
 import { useStore } from "@/stores/store";
 import { ArrowRight } from "lucide-react";
 import { observer } from "mobx-react-lite";
+import { AccountId } from "../AccountId/AccountId";
 
 export const OtherAccounts = observer(() => {
   const { zondStore } = useStore();
@@ -19,13 +20,6 @@ export const OtherAccounts = observer(() => {
     setActiveAccount,
   } = zondStore;
   const { accounts } = zondAccounts;
-
-  const splitLength = 5;
-  const prefix = activeAccountAddress.substring(0, 2);
-  const idSplit: string[] = [];
-  for (let i = 2; i < activeAccountAddress.length; i += splitLength) {
-    idSplit.push(activeAccountAddress.substring(i, i + splitLength));
-  }
 
   const otherAccountsLabel = `${activeAccountAddress ? "Other accounts" : "Accounts"} in the wallet`;
   const otherAccounts = accounts.filter(
@@ -37,15 +31,11 @@ export const OtherAccounts = observer(() => {
       <>
         <Label className="text-secondary">{otherAccountsLabel}</Label>
         {otherAccounts.map(({ accountAddress }) => (
-          <Card className="flex gap-2 p-4 font-bold text-foreground hover:bg-accent">
-            <div className="flex gap-2">
-              <div>{prefix}</div>
-              <div className="flex flex-wrap gap-1">
-                {idSplit.map((part) => (
-                  <div key={part}>{part}</div>
-                ))}
-              </div>
-            </div>
+          <Card
+            id={accountAddress}
+            className="flex gap-2 p-4 font-bold text-foreground hover:bg-accent"
+          >
+            <AccountId account={accountAddress} />
             <span>
               <TooltipProvider>
                 <Tooltip delayDuration={0}>
