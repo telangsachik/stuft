@@ -1,4 +1,3 @@
-import AccountDetails from "@/components/ZondWallet/Body/AccountDetails/AccountDetails";
 import withSuspense from "@/functions/withSuspense";
 import { lazy } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
@@ -21,6 +20,11 @@ const ImportAccount = withSuspense(
 );
 const AccountList = withSuspense(
   lazy(() => import("@/components/ZondWallet/Body/AccountList/AccountList")),
+);
+const AccountDetails = withSuspense(
+  lazy(
+    () => import("@/components/ZondWallet/Body/AccountDetails/AccountDetails"),
+  ),
 );
 
 export const ROUTES = {
