@@ -23,7 +23,7 @@ const ImportedTokens = observer(() => {
   }, [blockchain, accountAddress]);
 
   return tokenContractsList.map((contractAddress) => (
-    <ImportedToken contractAddress={contractAddress} />
+    <ImportedToken key={contractAddress} contractAddress={contractAddress} />
   ));
 });
 

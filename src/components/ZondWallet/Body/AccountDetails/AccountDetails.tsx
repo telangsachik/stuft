@@ -25,7 +25,7 @@ import { Loader, Send, X } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import BackButton from "../Shared/BackButton/BackButton";
 import AccountAddressSection from "./AccountAddressSection/AccountAddressSection";
@@ -45,6 +45,7 @@ const FormSchema = z
   });
 
 const AccountDetails = observer(() => {
+  const { state } = useLocation();
   const navigate = useNavigate();
   const { zondStore } = useStore();
   const {
@@ -58,6 +59,12 @@ const AccountDetails = observer(() => {
 
   const [transactionReceipt, setTransactionReceipt] =
     useState<TransactionReceipt>();
+
+  const tokenIcon: string = state?.tokenIcon;
+  const tokenBalance: string = state?.tokenBalance;
+  const tokenName: string = state?.tokenName ?? "Quanta";
+  const tokenSymbol: string = state?.tokenSymbol ?? "QRL";
+  const randomTailwindTextColor: string = state?.randomTailwindTextColor ?? "";
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     try {
@@ -137,11 +144,16 @@ const AccountDetails = observer(() => {
           <BackButton />
           <Card className="w-full">
             <CardHeader className="flex flex-col gap-6">
-              <TokenDisplaySection />
+              <TokenDisplaySection
+                tokenIcon={tokenIcon}
+                tokenName={tokenName}
+                tokenSymbol={tokenSymbol}
+                randomTailwindTextColor={randomTailwindTextColor}
+              />
               <CardTitle>Active account</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
-              <AccountAddressSection />
+              <AccountAddressSection accountBalance={tokenBalance} />
               <CardTitle>Make a transaction</CardTitle>
               <FormField
                 control={control}
@@ -187,7 +199,7 @@ const AccountDetails = observer(() => {
                     </FormItem>
                   )}
                 />
-                <div className="w-8 pt-8 text-lg">QRL</div>
+                <div className="w-8 pt-8 text-lg">{tokenSymbol}</div>
               </div>
               <FormField
                 control={control}
@@ -234,7 +246,9 @@ const AccountDetails = observer(() => {
                 ) : (
                   <Send className="mr-2 h-4 w-4" />
                 )}
-                {isSubmitting ? "Sending Quanta" : "Send Quanta"}
+                {isSubmitting
+                  ? `Sending ${tokenSymbol}`
+                  : `Send ${tokenSymbol}`}
               </Button>
             </CardFooter>
           </Card>

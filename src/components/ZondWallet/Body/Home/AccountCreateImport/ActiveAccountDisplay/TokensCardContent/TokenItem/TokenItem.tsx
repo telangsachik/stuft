@@ -10,7 +10,7 @@ import {
 import { ROUTES } from "@/router/router";
 import { getRandomTailwindTextColor } from "@/utilities/stylingUtil";
 import { Send, TextSelect } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type TokenListItemProps = {
   icon?: string;
@@ -20,13 +20,29 @@ type TokenListItemProps = {
 };
 
 const TokenListItem = ({ icon, balance, name, symbol }: TokenListItemProps) => {
+  const navigate = useNavigate();
+
+  const randomTailwindTextColor = getRandomTailwindTextColor();
+
+  const onSend = () => {
+    navigate(ROUTES.ACCOUNT_DETAILS, {
+      state: {
+        tokenIcon: icon,
+        tokenBalance: balance,
+        tokenName: name,
+        tokenSymbol: symbol,
+        randomTailwindTextColor,
+      },
+    });
+  };
+
   return (
     <Card className="flex h-min w-full animate-appear-in items-center justify-between gap-4 p-4 text-foreground hover:bg-accent">
       <div className="flex items-center gap-4">
         {!!icon ? (
           <img className="h-8 w-8" src={icon} />
         ) : (
-          <span className={getRandomTailwindTextColor()}>
+          <span className={randomTailwindTextColor}>
             <TextSelect size={32} />
           </span>
         )}
@@ -38,16 +54,15 @@ const TokenListItem = ({ icon, balance, name, symbol }: TokenListItemProps) => {
       <TooltipProvider>
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
-            <Link to={ROUTES.ACCOUNT_DETAILS}>
-              <Button
-                className="hover:text-secondary"
-                variant="outline"
-                type="button"
-                size="icon"
-              >
-                <Send size="18" />
-              </Button>
-            </Link>
+            <Button
+              className="hover:text-secondary"
+              variant="outline"
+              type="button"
+              size="icon"
+              onClick={onSend}
+            >
+              <Send size="18" />
+            </Button>
           </TooltipTrigger>
           <TooltipContent side="bottom">
             <Label>Send {symbol}</Label>
