@@ -1,4 +1,4 @@
-export const getQrlBalance = (balance: string) => {
+export const getOptimalTokenBalance = (balance: string) => {
   try {
     let precisionFloat = parseFloat(Number(balance).toString()).toFixed(4);
     if (Number(precisionFloat) == 0) return "0.0 QRL";
