@@ -1,5 +1,6 @@
 import { StoreType } from "@/stores/store";
 import deepmerge from "deepmerge";
+import { createContext, useContext } from "react";
 
 type IsObject<T> = T extends object ? true : false;
 type DeepPartial<T> = {
@@ -54,3 +55,6 @@ const mockedStoreValues: StoreType = {
 export const mockedStore = (overrideStoreValues: OverrideStoreType = {}) => {
   return deepmerge(mockedStoreValues, overrideStoreValues) as StoreType;
 };
+const StoreContext = createContext(mockedStore);
+export const useStore = () => useContext(StoreContext);
+export const StoreProvider = StoreContext.Provider;
