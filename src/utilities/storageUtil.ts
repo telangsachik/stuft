@@ -102,7 +102,7 @@ class StorageUtil {
     const storedActiveAccount = await browser.storage.local.get(
       blockChainAccountIdentifier,
     );
-    return (storedActiveAccount[blockChainAccountIdentifier] as string) ?? "";
+    return (storedActiveAccount?.[blockChainAccountIdentifier] ?? "") as string;
   }
 
   static async clearActiveAccount(blockchain: string) {
@@ -125,7 +125,8 @@ class StorageUtil {
     const storedBlockchain = await browser.storage.local.get(
       BLOCKCHAIN_SELECTION_IDENTIFIER,
     );
-    return (storedBlockchain[BLOCKCHAIN_SELECTION_IDENTIFIER] ??
+
+    return (storedBlockchain?.[BLOCKCHAIN_SELECTION_IDENTIFIER] ??
       DEFAULT_BLOCKCHAIN) as BlockchainType;
   }
 
@@ -145,7 +146,7 @@ class StorageUtil {
     const storedActivePage = await browser.storage.local.get(
       ACTIVE_PAGE_IDENTIFIER,
     );
-    return storedActivePage[ACTIVE_PAGE_IDENTIFIER] as string;
+    return (storedActivePage?.[ACTIVE_PAGE_IDENTIFIER] ?? "") as string;
   }
 }
 
