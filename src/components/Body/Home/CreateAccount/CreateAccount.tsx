@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/UI/Form";
 import { Input } from "@/components/UI/Input";
+import { useStore } from "@/stores/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader, Wallet } from "lucide-react";
 import { observer } from "mobx-react-lite";
@@ -32,6 +33,9 @@ const FormSchema = z
   });
 
 export const CreateAccount = observer(() => {
+  const { zondStore } = useStore();
+  const { zondInstance } = zondStore;
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     mode: "onChange",
@@ -48,6 +52,8 @@ export const CreateAccount = observer(() => {
   } = form;
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
+    console.log(">>>", zondInstance?.accounts);
+
     const unlocked = false;
     if (unlocked) {
       control.setError("password", {
@@ -106,11 +112,7 @@ export const CreateAccount = observer(() => {
             />
           </CardContent>
           <CardFooter>
-            <Button
-              disabled={isSubmitting || !isValid}
-              className="w-full"
-              type="submit"
-            >
+            <Button disabled={isSubmitting} className="w-full" type="submit">
               {isSubmitting ? (
                 <Loader className="mr-2 h-4 w-4 animate-spin" />
               ) : (

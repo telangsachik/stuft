@@ -93,11 +93,7 @@ export const AccountUnlock = observer(() => {
             />
           </CardContent>
           <CardFooter>
-            <Button
-              disabled={isSubmitting || !isValid}
-              className="w-full"
-              type="submit"
-            >
+            <Button disabled={isSubmitting} className="w-full" type="submit">
               {isSubmitting ? (
                 <Loader className="mr-2 h-4 w-4 animate-spin" />
               ) : (
