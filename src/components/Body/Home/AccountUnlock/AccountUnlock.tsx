@@ -35,6 +35,7 @@ export const AccountUnlock = observer(() => {
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    mode: "onChange",
     reValidateMode: "onSubmit",
     defaultValues: {
       password: "",
