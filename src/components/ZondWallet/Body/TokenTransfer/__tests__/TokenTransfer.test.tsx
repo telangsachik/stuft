@@ -5,7 +5,7 @@ import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Bytes } from "@theqrl/web3";
 import { MemoryRouter } from "react-router-dom";
-import AccountDetails from "../AccountDetails";
+import TokenTransfer from "../TokenTransfer";
 
 jest.mock("@theqrl/web3", () => {
   const originalModule =
@@ -16,14 +16,14 @@ jest.mock("@theqrl/web3", () => {
   };
 });
 
-describe("AccountDetails", () => {
+describe("TokenTransfer", () => {
   afterEach(cleanup);
 
   const renderComponent = (mockedStoreValues = mockedStore()) =>
     render(
       <StoreProvider value={mockedStoreValues}>
         <MemoryRouter>
-          <AccountDetails />
+          <TokenTransfer />
         </MemoryRouter>
       </StoreProvider>,
     );

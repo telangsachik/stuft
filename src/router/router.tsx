@@ -24,9 +24,9 @@ const ImportToken = withSuspense(
 const AccountList = withSuspense(
   lazy(() => import("@/components/ZondWallet/Body/AccountList/AccountList")),
 );
-const AccountDetails = withSuspense(
+const TokenTransfer = withSuspense(
   lazy(
-    () => import("@/components/ZondWallet/Body/AccountDetails/AccountDetails"),
+    () => import("@/components/ZondWallet/Body/TokenTransfer/TokenTransfer"),
   ),
 );
 
@@ -35,7 +35,7 @@ export const ROUTES = {
   CREATE_ACCOUNT: "/create-account",
   IMPORT_ACCOUNT: "/import-account",
   IMPORT_TOKEN: "/import-token",
-  ACCOUNT_DETAILS: "/account-details",
+  TOKEN_TRANSFER: "/token-transfer",
   ACCOUNT_LIST: "/account-list",
   DEFAULT: "*",
 };
@@ -62,8 +62,8 @@ const router = createMemoryRouter([
         element: <ImportToken />,
       },
       {
-        path: ROUTES.ACCOUNT_DETAILS,
-        element: <AccountDetails />,
+        path: ROUTES.TOKEN_TRANSFER,
+        element: <TokenTransfer />,
       },
       {
         path: ROUTES.ACCOUNT_LIST,

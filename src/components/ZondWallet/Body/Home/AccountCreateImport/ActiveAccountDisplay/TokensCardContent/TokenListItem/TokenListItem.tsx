@@ -23,7 +23,7 @@ const TokenListItem = ({ icon, balance, name, symbol }: TokenListItemProps) => {
   const navigate = useNavigate();
 
   const onSend = () => {
-    navigate(ROUTES.ACCOUNT_DETAILS, {
+    navigate(ROUTES.TOKEN_TRANSFER, {
       state: {
         tokenDetails: {
           tokenIcon: icon,

@@ -45,7 +45,7 @@ const FormSchema = z
     path: ["receiverAddress"],
   });
 
-const AccountDetails = observer(() => {
+const TokenTransfer = observer(() => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { zondStore } = useStore();
@@ -319,4 +319,4 @@ const AccountDetails = observer(() => {
   );
 });
 
-export default AccountDetails;
+export default TokenTransfer;

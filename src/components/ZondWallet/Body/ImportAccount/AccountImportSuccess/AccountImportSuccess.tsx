@@ -68,7 +68,7 @@ const AccountImportSuccess = ({ account }: AccountImportSuccessProps) => {
         </Button>
         <Link
           className="w-full"
-          to={ROUTES.ACCOUNT_DETAILS}
+          to={ROUTES.TOKEN_TRANSFER}
           state={{ shouldStartFresh: true }}
         >
           <Button className="w-full" type="button">

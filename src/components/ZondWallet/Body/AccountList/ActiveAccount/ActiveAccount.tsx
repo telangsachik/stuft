@@ -55,7 +55,7 @@ const ActiveAccount = observer(() => {
           </div>
           <Link
             className="w-full"
-            to={ROUTES.ACCOUNT_DETAILS}
+            to={ROUTES.TOKEN_TRANSFER}
             state={{ shouldStartFresh: true }}
           >
             <Button variant="outline" className="w-full hover:text-secondary">
