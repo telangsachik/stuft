@@ -1,3 +1,4 @@
+import { getQrlGas } from "@/functions/getQrlGas";
 import { useStore } from "@/stores/store";
 import { utils } from "@theqrl/web3";
 import { cva } from "class-variance-authority";
@@ -54,11 +55,9 @@ export const GasFeeNotice = ({
       const estimatedTransactionGas =
         (await zondInstance?.estimateGas(transaction)) ?? BigInt(0);
       const gasPrice = (await zondInstance?.getGasPrice()) ?? BigInt(0);
-      const estimatedGas = parseFloat(
+      const estimatedGas = getQrlGas(
         utils.fromWei(estimatedTransactionGas * gasPrice, "ether"),
-      )
-        .toString()
-        .concat(" QRL");
+      );
       setGasFee({ ...gasFee, estimatedGas, error: "", isLoading: false });
     } catch (error) {
       setGasFee({ ...gasFee, error: `${error}`, isLoading: false });
