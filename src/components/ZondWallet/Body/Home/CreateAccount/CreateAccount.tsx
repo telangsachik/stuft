@@ -3,6 +3,7 @@ import { Web3BaseWalletAccount } from "@theqrl/web3";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { AccountCreationForm } from "./AccountCreationForm/AccountCreationForm";
+import { AccountCreationSuccess } from "./AccountCreationSuccess/AccountCreationSuccess";
 import { MnemonicDisplay } from "./MnemonicDisplay/MnemonicDisplay";
 
 export const CreateAccount = observer(() => {
@@ -21,12 +22,16 @@ export const CreateAccount = observer(() => {
   };
 
   const onMnemonicNoted = () => {
-    console.log(">>>mnemonic noted for account", account);
     setActiveAccount(account?.address);
+    setHasMnemonicNoted(true);
   };
 
   return hasAccountCreated ? (
-    <MnemonicDisplay account={account} onMnemonicNoted={onMnemonicNoted} />
+    hasMnemonicNoted ? (
+      <AccountCreationSuccess account={account} />
+    ) : (
+      <MnemonicDisplay account={account} onMnemonicNoted={onMnemonicNoted} />
+    )
   ) : (
     <AccountCreationForm onAccountCreated={onAccountCreated} />
   );
