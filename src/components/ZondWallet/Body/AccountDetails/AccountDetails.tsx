@@ -184,7 +184,6 @@ const AccountDetails = observer(() => {
 
   useEffect(() => {
     const formWatchSubscription = watch(async (value) => {
-      console.log(">>>", tokenSymbol);
       await StorageUtil.setTransactionValues(blockchain, {
         ...value,
         tokenDetails: { tokenIcon, tokenBalance, tokenName, tokenSymbol },
