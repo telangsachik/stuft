@@ -19,6 +19,7 @@ export default [
     },
     rules: {
       "react/react-in-jsx-scope": "off",
+      "react/display-name": "off",
       "react/jsx-filename-extension": [
         1,
         { extensions: [".js", ".jsx", ".ts", ".tsx"] },
