@@ -6,8 +6,8 @@ const THEME = Object.freeze({
 });
 
 class SettingsStore {
-  isDarkMode;
-  theme;
+  isDarkMode: boolean;
+  theme: string;
 
   constructor() {
     makeAutoObservable(this, { isDarkMode: observable, theme: observable });
