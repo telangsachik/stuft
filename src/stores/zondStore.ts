@@ -239,6 +239,11 @@ class ZondStore {
   }
 
   async getTokenDetails(contractAddress: string) {
+    let tokenDetails = {
+      token: undefined,
+      error: "",
+    };
+
     const contractAbi = [
       {
         inputs: [],
@@ -297,13 +302,19 @@ class ZondStore {
         const balance =
           Number(balanceUnformatted) / Math.pow(10, Number(decimals));
         return {
+          ...tokenDetails,
           token: { name, symbol, decimals, totalSupply, balance },
-          error: "",
         };
       } catch (error) {
-        return { token: undefined, error: error as string };
+        return {
+          ...tokenDetails,
+          error:
+            "Could not retreive the token with the entered contract address",
+        };
       }
     }
+
+    return tokenDetails;
   }
 }
 
