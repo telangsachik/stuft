@@ -66,7 +66,11 @@ export const AccountUnlock = observer(() => {
 
   return (
     <Form {...form}>
-      <form className="w-80" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        name="accountUnlock"
+        className="w-80"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Card>
           <CardHeader>
             <CardTitle>
@@ -84,10 +88,11 @@ export const AccountUnlock = observer(() => {
                 <FormItem>
                   <FormControl>
                     <Input
+                      {...field}
+                      aria-label={field.name}
                       disabled={isSubmitting}
                       placeholder="Password"
                       type="password"
-                      {...field}
                     />
                   </FormControl>
                   <FormDescription>Enter the account password</FormDescription>
