@@ -21,7 +21,7 @@ import { useStore } from "@/stores/store";
 import StorageUtil from "@/utilities/storageUtil";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validator } from "@theqrl/web3";
-import { Send } from "lucide-react";
+import { Loader, Send } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -183,12 +183,17 @@ export const AccountDetails = observer(() => {
                   from={accountAddress}
                   to={watch().receiverAddress}
                   value={watch().amount}
+                  isSubmitting={isSubmitting}
                 />
               </CardContent>
               <CardFooter>
                 <Button disabled={isSubmitting || !isValid} className="w-full">
-                  <Send className="mr-2 h-4 w-4" />
-                  Send quanta
+                  {isSubmitting ? (
+                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Send className="mr-2 h-4 w-4" />
+                  )}
+                  Send{isSubmitting ? "ing" : ""} quanta
                 </Button>
               </CardFooter>
             </Card>
