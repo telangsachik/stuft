@@ -22,6 +22,7 @@ import withSuspense from "@/functions/withSuspense";
 import { Web3BaseWalletAccount } from "@theqrl/web3";
 import { ArrowRight, HardDriveDownload, Undo } from "lucide-react";
 import { lazy } from "react";
+import HexSeedListing from "./HexSeedListing/HexSeedListing";
 
 const MnemonicWordListing = withSuspense(
   lazy(
@@ -48,12 +49,13 @@ const MnemonicDisplay = ({
   const onDownload = () => {
     const mnemonicObject = {
       "Public Address": {
-        address: accountAddress,
-        note: "This is your public account address, and can be shared with others for receiving ZND to your account.",
+        Address: accountAddress,
+        Note: "This is your public account address, and can be shared with others for receiving ZND to your account.",
       },
       "Private Key": {
-        key: mnemonicPhrases,
-        note: "This is your secret private key(mnemomic phrases, a 32 words combination), and should be kept safe somewhere. This is required to recover your account and to send ZND from your account to others account. If lost, you will lose access to your account and funds.",
+        "Hex Seed": accountHexSeed,
+        Key: mnemonicPhrases,
+        Note: "This is your secret private key(mnemomic phrases, a 32 words combination), and should be kept safe somewhere. This is required to recover your account and to send ZND from your account to others account. If lost, you will lose access to your account and funds.",
       },
     };
     const blobData = JSON.stringify(mnemonicObject, null, 2);
@@ -78,7 +80,8 @@ const MnemonicDisplay = ({
         <CardTitle>Keep this safe</CardTitle>
         <CardDescription>{cardDescription}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-4">
+        <HexSeedListing hexSeed={accountHexSeed} />
         <MnemonicWordListing mnemonic={mnemonicPhrases} />
       </CardContent>
       <CardFooter className="gap-4">
