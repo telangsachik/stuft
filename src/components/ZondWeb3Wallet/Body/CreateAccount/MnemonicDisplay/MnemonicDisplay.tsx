@@ -54,7 +54,7 @@ const MnemonicDisplay = ({
       },
       "Private Key": {
         "Hex Seed": accountHexSeed,
-        Key: mnemonicPhrases,
+        "Mnemonic Phrases": mnemonicPhrases,
         Note: "This is your secret private key(mnemomic phrases, a 32 words combination), and should be kept safe somewhere. This is required to recover your account and to send ZND from your account to others account. If lost, you will lose access to your account and funds.",
       },
     };
