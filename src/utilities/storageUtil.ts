@@ -1,4 +1,5 @@
 import { ZOND_PROVIDER } from "@/configuration/zondConfig";
+import browser from "webextension-polyfill";
 
 const ACTIVE_PAGE_IDENTIFIER = "ACTIVE_PAGE";
 const BLOCKCHAIN_SELECTION_IDENTIFIER = "BLOCKCHAIN_SELECTION";
@@ -21,7 +22,7 @@ class StorageUtil {
    * A function for storing the transaction state values, so that the user need not fill in the field values if the extension is closed and opened again.
    * Call the getTransactionValues fuction to retieve the stored value.
    */
-  static setTransactionValues(
+  static async setTransactionValues(
     blockchain: string,
     transactionValues: TransactionValuesType,
   ) {
@@ -31,13 +32,12 @@ class StorageUtil {
       amount: transactionValues.amount ?? 0,
       mnemonicPhrases: "",
     };
-    localStorage.setItem(
-      transactionValuesIdentifier,
-      JSON.stringify(transactionValuesWithDefaultValues),
-    );
+    await browser.storage.local.set({
+      [transactionValuesIdentifier]: transactionValuesWithDefaultValues,
+    });
   }
 
-  static getTransactionValues(blockchain: string) {
+  static async getTransactionValues(blockchain: string) {
     const transactionValuesIdentifier = `${blockchain}_${TRANSACTION_VALUES_IDENTIFIER}`;
     let transactionValues = {
       receiverAddress: "",
@@ -45,19 +45,19 @@ class StorageUtil {
       mnemonicPhrases: "",
     };
 
-    const storedTransactionValues = localStorage.getItem(
+    const storedTransactionValues = await browser.storage.local.get(
       transactionValuesIdentifier,
     );
     if (storedTransactionValues) {
-      transactionValues = JSON.parse(storedTransactionValues);
+      transactionValues = storedTransactionValues[transactionValuesIdentifier];
     }
 
     return transactionValues;
   }
 
-  static clearTransactionValues(blockchain: string) {
+  static async clearTransactionValues(blockchain: string) {
     const transactionValuesIdentifier = `${blockchain}_${TRANSACTION_VALUES_IDENTIFIER}`;
-    localStorage.removeItem(transactionValuesIdentifier);
+    await browser.storage.local.remove(transactionValuesIdentifier);
   }
 
   /**
