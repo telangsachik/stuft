@@ -5,9 +5,6 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Body from "../Body";
 
-jest.mock("@/router/router", () => ({
-  ROUTES: { HOME: "/" },
-}));
 jest.mock("react-router-dom", () => {
   const originalModule =
     jest.requireActual<typeof import("react-router-dom")>("react-router-dom");

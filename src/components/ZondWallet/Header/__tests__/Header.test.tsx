@@ -5,9 +5,6 @@ import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Header from "../Header";
 
-jest.mock("@/router/router", () => ({
-  ROUTES: { HOME: "/" },
-}));
 jest.mock(
   "@/components/ZondWallet/Header/ZondWalletLogo/ZondWalletLogo",
   () => () => <div>Mocked Zond Wallet Logo</div>,

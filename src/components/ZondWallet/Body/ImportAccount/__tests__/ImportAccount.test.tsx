@@ -6,10 +6,6 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import ImportAccount from "../ImportAccount";
 
-jest.mock("@/router/router", () => ({
-  ROUTES: { HOME: "/" },
-}));
-
 describe("ImportAccount", () => {
   afterEach(cleanup);
 

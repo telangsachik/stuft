@@ -5,9 +5,6 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import ZondWallet from "../ZondWallet";
 
-jest.mock("@/router/router", () => ({
-  ROUTES: { HOME: "/" },
-}));
 jest.mock("@/components/ZondWallet/RouteMonitor/RouteMonitor", () => () => (
   <div>Mocked Route Monitor</div>
 ));
