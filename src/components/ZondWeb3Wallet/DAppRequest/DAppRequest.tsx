@@ -53,7 +53,7 @@ const DAppRequest = () => {
       await browser.runtime.sendMessage(response);
     } catch (error) {
       console.warn(
-        "ZondWallet: Error while resolving the permission request\n",
+        "ZondWeb3Wallet: Error while resolving the permission request\n",
         error,
       );
     } finally {

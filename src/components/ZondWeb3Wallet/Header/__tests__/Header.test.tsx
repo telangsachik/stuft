@@ -6,8 +6,8 @@ import { MemoryRouter } from "react-router-dom";
 import Header from "../Header";
 
 jest.mock(
-  "@/components/ZondWeb3Wallet/Header/ZondWalletLogo/ZondWalletLogo",
-  () => () => <div>Mocked Zond Wallet Logo</div>,
+  "@/components/ZondWeb3Wallet/Header/ZondWeb3WalletLogo/ZondWeb3WalletLogo",
+  () => () => <div>Mocked Zond Web3 Wallet Logo</div>,
 );
 jest.mock(
   "@/components/ZondWeb3Wallet/Header/AccountBadge/AccountBadge",
@@ -26,11 +26,13 @@ describe("Header", () => {
       </StoreProvider>,
     );
 
-  it("should render the zond wallet logo component and the connection badge component", async () => {
+  it("should render the zond web3 wallet logo component and the connection badge component", async () => {
     renderComponent();
 
     await waitFor(() => {
-      expect(screen.getByText("Mocked Zond Wallet Logo")).toBeInTheDocument();
+      expect(
+        screen.getByText("Mocked Zond Web3 Wallet Logo"),
+      ).toBeInTheDocument();
       expect(screen.getByText("Mocked Account Badge")).toBeInTheDocument();
     });
   });
@@ -42,7 +44,9 @@ describe("Header", () => {
     renderComponent(mockedStoreValues);
 
     await waitFor(() => {
-      expect(screen.getByText("Mocked Zond Wallet Logo")).toBeInTheDocument();
+      expect(
+        screen.getByText("Mocked Zond Web3 Wallet Logo"),
+      ).toBeInTheDocument();
       expect(
         screen.queryByText("Mocked Account Badge"),
       ).not.toBeInTheDocument();

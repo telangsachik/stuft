@@ -4,7 +4,7 @@ import log from "loglevel";
 import { v4 as uuid } from "uuid";
 import {
   ZOND_POST_MESSAGE_STREAM,
-  ZOND_WALLET_PROVIDER_INFO,
+  ZOND_WEB3_WALLET_PROVIDER_INFO,
 } from "./constants/streamConstants";
 
 const initializeInPageScript = () => {
@@ -19,18 +19,18 @@ const initializeInPageScript = () => {
       logger: log,
       providerInfo: {
         uuid: uuid(),
-        name: ZOND_WALLET_PROVIDER_INFO.NAME,
-        icon: ZOND_WALLET_PROVIDER_INFO.ICON,
-        rdns: ZOND_WALLET_PROVIDER_INFO.RDNS,
+        name: ZOND_WEB3_WALLET_PROVIDER_INFO.NAME,
+        icon: ZOND_WEB3_WALLET_PROVIDER_INFO.ICON,
+        rdns: ZOND_WEB3_WALLET_PROVIDER_INFO.RDNS,
       },
     });
   } catch (error) {
     console.warn(
-      "Zond Wallet: Failed to initialize the in-page script\n",
+      "ZondWeb3Wallet: Failed to initialize the in-page script\n",
       error,
     );
   }
 };
 
-// This function accounces the zond wallet provider(based on EIP-6963), to be detected by the dApps.
+// This function accounces the zond web3 wallet provider(based on EIP-6963), to be detected by the dApps.
 initializeInPageScript();

@@ -3,7 +3,7 @@ import { StoreProvider } from "@/stores/store";
 import { describe, expect, it, jest } from "@jest/globals";
 import { act, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import ZondWallet from "../ZondWallet";
+import ZondWeb3Wallet from "../ZondWeb3Wallet";
 
 jest.mock("@/utilities/storageUtil", () => {
   const originalModule = jest.requireActual<
@@ -37,12 +37,12 @@ jest.mock("../DAppRequest/DAppRequest", () => () => (
   <div>Mocked DApp Request</div>
 ));
 
-describe("ZondWallet", () => {
+describe("ZondWeb3Wallet", () => {
   const renderComponent = (mockedStoreValues = mockedStore()) =>
     render(
       <StoreProvider value={mockedStoreValues}>
         <MemoryRouter>
-          <ZondWallet />
+          <ZondWeb3Wallet />
         </MemoryRouter>
       </StoreProvider>,
     );

@@ -1,12 +1,12 @@
-![Zond Wallet Preview Cover](misc/zond_wallet_preview_cover.png)
+![Zond Web3 Wallet Preview Cover](misc/zond_web3_wallet_preview_cover.png)
 
-# Zond Wallet
+# Zond Web3 Wallet
 
 A wallet for creating accounts, importing accounts and sending transactions over the zond blockchain. This is an extension for web browsers(like [Google Chrome](https://www.google.com/chrome/)), for performing operations on the [Zond](https://www.theqrl.org/blog/project-zond-qrls-next-generation-network-reaches-betatestnet/) blockchain.
 
 ## :keyboard: Run locally
 
-- Run `git clone https://github.com/theQRL/zond-wallet.git` for cloning this repo to your machine.
+- Run `git clone https://github.com/theQRL/zond-web3-wallet.git` for cloning this repo to your machine.
 - Run `npm install` for installing all dependencies of this project.
 - Run `npm run build` to generate a production build of the extension to the `Extension` folder.
 - The production build output folder is named `Extension` (not `dist`) and this folder alone is enough to run the extension.

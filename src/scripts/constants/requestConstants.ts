@@ -1,5 +1,5 @@
 export const REQUEST_METHODS = {
-  ZOND_WALLET_GET_PROVIDER_STATE: "zondWallet_getProviderState",
+  ZOND_WEB3_WALLET_GET_PROVIDER_STATE: "zondWallet_getProviderState",
   ETH_REQUEST_ACCOUNT: "eth_requestAccounts",
 } as const;
 

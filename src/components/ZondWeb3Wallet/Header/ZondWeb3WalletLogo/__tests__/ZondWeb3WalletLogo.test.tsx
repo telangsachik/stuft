@@ -1,13 +1,13 @@
 import { describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import ZondWalletLogo from "../ZondWalletLogo";
+import ZondWeb3WalletLogo from "../ZondWeb3WalletLogo";
 
-describe("ZondWalletLogo", () => {
+describe("ZondWeb3WalletLogo", () => {
   const renderComponent = () =>
     render(
       <MemoryRouter>
-        <ZondWalletLogo />
+        <ZondWeb3WalletLogo />
       </MemoryRouter>,
     );
 

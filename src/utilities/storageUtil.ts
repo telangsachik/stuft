@@ -79,7 +79,7 @@ class StorageUtil {
   }
 
   /**
-   * A function for storing the accounts created and imported within the zond wallet extension.
+   * A function for storing the accounts created and imported within the zond web3 wallet extension.
    * Call the getAccountList function to retrieve the stored value.
    */
   static async setAccountList(blockchain: string, accountList: string[]) {
@@ -224,7 +224,7 @@ class StorageUtil {
   }
 
   /**
-   * A function for storing the reuqest info temporarily by the dApp, which will be read by the zond wallet.
+   * A function for storing the reuqest info temporarily by the dApp, which will be read by the zond web3 wallet.
    * Call the getDAppRequestData function to retrieve the stored value, and clearFromTokenList for clearing the stored value.
    */
   static async setDAppRequestData(data: DAppRequestType) {

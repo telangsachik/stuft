@@ -3,11 +3,11 @@ import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
 import { lazy } from "react";
 
-const ZondWalletLogo = withSuspense(
+const ZondWeb3WalletLogo = withSuspense(
   lazy(
     () =>
       import(
-        "@/components/ZondWeb3Wallet/Header/ZondWalletLogo/ZondWalletLogo"
+        "@/components/ZondWeb3Wallet/Header/ZondWeb3WalletLogo/ZondWeb3WalletLogo"
       ),
   ),
 );
@@ -25,7 +25,7 @@ const Header = observer(() => {
 
   return (
     <div className="fixed top-0 z-20 flex h-16 w-full items-center justify-between border-b-2 border-secondary bg-background px-4">
-      <ZondWalletLogo />
+      <ZondWeb3WalletLogo />
       {isConnected && <AccountBadge />}
     </div>
   );

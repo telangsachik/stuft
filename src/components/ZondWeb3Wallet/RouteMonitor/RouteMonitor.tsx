@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 /**
- * An empty component that stays inside the ZondWallet component to watch for changing routes.
+ * An empty component that stays inside the ZondWeb3Wallet component to watch for changing routes.
  * This component takes care of scrolling the screen to top on route change and ensures the user is redirected to the same page on opening the extension.
  */
 const RouteMonitor = observer(() => {

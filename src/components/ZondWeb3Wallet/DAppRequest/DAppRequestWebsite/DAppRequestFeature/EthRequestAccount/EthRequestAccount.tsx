@@ -39,7 +39,7 @@ const EthRequestAccount = observer(
     return (
       <div className="flex flex-col gap-4">
         <div className="text-sm font-bold">
-          Connect your zond wallet accounts
+          Connect your zond web3 wallet accounts
         </div>
         {!!availableAccounts.length ? (
           availableAccounts.map((account) => (

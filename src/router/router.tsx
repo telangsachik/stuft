@@ -3,8 +3,8 @@ import withSuspense from "@/functions/withSuspense";
 import { lazy } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
-const ZondWallet = withSuspense(
-  lazy(() => import("@/components/ZondWeb3Wallet/ZondWallet")),
+const ZondWeb3Wallet = withSuspense(
+  lazy(() => import("@/components/ZondWeb3Wallet/ZondWeb3Wallet")),
 );
 const Home = withSuspense(
   lazy(() => import("@/components/ZondWeb3Wallet/Body/Home/Home")),
@@ -52,7 +52,7 @@ export const ROUTES = {
 const router = createMemoryRouter([
   {
     path: ROUTES.HOME,
-    element: <ZondWallet />,
+    element: <ZondWeb3Wallet />,
     children: [
       {
         index: true,
@@ -86,7 +86,7 @@ const router = createMemoryRouter([
   },
   {
     path: ROUTES.DEFAULT,
-    element: <ZondWallet />,
+    element: <ZondWeb3Wallet />,
   },
 ]);
 

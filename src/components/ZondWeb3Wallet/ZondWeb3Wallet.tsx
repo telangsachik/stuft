@@ -12,7 +12,7 @@ const Body = withSuspense(
   lazy(() => import("@/components/ZondWeb3Wallet/Body/Body")),
 );
 
-const ZondWallet = observer(() => {
+const ZondWeb3Wallet = observer(() => {
   const [hasDAppRequest, setHasDAppRequest] = useState(true);
 
   useEffect(() => {
@@ -37,4 +37,4 @@ const ZondWallet = observer(() => {
   );
 });
 
-export default ZondWallet;
+export default ZondWeb3Wallet;
