@@ -1,1 +1,3 @@
+# Extension folder is the build folder. At the time of final build, this could be removed from .gitignore
+Extension
 node_modules
