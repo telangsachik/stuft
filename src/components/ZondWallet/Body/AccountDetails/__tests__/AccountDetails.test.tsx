@@ -36,7 +36,7 @@ describe("AccountDetails", () => {
     );
     expect(screen.getByText("Account address")).toBeInTheDocument();
     expect(
-      screen.getByText("0x 2090 E9F3 8771 876F B6Fc 51a6 b464 121d 3cC0 93A1"),
+      screen.getByText("0x 2090E 9F387 71876 FB6Fc 51a6b 46412 1d3cC 093A1"),
     ).toBeInTheDocument();
     expect(screen.getByText("Available amount")).toBeInTheDocument();
     expect(screen.getByText("0 QRL")).toBeInTheDocument();
