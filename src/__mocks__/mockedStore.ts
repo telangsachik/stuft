@@ -24,7 +24,7 @@ const mockedStoreValues: StoreType = {
     fetchZondConnection: async () => {},
     getAccountBalance: (accountAddress: string) => {
       accountAddress;
-      return "0 QRL";
+      return "0 ZND";
     },
     initializeBlockchain: async () => {},
     selectBlockchain: async (selectedBlockchain: string) => {
@@ -54,11 +54,11 @@ const mockedStoreValues: StoreType = {
         maxPriorityFeePerGas: "0",
       };
     },
-    getErc20TokenDetails: async () => ({
+    getZrc20TokenDetails: async () => ({
       token: undefined,
       error: "",
     }),
-    getErc20TokenGas: async (
+    getZrc20TokenGas: async (
       from: string,
       to: string,
       value: number,
@@ -72,7 +72,7 @@ const mockedStoreValues: StoreType = {
       decimals;
       return "";
     },
-    signAndSendErc20Token: async (
+    signAndSendZrc20Token: async (
       from: string,
       to: string,
       value: number,

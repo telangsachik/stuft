@@ -49,7 +49,7 @@ const setupPageStreams = () => {
   pageMux.setMaxListeners(25);
 
   pipeline(pageMux, pageStream, pageMux, (err: Error | null) => {
-    console.warn("ZondWallet: Inpage Multiplex", err);
+    console.warn("ZondWeb3Wallet: Inpage Multiplex", err);
   });
 
   pageChannel = pageMux.createStream(ZOND_WALLET_PROVIDER_NAME);
@@ -57,14 +57,14 @@ const setupPageStreams = () => {
 
 /**
  * The function notifies inpage when the extension stream connection is ready. When the
- * 'zondWallet_chainChanged' method is received from the extension, it implies that the
+ * 'zondWeb3Wallet_chainChanged' method is received from the extension, it implies that the
  * background state is completely initialized and it is ready to process method calls.
  * This is used as a notification to replay any pending messages in MV3.
  */
 async function onDataExtensionStream(message: MessageType) {
   if (
     hasExtensionConnectSent &&
-    message.data.method === "zondWallet_chainChanged"
+    message.data.method === "zondWeb3Wallet_chainChanged"
   ) {
     hasExtensionConnectSent = false;
     window.postMessage(
@@ -158,7 +158,7 @@ const setupExtensionStreams = () => {
   extensionMux.setMaxListeners(25);
 
   pipeline(extensionMux, extensionStream, extensionMux, (err: Error | null) => {
-    console.warn("ZondWallet: Background Multiplex", err);
+    console.warn("ZondWeb3Wallet: Background Multiplex", err);
     notifyInpageOfStreamFailure();
   });
 
@@ -166,7 +166,7 @@ const setupExtensionStreams = () => {
   extensionChannel = extensionMux.createStream(ZOND_WALLET_PROVIDER_NAME);
   pipeline(pageChannel, extensionChannel, pageChannel, (error: Error | null) =>
     console.warn(
-      `ZondWallet: Muxed traffic for channel "${ZOND_WALLET_PROVIDER_NAME}" failed.`,
+      `ZondWeb3Wallet: Muxed traffic for channel "${ZOND_WALLET_PROVIDER_NAME}" failed.`,
       error,
     ),
   );
@@ -182,7 +182,7 @@ const prepareListeners = () => {
         setupExtensionStreams();
       }
       return Promise.resolve(
-        "ZondWallet: handled service worker ready message",
+        "ZondWeb3Wallet: handled service worker ready message",
       );
     }
   });
@@ -195,7 +195,7 @@ const initializeContentScript = () => {
     prepareListeners();
   } catch (error) {
     console.warn(
-      "Zond Wallet: Failed to initialize the content script\n",
+      "ZondWeb3Wallet: Failed to initialize the content script\n",
       error,
     );
   }

@@ -1,5 +1,5 @@
 {
-  "name": "zond-wallet",
+  "name": "zond-web3-wallet",
   "description": "A browser extension, for creating accounts, signing transactions and sending transactions over the zond blockchain.",
   "private": true,
   "version": "0.1.0",

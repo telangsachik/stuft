@@ -80,7 +80,7 @@ const announceServiceWorkerReady = async () => {
       .catch((error) => {
         // An error may happen if the contentscript is blocked from loading.
         checkForLastError();
-        console.warn(`ZondWallet: error from tab '${tab.title}'`, error);
+        console.warn(`ZondWeb3Wallet: error from tab '${tab.title}'`, error);
       });
   }
 };
@@ -126,7 +126,7 @@ const setupProviderConnectionEip1193 = async (port: browser.Runtime.Port) => {
   const providerStream = createEngineStream({ engine });
 
   pipeline(outStream, providerStream, outStream, (err) => {
-    console.warn("Zond Wallet: Error in stream pipeline\n", err);
+    console.warn("ZondWeb3Wallet: Error in stream pipeline\n", err);
     // handle any middleware cleanup
     // @ts-ignore
     engine?._middleware?.forEach((mid: any) => {
@@ -154,12 +154,12 @@ const initializeServiceWorker = async () => {
     establishContenScriptConnection();
   } catch (error) {
     console.warn(
-      "Zond Wallet: Failed to initialize the service worker\n",
+      "ZondWeb3Wallet: Failed to initialize the service worker\n",
       error,
     );
   }
 };
 
-// This is the starting point of service worker of zond wallet.
+// This is the starting point of service worker of zond web3 wallet.
 // This file is set as an entry in the "background" section of the manifest file.
 initializeServiceWorker();

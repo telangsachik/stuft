@@ -7,7 +7,7 @@ import { REQUEST_METHODS } from "../constants/requestConstants";
 import { EXTENSION_MESSAGES } from "../constants/streamConstants";
 import { DAppRequestType, DAppResponseType } from "./middlewareTypes";
 
-const requestAccountsFromZondWallet = async (
+const requestAccountsFromZondWeb3Wallet = async (
   req: JsonRpcRequest<JsonRpcRequest>,
 ): Promise<DAppResponseType> => {
   return new Promise((resolve) => {
@@ -35,8 +35,8 @@ export const connectWalletMiddleware: JsonRpcMiddleware<
   Json
 > = async (req, res, next, end) => {
   const requestedMethod = req.method;
-  if (requestedMethod === REQUEST_METHODS.ETH_REQUEST_ACCOUNT) {
-    const message = await requestAccountsFromZondWallet(req);
+  if (requestedMethod === REQUEST_METHODS.ZOND_REQUEST_ACCOUNT) {
+    const message = await requestAccountsFromZondWeb3Wallet(req);
     const hasApproved = message.hasApproved;
     if (hasApproved) {
       const accounts = message?.response?.accounts;

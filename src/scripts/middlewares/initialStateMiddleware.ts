@@ -9,7 +9,7 @@ export const initialStateMiddleware: JsonRpcMiddleware<
   Json
 > = async (req, res, next, end) => {
   const requestedMethod = req.method;
-  if (requestedMethod === REQUEST_METHODS.ZOND_WALLET_GET_PROVIDER_STATE) {
+  if (requestedMethod === REQUEST_METHODS.ZOND_WEB3_WALLET_GET_PROVIDER_STATE) {
     const response: Parameters<BaseProvider["_initializeState"]>[0] =
       await StorageUtil.getProviderState();
     res.result = response;
