@@ -1,10 +1,10 @@
-import { zondConfig } from "@/configuration/zondConfig";
-import Web3 from "@theqrl/web3";
+import { ZOND_PROVIDER } from "@/configuration/zondConfig";
+import Web3, { Web3ZondInterface } from "@theqrl/web3";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
 
-const { name, url } = zondConfig.zondHttpProvider;
-const zondHttpProvider = new Web3.providers.HttpProvider(url);
-const web3 = new Web3(zondHttpProvider);
+const BLOCKCHAIN_SELECTION_IDENTIFIER = "BLOCKCHAIN_SELECTION";
+
+type BlockchainType = keyof typeof ZOND_PROVIDER;
 
 type ZondAccountType = {
   accountAddress: string;
@@ -17,8 +17,8 @@ type ZondAccountsType = {
 };
 
 class ZondStore {
-  zondNetworkName = name;
-  zondInstance = web3.zond;
+  zondInstance?: Web3ZondInterface;
+  zondNetworkName = "";
   zondConnection = { isConnected: false, isLoading: false };
   zondAccounts: ZondAccountsType = { accounts: [], isLoading: false };
 
@@ -29,8 +29,22 @@ class ZondStore {
       zondConnection: observable.struct,
       zondAccounts: observable.struct,
       fetchZondConnection: action.bound,
+      fetchAccounts: action.bound,
       unlockAccount: action.bound,
     });
+    this.initializeBlockchain();
+  }
+
+  initializeBlockchain() {
+    const selectedBlockChain = (localStorage.getItem(
+      BLOCKCHAIN_SELECTION_IDENTIFIER,
+    ) ?? "TEST_NET") as BlockchainType;
+    const { name, url } = ZOND_PROVIDER[selectedBlockChain];
+    this.zondNetworkName = name;
+    const zondHttpProvider = new Web3.providers.HttpProvider(url);
+    const { zond } = new Web3(zondHttpProvider);
+    this.zondInstance = zond;
+
     this.fetchZondConnection();
     this.fetchAccounts();
   }
@@ -38,7 +52,7 @@ class ZondStore {
   async fetchZondConnection() {
     this.zondConnection = { ...this.zondConnection, isLoading: true };
     try {
-      const isListening = await this.zondInstance.net.isListening();
+      const isListening = (await this.zondInstance?.net.isListening()) ?? false;
       runInAction(() => {
         this.zondConnection = {
           ...this.zondConnection,
@@ -59,11 +73,12 @@ class ZondStore {
   async fetchAccounts() {
     this.zondAccounts = { ...this.zondAccounts, isLoading: true };
     try {
-      const accounts = await this.zondInstance.getAccounts();
+      const accounts = (await this.zondInstance?.getAccounts()) ?? [];
       const accountsWithBalance: ZondAccountsType["accounts"] =
         await Promise.all(
           accounts.map(async (account) => {
-            const accountBalance = await this.zondInstance.getBalance(account);
+            const accountBalance =
+              (await this.zondInstance?.getBalance(account)) ?? BigInt(0);
             return { accountAddress: account, accountBalance };
           }),
         );
@@ -86,7 +101,7 @@ class ZondStore {
 
   async unlockAccount(address: string, password: string) {
     const UNLOCK_DURATION = 60;
-    const unlockStatus = await this.zondInstance.personal.unlockAccount(
+    const unlockStatus = await this.zondInstance?.personal.unlockAccount(
       address,
       password,
       UNLOCK_DURATION,
