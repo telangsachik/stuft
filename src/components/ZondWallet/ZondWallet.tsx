@@ -1,4 +1,4 @@
-import ScrollToTop from "@/components/ZondWallet/ScrollToTop/ScrollToTop";
+import RouteMonitor from "@/components/ZondWallet/RouteMonitor/RouteMonitor";
 import withSuspense from "@/functions/withSuspense";
 import { observer } from "mobx-react-lite";
 import { lazy } from "react";
@@ -13,7 +13,7 @@ const Body = withSuspense(
 const ZondWallet = observer(() => {
   return (
     <div className="flex min-h-[48rem] w-[26rem] flex-col overflow-x-hidden bg-background text-foreground">
-      <ScrollToTop />
+      <RouteMonitor />
       <Header />
       <Body />
     </div>
