@@ -5,7 +5,7 @@ import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Bytes } from "@theqrl/web3";
 import { MemoryRouter } from "react-router-dom";
-import AccountDetails from "../AccountDetails";
+import TokenTransfer from "../TokenTransfer";
 
 jest.mock("@theqrl/web3", () => {
   const originalModule =
@@ -16,14 +16,14 @@ jest.mock("@theqrl/web3", () => {
   };
 });
 
-describe("AccountDetails", () => {
+describe("TokenTransfer", () => {
   afterEach(cleanup);
 
   const renderComponent = (mockedStoreValues = mockedStore()) =>
     render(
       <StoreProvider value={mockedStoreValues}>
         <MemoryRouter>
-          <AccountDetails />
+          <TokenTransfer />
         </MemoryRouter>
       </StoreProvider>,
     );
@@ -38,7 +38,7 @@ describe("AccountDetails", () => {
     expect(
       screen.getByText("0x 2090E 9F387 71876 FB6Fc 51a6b 46412 1d3cC 093A1"),
     ).toBeInTheDocument();
-    expect(screen.getByText("Account balance")).toBeInTheDocument();
+    expect(screen.getByText("Balance")).toBeInTheDocument();
     expect(screen.getByText("0 QRL")).toBeInTheDocument();
     expect(screen.getAllByRole("heading", { level: 3 })[1]).toHaveTextContent(
       "Make a transaction",
@@ -62,7 +62,7 @@ describe("AccountDetails", () => {
     expect(cancelButton).toBeInTheDocument();
     expect(cancelButton).toBeEnabled();
     const sendQuantaButton = screen.getByRole("button", {
-      name: "Send Quanta",
+      name: "Send QRL",
     });
     expect(sendQuantaButton).toBeInTheDocument();
     expect(sendQuantaButton).toBeDisabled();
@@ -90,7 +90,7 @@ describe("AccountDetails", () => {
       );
     });
     const sendQuantaButton = screen.getByRole("button", {
-      name: "Send Quanta",
+      name: "Send QRL",
     });
     expect(sendQuantaButton).toBeInTheDocument();
     expect(sendQuantaButton).toBeEnabled();
@@ -178,7 +178,7 @@ describe("AccountDetails", () => {
       );
     });
     const sendQuantaButton = screen.getByRole("button", {
-      name: "Send Quanta",
+      name: "Send QRL",
     });
     expect(sendQuantaButton).toBeInTheDocument();
     await act(async () => {

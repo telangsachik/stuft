@@ -16,6 +16,7 @@ import {
 } from "@/components/UI/Form";
 import { Input } from "@/components/UI/Input";
 import { Label } from "@/components/UI/Label";
+import { NATIVE_TOKEN } from "@/constants/nativeToken";
 import { ROUTES } from "@/router/router";
 import { useStore } from "@/stores/store";
 import StorageUtil from "@/utilities/storageUtil";
@@ -25,7 +26,7 @@ import { Loader, Send, X } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import BackButton from "../Shared/BackButton/BackButton";
 import AccountAddressSection from "./AccountAddressSection/AccountAddressSection";
@@ -44,7 +45,8 @@ const FormSchema = z
     path: ["receiverAddress"],
   });
 
-const AccountDetails = observer(() => {
+const TokenTransfer = observer(() => {
+  const { state } = useLocation();
   const navigate = useNavigate();
   const { zondStore } = useStore();
   const {
@@ -58,6 +60,11 @@ const AccountDetails = observer(() => {
 
   const [transactionReceipt, setTransactionReceipt] =
     useState<TransactionReceipt>();
+
+  const [tokenIcon, setTokenIcon] = useState(NATIVE_TOKEN.icon);
+  const [tokenBalance, setTokenBalance] = useState("");
+  const [tokenName, setTokenName] = useState(NATIVE_TOKEN.name);
+  const [tokenSymbol, setTokenSymbol] = useState(NATIVE_TOKEN.symbol);
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     try {
@@ -76,7 +83,6 @@ const AccountDetails = observer(() => {
         const isTransactionSuccessful =
           transactionReceipt?.status.toString() === "1";
         if (isTransactionSuccessful) {
-          StorageUtil.clearTransactionValues(blockchain);
           resetForm();
           setTransactionReceipt(transactionReceipt);
           await fetchAccounts();
@@ -95,6 +101,7 @@ const AccountDetails = observer(() => {
   }
 
   const resetForm = () => {
+    StorageUtil.clearTransactionValues(blockchain);
     reset({ receiverAddress: "", amount: 0, mnemonicPhrases: "" });
   };
 
@@ -107,7 +114,15 @@ const AccountDetails = observer(() => {
     resolver: zodResolver(FormSchema),
     mode: "onChange",
     reValidateMode: "onChange",
-    defaultValues: async () => StorageUtil.getTransactionValues(blockchain),
+    defaultValues: async () => {
+      const storedTransactionValues =
+        await StorageUtil.getTransactionValues(blockchain);
+      return {
+        amount: storedTransactionValues?.amount ?? 0,
+        mnemonicPhrases: storedTransactionValues?.mnemonicPhrases ?? "",
+        receiverAddress: storedTransactionValues?.receiverAddress ?? "",
+      };
+    },
   });
   const {
     reset,
@@ -118,11 +133,65 @@ const AccountDetails = observer(() => {
   } = form;
 
   useEffect(() => {
+    (async () => {
+      const shouldStartFresh = state?.shouldStartFresh;
+      if (shouldStartFresh) {
+        resetForm();
+      } else {
+        const storedTransactionValues =
+          await StorageUtil.getTransactionValues(blockchain);
+        const tokenDetailsFromStorage = storedTransactionValues?.tokenDetails;
+        const tokenDetailsFromState = state?.tokenDetails;
+        let tokenDetails = {
+          tokenIcon,
+          tokenBalance,
+          tokenName,
+          tokenSymbol,
+        };
+
+        if (tokenDetailsFromState) {
+          setTokenIcon(tokenDetailsFromState?.tokenIcon);
+          setTokenBalance(tokenDetailsFromState?.tokenBalance);
+          setTokenName(tokenDetailsFromState?.tokenName);
+          setTokenSymbol(tokenDetailsFromState?.tokenSymbol);
+          tokenDetails = {
+            tokenIcon: tokenDetailsFromState?.tokenIcon,
+            tokenBalance: tokenDetailsFromState?.tokenBalance,
+            tokenName: tokenDetailsFromState?.tokenName,
+            tokenSymbol: tokenDetailsFromState?.tokenSymbol,
+          };
+        } else if (tokenDetailsFromStorage) {
+          setTokenIcon(tokenDetailsFromStorage?.tokenIcon);
+          setTokenBalance(tokenDetailsFromStorage?.tokenBalance);
+          setTokenName(tokenDetailsFromStorage?.tokenName);
+          setTokenSymbol(tokenDetailsFromStorage?.tokenSymbol);
+          tokenDetails = {
+            tokenIcon: tokenDetailsFromStorage?.tokenIcon,
+            tokenBalance: tokenDetailsFromStorage?.tokenBalance,
+            tokenName: tokenDetailsFromStorage?.tokenName,
+            tokenSymbol: tokenDetailsFromStorage?.tokenSymbol,
+          };
+        }
+
+        await StorageUtil.setTransactionValues(blockchain, {
+          amount: watch().amount,
+          mnemonicPhrases: watch().mnemonicPhrases,
+          receiverAddress: watch().receiverAddress,
+          tokenDetails,
+        });
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
     const formWatchSubscription = watch(async (value) => {
-      StorageUtil.setTransactionValues(blockchain, value);
+      await StorageUtil.setTransactionValues(blockchain, {
+        ...value,
+        tokenDetails: { tokenIcon, tokenBalance, tokenName, tokenSymbol },
+      });
     });
     return () => formWatchSubscription.unsubscribe();
-  }, [watch]);
+  }, [watch, tokenIcon, tokenBalance, tokenName, tokenSymbol]);
 
   return transactionReceipt ? (
     <TransactionSuccessful transactionReceipt={transactionReceipt} />
@@ -137,11 +206,15 @@ const AccountDetails = observer(() => {
           <BackButton />
           <Card className="w-full">
             <CardHeader className="flex flex-col gap-6">
-              <TokenDisplaySection />
+              <TokenDisplaySection
+                tokenIcon={tokenIcon}
+                tokenName={tokenName}
+                tokenSymbol={tokenSymbol}
+              />
               <CardTitle>Active account</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
-              <AccountAddressSection />
+              <AccountAddressSection tokenBalance={tokenBalance} />
               <CardTitle>Make a transaction</CardTitle>
               <FormField
                 control={control}
@@ -187,7 +260,7 @@ const AccountDetails = observer(() => {
                     </FormItem>
                   )}
                 />
-                <div className="w-8 pt-8 text-lg">QRL</div>
+                <div className="w-8 pt-8 text-lg">{tokenSymbol}</div>
               </div>
               <FormField
                 control={control}
@@ -234,7 +307,9 @@ const AccountDetails = observer(() => {
                 ) : (
                   <Send className="mr-2 h-4 w-4" />
                 )}
-                {isSubmitting ? "Sending Quanta" : "Send Quanta"}
+                {isSubmitting
+                  ? `Sending ${tokenSymbol}`
+                  : `Send ${tokenSymbol}`}
               </Button>
             </CardFooter>
           </Card>
@@ -244,4 +319,4 @@ const AccountDetails = observer(() => {
   );
 });
 
-export default AccountDetails;
+export default TokenTransfer;

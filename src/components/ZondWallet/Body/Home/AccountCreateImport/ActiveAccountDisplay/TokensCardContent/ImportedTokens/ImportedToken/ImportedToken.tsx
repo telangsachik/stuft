@@ -2,7 +2,7 @@ import { getOptimalTokenBalance } from "@/functions/getOptimalTokenBalance";
 import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
-import TokenListItem from "../../TokenItem/TokenItem";
+import TokenListItem from "../../TokenListItem/TokenListItem";
 
 type ImportedTokenProps = {
   contractAddress: string;

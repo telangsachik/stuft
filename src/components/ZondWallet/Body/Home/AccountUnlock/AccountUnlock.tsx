@@ -51,7 +51,9 @@ export const AccountUnlock = observer(() => {
   } = form;
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
-    console.log(">>>", formData);
+    // Use form data for unlocking account
+    formData;
+
     const unlocked = false;
     if (unlocked) {
       control.setError("password", {

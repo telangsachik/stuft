@@ -1,11 +1,15 @@
+import { NATIVE_TOKEN } from "@/constants/nativeToken";
+
 export const getOptimalTokenBalance = (
   balance: string,
   tokenSymbol?: string,
 ) => {
-  const symbol = tokenSymbol ?? "QRL";
+  const symbol = tokenSymbol ?? NATIVE_TOKEN.symbol;
   try {
-    let precisionFloat = parseFloat(Number(balance).toString()).toFixed(4);
-    if (Number(precisionFloat) == 0) return `0.0 ${symbol}`;
+    if (Number(balance) == 0) return `0.0 ${symbol}`;
+    const precisionFloat = parseFloat(
+      balance.slice(0, balance.indexOf(".") + 5),
+    ).toFixed(4);
     let deleteIndex = precisionFloat.length - 1;
     const postDecimalIndex = precisionFloat.indexOf(".") + 2;
 
