@@ -3,8 +3,8 @@ import { useStore } from "@/stores/store";
 import { Web3BaseWalletAccount } from "@theqrl/web3";
 import { observer } from "mobx-react-lite";
 import { lazy, useState } from "react";
-import { AccountCreationForm } from "./AccountCreationForm/AccountCreationForm";
-import { AccountCreationSuccess } from "./AccountCreationSuccess/AccountCreationSuccess";
+import AccountCreationForm from "./AccountCreationForm/AccountCreationForm";
+import AccountCreationSuccess from "./AccountCreationSuccess/AccountCreationSuccess";
 
 const MnemonicDisplay = withSuspense(
   lazy(

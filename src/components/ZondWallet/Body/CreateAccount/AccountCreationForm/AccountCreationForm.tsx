@@ -39,7 +39,7 @@ type AccountCreationFormProps = {
   onAccountCreated: (account?: Web3BaseWalletAccount) => void;
 };
 
-export const AccountCreationForm = observer(
+const AccountCreationForm = observer(
   ({ onAccountCreated }: AccountCreationFormProps) => {
     const { zondStore } = useStore();
     const { zondInstance } = zondStore;
@@ -139,3 +139,5 @@ export const AccountCreationForm = observer(
     );
   },
 );
+
+export default AccountCreationForm;

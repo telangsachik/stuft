@@ -16,9 +16,7 @@ type AccountCreationSuccessProps = {
   account?: Web3BaseWalletAccount;
 };
 
-export const AccountCreationSuccess = ({
-  account,
-}: AccountCreationSuccessProps) => {
+const AccountCreationSuccess = ({ account }: AccountCreationSuccessProps) => {
   const accountAddress = account?.address ?? "";
   const accountAddressSplit = [];
   for (let i = 2; i < accountAddress.length; i += 4) {
@@ -81,3 +79,5 @@ export const AccountCreationSuccess = ({
     </Card>
   );
 };
+
+export default AccountCreationSuccess;
