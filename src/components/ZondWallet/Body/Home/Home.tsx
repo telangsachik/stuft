@@ -11,9 +11,9 @@ export const Home = observer(() => {
   const { isLoading, isConnected } = zondConnection;
 
   return (
-    <div className="relative text-foreground">
+    <>
       <BackgroundVideo />
-      <div className="absolute top-0 flex w-full flex-col items-center gap-4 pt-28">
+      <div className="relative z-10 flex w-full flex-col items-center gap-4 p-8">
         <img className="h-16 w-16" src="qrl-icon.png" />
         {isLoading ? (
           <Loader className="animate-spin text-foreground" size="32" />
@@ -24,6 +24,6 @@ export const Home = observer(() => {
           </>
         )}
       </div>
-    </div>
+    </>
   );
 });
