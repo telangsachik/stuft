@@ -46,8 +46,7 @@ jobs:
           cp -r Extension/* zond-chrome-v${{ env.package_version }}/
           zip -r zond-chrome-v${{ env.package_version }}.zip zond-chrome-v${{ env.package_version }}
 
-      - name: Upload Zip as Artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload Zip to Release
+        uses: softprops/action-gh-release@v1
         with:
-          name: zond-chrome-v${{ env.package_version }}
-          path: zond-chrome-v${{ env.package_version }}.zip
+          files: zond-chrome-v${{ env.package_version }}.zip
