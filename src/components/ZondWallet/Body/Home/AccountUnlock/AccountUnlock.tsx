@@ -24,7 +24,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const FormSchema = z.object({
-  password: z.string().min(1),
+  password: z.string().min(8, "Password are atleast 8 characters"),
 });
 
 export const AccountUnlock = observer(() => {

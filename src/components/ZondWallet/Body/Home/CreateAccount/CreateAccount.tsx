@@ -24,8 +24,10 @@ import { z } from "zod";
 
 const FormSchema = z
   .object({
-    password: z.string().min(1, "Password cannot be empty!"),
-    reEnteredPassword: z.string().min(1, "Password cannot be empty!"),
+    password: z.string().min(8, "Password must be atleast 8 characters"),
+    reEnteredPassword: z
+      .string()
+      .min(8, "Password must be atleast 8 characters"),
   })
   .refine((fields) => fields.password === fields.reEnteredPassword, {
     message: "Passwords doesn't match",
