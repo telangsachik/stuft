@@ -21,19 +21,24 @@ class StorageUtil {
    * A function for storing the transaction state values, so that the user need not fill in the field values if the extension is closed and opened again.
    * Call the getTransactionValues fuction to retieve the stored value.
    */
-  static setTransactionValues(transactionValues: TransactionValuesType) {
+  static setTransactionValues(
+    blockchain: string,
+    transactionValues: TransactionValuesType,
+  ) {
+    const transactionValuesIdentifier = `${blockchain}_${TRANSACTION_VALUES_IDENTIFIER}`;
     const transactionValuesWithDefaultValues = {
       receiverAddress: transactionValues.receiverAddress ?? "",
       amount: transactionValues.amount ?? 0,
       mnemonicPhrases: "",
     };
     localStorage.setItem(
-      TRANSACTION_VALUES_IDENTIFIER,
+      transactionValuesIdentifier,
       JSON.stringify(transactionValuesWithDefaultValues),
     );
   }
 
-  static getTransactionValues() {
+  static getTransactionValues(blockchain: string) {
+    const transactionValuesIdentifier = `${blockchain}_${TRANSACTION_VALUES_IDENTIFIER}`;
     let transactionValues = {
       receiverAddress: "",
       amount: 0,
@@ -41,7 +46,7 @@ class StorageUtil {
     };
 
     const storedTransactionValues = localStorage.getItem(
-      TRANSACTION_VALUES_IDENTIFIER,
+      transactionValuesIdentifier,
     );
     if (storedTransactionValues) {
       transactionValues = JSON.parse(storedTransactionValues);
@@ -50,8 +55,9 @@ class StorageUtil {
     return transactionValues;
   }
 
-  static clearTransactionValues() {
-    localStorage.removeItem(TRANSACTION_VALUES_IDENTIFIER);
+  static clearTransactionValues(blockchain: string) {
+    const transactionValuesIdentifier = `${blockchain}_${TRANSACTION_VALUES_IDENTIFIER}`;
+    localStorage.removeItem(transactionValuesIdentifier);
   }
 
   /**
