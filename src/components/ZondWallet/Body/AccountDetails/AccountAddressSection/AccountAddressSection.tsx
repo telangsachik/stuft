@@ -1,7 +1,8 @@
 import { Separator } from "@/components/UI/Separator";
 import { useStore } from "@/stores/store";
+import { observer } from "mobx-react-lite";
 
-const AccountAddressSection = () => {
+const AccountAddressSection = observer(() => {
   const { zondStore } = useStore();
   const { activeAccount, getAccountBalance } = zondStore;
   const { accountAddress } = activeAccount;
@@ -27,6 +28,6 @@ const AccountAddressSection = () => {
       <Separator />
     </>
   );
-};
+});
 
 export default AccountAddressSection;
