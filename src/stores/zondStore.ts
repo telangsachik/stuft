@@ -86,6 +86,23 @@ class ZondStore {
       ...this.activeAccount,
       accountAddress: activeAccount ?? "",
     };
+
+    const blockChainAccountListIdentifier = `${this.zondConnection.zondNetworkId}_ACCOUNT_LIST`;
+    let storedAccountList: string[] = [];
+    try {
+      const accountListFromLocalStorage = JSON.parse(
+        localStorage.getItem(blockChainAccountListIdentifier) ?? "[]",
+      );
+      storedAccountList = [...accountListFromLocalStorage];
+      if (activeAccount) {
+        storedAccountList.push(activeAccount);
+      }
+    } finally {
+      localStorage.setItem(
+        blockChainAccountListIdentifier,
+        JSON.stringify(storedAccountList),
+      );
+    }
   }
 
   async fetchZondConnection() {
@@ -112,10 +129,16 @@ class ZondStore {
   async fetchAccounts() {
     this.zondAccounts = { ...this.zondAccounts, isLoading: true };
     try {
-      const accounts = (await this.zondInstance?.getAccounts()) ?? [];
+      const blockChainAccountListIdentifier = `${this.zondConnection.zondNetworkId}_ACCOUNT_LIST`;
+      let storedAccountsList: string[] = [];
+      const accountListFromLocalStorage = JSON.parse(
+        localStorage.getItem(blockChainAccountListIdentifier) ?? "[]",
+      );
+      storedAccountsList = accountListFromLocalStorage;
+
       const accountsWithBalance: ZondAccountsType["accounts"] =
         await Promise.all(
-          accounts.map(async (account) => {
+          storedAccountsList.map(async (account) => {
             const accountBalance =
               (await this.zondInstance?.getBalance(account)) ?? BigInt(0);
             return { accountAddress: account, accountBalance };
