@@ -40,10 +40,10 @@ const ImportToken = observer(() => {
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     console.log(">>>formData", formData);
     const tokenDetails = await getTokenDetails(formData.contractAddress);
-    if (tokenDetails?.error) {
+    if (tokenDetails.error) {
       control.setError("contractAddress", { message: tokenDetails.error });
     } else {
-      setToken(tokenDetails?.token);
+      setToken(tokenDetails.token);
       setHasTokenImported(true);
     }
   }
