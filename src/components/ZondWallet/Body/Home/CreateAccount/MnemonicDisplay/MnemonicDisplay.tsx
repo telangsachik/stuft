@@ -58,7 +58,7 @@ export const MnemonicDisplay = ({
 
   const cardDescription = `Don't lose this mnemonic phrases. You may need this someday to import or recover your new account ${accountAddress?.substring(0, 5)}...${accountAddress?.substring(accountAddress?.length - 5)}`;
   const continueWarning =
-    "You should only continue if you have backed up the mnemonic phrases. If you haven't, go back and store it safe. There is no going back after this!";
+    "You should only continue if you have backed up the mnemonic phrases. If you haven't, go back and store it safe. There is no going back once you click continue button.";
 
   return (
     <Card className="text-ellipsis">
