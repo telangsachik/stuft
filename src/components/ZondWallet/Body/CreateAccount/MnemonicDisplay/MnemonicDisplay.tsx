@@ -19,8 +19,7 @@ import {
 } from "@/components/UI/Dialog";
 import { getMnemonicFromHexSeed } from "@/functions/getMnemonicFromHexSeed";
 import { Web3BaseWalletAccount } from "@theqrl/web3";
-import { ArrowRight, Copy, Undo } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowRight, HardDriveDownload, Undo } from "lucide-react";
 import { MnemonicWordListing } from "./MnemonicWordListing/MnemonicWordListing";
 
 type MnemonicDisplayProps = {
@@ -36,29 +35,28 @@ export const MnemonicDisplay = ({
   const accountHexSeed = account?.seed;
   const mnemonic = getMnemonicFromHexSeed(accountHexSeed);
 
-  const [hasJustCopied, setHasJustCopied] = useState(false);
-  const [timer, setTimer] = useState<NodeJS.Timeout>();
-
-  useEffect(() => {
-    return () => {
-      if (timer) {
-        clearTimeout(timer);
-      }
+  const onDownload = () => {
+    const mnemonicObject = {
+      "Account public address (can be shared with others)":
+        account?.address ?? "",
+      "Secret Mnemonic phrases (can be used for recovering your account, and should be kept safe)":
+        mnemonic,
     };
-  }, [timer]);
-
-  const onCopy = () => {
-    setHasJustCopied(true);
-    navigator.clipboard.writeText(mnemonic);
-    const newTimer = setTimeout(() => {
-      setHasJustCopied(false);
-    }, 1000);
-    setTimer(newTimer);
+    const blobData = JSON.stringify(mnemonicObject, null, 2);
+    const blob = new Blob([blobData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchorElement = document.createElement("a");
+    anchorElement.href = url;
+    anchorElement.download = "Secret Mnemonic Phrases.json";
+    document.body.appendChild(anchorElement);
+    anchorElement.click();
+    document.body.removeChild(anchorElement);
+    URL.revokeObjectURL(url);
   };
 
-  const cardDescription = `Don't lose this mnemonic phrases. You may need this someday to import or recover your new account ${accountAddress?.substring(0, 5)}...${accountAddress?.substring(accountAddress?.length - 5)}`;
+  const cardDescription = `Don't lose this mnemonic phrases. Download it right now. You may need this someday to import or recover your new account ${accountAddress?.substring(0, 5)}...${accountAddress?.substring(accountAddress?.length - 5)}`;
   const continueWarning =
-    "You should only continue if you have backed up the mnemonic phrases. If you haven't, go back and store it safe. There is no going back once you click continue button.";
+    "You should only continue if you have downloaded the mnemonic phrases. If you haven't, go back, download, and store it safe. There is no going back once you click the continue button.";
 
   return (
     <Card className="text-ellipsis">
@@ -73,11 +71,11 @@ export const MnemonicDisplay = ({
         <Button
           className="w-full"
           type="button"
-          variant="outline"
-          onClick={onCopy}
+          variant="constructive"
+          onClick={onDownload}
         >
-          <Copy className="mr-2 h-4 w-4" />
-          {hasJustCopied ? "Copied" : "Copy"}
+          <HardDriveDownload className="mr-2 h-4 w-4" />
+          Download
         </Button>
         <Dialog>
           <DialogTrigger asChild>
@@ -101,7 +99,6 @@ export const MnemonicDisplay = ({
               <Button
                 className="w-full"
                 type="button"
-                variant="destructive"
                 onClick={onMnemonicNoted}
               >
                 <ArrowRight className="mr-2 h-4 w-4" />
