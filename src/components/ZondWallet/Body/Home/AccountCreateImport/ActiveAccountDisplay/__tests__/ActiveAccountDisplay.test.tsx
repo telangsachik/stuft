@@ -34,7 +34,7 @@ describe("ActiveAccountDisplay", () => {
 
     expect(screen.getByText("2.45 QRL")).toBeInTheDocument();
     expect(
-      screen.getByText("0x 2050 46e6 A6E1 59eD 6ACe dE46 A36C AD6D 449C 80A1"),
+      screen.getByText("0x 20504 6e6A6 E159e D6ACe dE46A 36CAD 6D449 C80A1"),
     ).toBeInTheDocument();
   });
 });

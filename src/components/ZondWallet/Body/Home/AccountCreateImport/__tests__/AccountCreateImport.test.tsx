@@ -66,6 +66,9 @@ describe("AccountCreateImport", () => {
       screen.getByText("Mocked Active Account Display"),
     ).toBeInTheDocument();
     expect(screen.getAllByRole("heading", { level: 3 })[1]).toHaveTextContent(
+      "Tokens",
+    );
+    expect(screen.getAllByRole("heading", { level: 3 })[2]).toHaveTextContent(
       "Add accounts",
     );
     expect(screen.getByRole("paragraph")).toHaveTextContent(
