@@ -25,11 +25,11 @@ export default defineConfig({
             try {
               unlinkSync(filePath);
               console.log(
-                `Removed ${extension} file ${file} from the build directory "${outDir}"`,
+                `Removed "${extension}" file "${file}" from the build directory "${outDir}"`,
               );
             } catch (err) {
               console.error(
-                `Failed to remove ${extension} file ${file}: `,
+                `Failed to remove "${extension}" file "${file}": `,
                 err,
               );
             }
