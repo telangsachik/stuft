@@ -55,12 +55,9 @@ export const GasFeeNotice = ({
         (await zondInstance?.estimateGas(transaction)) ?? BigInt(0);
       const gasPrice = (await zondInstance?.getGasPrice()) ?? BigInt(0);
       const estimatedGas = parseFloat(
-        utils.fromWei(
-          BigInt(estimatedTransactionGas) * BigInt(gasPrice),
-          "ether",
-        ),
+        utils.fromWei(estimatedTransactionGas * gasPrice, "ether"),
       )
-        .toFixed(4)
+        .toString()
         .concat(" QRL");
       setGasFee({ ...gasFee, estimatedGas, error: "", isLoading: false });
     } catch (error) {
