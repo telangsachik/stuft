@@ -3,7 +3,7 @@ import { StoreProvider } from "@/stores/store";
 import { afterEach, describe, expect, it } from "@jest/globals";
 import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { NewAccount } from "../NewAccount";
+import NewAccount from "../NewAccount";
 
 describe("NewAccount", () => {
   afterEach(cleanup);

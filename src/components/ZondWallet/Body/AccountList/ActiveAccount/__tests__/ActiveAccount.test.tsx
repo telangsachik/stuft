@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, jest } from "@jest/globals";
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
-import { ActiveAccount } from "../ActiveAccount";
+import ActiveAccount from "../ActiveAccount";
 
 jest.mock("../../AccountId/AccountId", () => () => <div>Mocked Active Id</div>);
 

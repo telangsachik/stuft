@@ -14,7 +14,7 @@ import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import AccountId from "../AccountId/AccountId";
 
-export const ActiveAccount = observer(() => {
+const ActiveAccount = observer(() => {
   const { zondStore } = useStore();
   const {
     activeAccount: { accountAddress },
@@ -64,3 +64,5 @@ export const ActiveAccount = observer(() => {
     )
   );
 });
+
+export default ActiveAccount;

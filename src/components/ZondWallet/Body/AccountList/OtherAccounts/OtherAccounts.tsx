@@ -12,7 +12,7 @@ import { ArrowRight } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import AccountId from "../AccountId/AccountId";
 
-export const OtherAccounts = observer(() => {
+const OtherAccounts = observer(() => {
   const { zondStore } = useStore();
   const { zondAccounts, activeAccount, setActiveAccount } = zondStore;
   const { accountAddress: activeAccountAddress } = activeAccount;
@@ -59,3 +59,5 @@ export const OtherAccounts = observer(() => {
     )
   );
 });
+
+export default OtherAccounts;

@@ -3,7 +3,7 @@ import { ROUTES } from "@/router/router";
 import { Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export const NewAccount = () => {
+const NewAccount = () => {
   return (
     <Link to={ROUTES.HOME} state={{ hasAccountCreationPreference: true }}>
       <Button className="flex w-full gap-2">
@@ -12,3 +12,5 @@ export const NewAccount = () => {
     </Link>
   );
 };
+
+export default NewAccount;

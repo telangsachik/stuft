@@ -1,6 +1,6 @@
-import { ActiveAccount } from "@/components/ZondWallet/Body/AccountList/ActiveAccount/ActiveAccount";
-import { NewAccount } from "@/components/ZondWallet/Body/AccountList/NewAccount/NewAccount";
-import { OtherAccounts } from "@/components/ZondWallet/Body/AccountList/OtherAccounts/OtherAccounts";
+import ActiveAccount from "@/components/ZondWallet/Body/AccountList/ActiveAccount/ActiveAccount";
+import NewAccount from "@/components/ZondWallet/Body/AccountList/NewAccount/NewAccount";
+import OtherAccounts from "@/components/ZondWallet/Body/AccountList/OtherAccounts/OtherAccounts";
 
 const AccountList = () => {
   return (
