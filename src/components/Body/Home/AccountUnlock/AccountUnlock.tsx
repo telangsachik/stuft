@@ -28,10 +28,11 @@ const FormSchema = z.object({
 });
 
 export const AccountUnlock = observer(() => {
-  const { accountStore, zondStore } = useStore();
-  const { activeAccount } = accountStore;
-  const { accountAddress } = activeAccount;
-  const { unlockAccount } = zondStore;
+  const { zondStore } = useStore();
+  const {
+    unlockAccount,
+    activeAccount: { accountAddress },
+  } = zondStore;
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

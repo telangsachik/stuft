@@ -12,9 +12,10 @@ import { Copy, Lock } from "lucide-react";
 import { observer } from "mobx-react-lite";
 
 export const ActiveAccount = observer(() => {
-  const { accountStore } = useStore();
-  const { activeAccount } = accountStore;
-  const { accountAddress } = activeAccount;
+  const { zondStore } = useStore();
+  const {
+    activeAccount: { accountAddress },
+  } = zondStore;
 
   const splitLength = 5;
   const prefix = accountAddress.substring(0, 2);

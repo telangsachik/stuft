@@ -12,10 +12,12 @@ import { ArrowRight } from "lucide-react";
 import { observer } from "mobx-react-lite";
 
 export const OtherAccounts = observer(() => {
-  const { accountStore, zondStore } = useStore();
-  const { activeAccount, setActiveAccount } = accountStore;
-  const { accountAddress: activeAccountAddress } = activeAccount;
-  const { zondAccounts } = zondStore;
+  const { zondStore } = useStore();
+  const {
+    zondAccounts,
+    activeAccount: { accountAddress: activeAccountAddress },
+    setActiveAccount,
+  } = zondStore;
   const { accounts } = zondAccounts;
 
   const splitLength = 5;
