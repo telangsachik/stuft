@@ -30,4 +30,4 @@ A wallet for creating accounts, importing accounts and sending transactions over
 
 ## :hammer_and_wrench: Built with
 
-[The QRL](https://github.com/theQRL/QRL), [Vite](https://vitejs.dev/), [React](https://react.dev/), [Typescript](https://www.typescriptlang.org/), [Jest](https://jestjs.io/), [MobX](https://mobx.js.org/README.html), [Shadcn](https://ui.shadcn.com/), [React hook form](https://www.react-hook-form.com/), [Tailwind](https://tailwindcss.com/)
+[The QRL](https://github.com/theQRL/QRL), [Vite](https://vitejs.dev/), [React](https://react.dev/), [Typescript](https://www.typescriptlang.org/), [Jest](https://jestjs.io/), [MobX](https://mobx.js.org/README.html), [Shadcn](https://ui.shadcn.com/), [React hook form](https://www.react-hook-form.com/), [TailwindCSS](https://tailwindcss.com/)
