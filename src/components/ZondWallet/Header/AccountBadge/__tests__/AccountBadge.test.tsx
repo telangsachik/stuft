@@ -10,19 +10,14 @@ jest.mock("@/router/router", () => ({
 }));
 
 describe("AccountBadge", () => {
-  const renderComponent = (
-    mockedStoreValues = mockedStore(),
-    printDebug = false,
-  ) => {
-    const { debug } = render(
+  const renderComponent = (mockedStoreValues = mockedStore()) =>
+    render(
       <StoreProvider value={mockedStoreValues}>
         <MemoryRouter>
           <AccountBadge />
         </MemoryRouter>
       </StoreProvider>,
     );
-    if (printDebug) debug();
-  };
 
   it("should render the account address in the shortened form with ellipses in between", () => {
     const mockedStoreValues = mockedStore({

@@ -8,14 +8,12 @@ jest.mock("@/router/router", () => ({
 }));
 
 describe("ZondWalletLogo", () => {
-  const renderComponent = (printDebug = false) => {
-    const { debug } = render(
+  const renderComponent = () =>
+    render(
       <MemoryRouter>
         <ZondWalletLogo />
       </MemoryRouter>,
     );
-    if (printDebug) debug();
-  };
 
   it("should render the zond and wallet text in the component", () => {
     renderComponent();
