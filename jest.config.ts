@@ -4,6 +4,7 @@ const config: Config = {
   clearMocks: true,
   collectCoverage: true,
   coverageDirectory: "coverage",
+  coveragePathIgnorePatterns: ["<rootDir>/src/components/UI/"],
   testEnvironment: "jsdom",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   injectGlobals: false,
