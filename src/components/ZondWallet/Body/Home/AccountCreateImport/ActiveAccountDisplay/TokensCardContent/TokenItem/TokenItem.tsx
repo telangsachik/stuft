@@ -22,8 +22,6 @@ type TokenListItemProps = {
 const TokenListItem = ({ icon, balance, name, symbol }: TokenListItemProps) => {
   const navigate = useNavigate();
 
-  const randomTailwindTextColor = getRandomTailwindTextColor(symbol);
-
   const onSend = () => {
     navigate(ROUTES.ACCOUNT_DETAILS, {
       state: {
@@ -31,7 +29,6 @@ const TokenListItem = ({ icon, balance, name, symbol }: TokenListItemProps) => {
         tokenBalance: balance,
         tokenName: name,
         tokenSymbol: symbol,
-        randomTailwindTextColor,
       },
     });
   };
@@ -42,7 +39,7 @@ const TokenListItem = ({ icon, balance, name, symbol }: TokenListItemProps) => {
         {!!icon ? (
           <img className="h-8 w-8" src={icon} />
         ) : (
-          <span className={randomTailwindTextColor}>
+          <span className={getRandomTailwindTextColor(symbol)}>
             <TextSelect size={32} />
           </span>
         )}

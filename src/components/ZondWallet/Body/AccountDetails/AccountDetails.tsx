@@ -64,7 +64,6 @@ const AccountDetails = observer(() => {
   const tokenBalance: string = state?.tokenBalance;
   const tokenName: string = state?.tokenName ?? "Quanta";
   const tokenSymbol: string = state?.tokenSymbol ?? "QRL";
-  const randomTailwindTextColor: string = state?.randomTailwindTextColor ?? "";
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     try {
@@ -148,7 +147,6 @@ const AccountDetails = observer(() => {
                 tokenIcon={tokenIcon}
                 tokenName={tokenName}
                 tokenSymbol={tokenSymbol}
-                randomTailwindTextColor={randomTailwindTextColor}
               />
               <CardTitle>Active account</CardTitle>
             </CardHeader>
