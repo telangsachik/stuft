@@ -13,7 +13,6 @@ export default function RouteMonitor() {
   useEffect(() => {
     const activePage = StorageUtil.getActivePage();
     if (activePage) {
-      StorageUtil.clearActivePage();
       navigate(activePage);
     }
   }, []);
