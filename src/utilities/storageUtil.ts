@@ -30,7 +30,6 @@ class StorageUtil {
     const transactionValuesWithDefaultValues = {
       receiverAddress: transactionValues.receiverAddress ?? "",
       amount: transactionValues.amount ?? 0,
-      mnemonicPhrases: "",
     };
     await browser.storage.local.set({
       [transactionValuesIdentifier]: transactionValuesWithDefaultValues,
@@ -49,7 +48,10 @@ class StorageUtil {
       transactionValuesIdentifier,
     );
     if (storedTransactionValues) {
-      transactionValues = storedTransactionValues[transactionValuesIdentifier];
+      transactionValues = {
+        ...transactionValues,
+        ...storedTransactionValues[transactionValuesIdentifier],
+      };
     }
 
     return transactionValues;
