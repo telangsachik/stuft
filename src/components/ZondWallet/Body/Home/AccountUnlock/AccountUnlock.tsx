@@ -30,7 +30,6 @@ const FormSchema = z.object({
 export const AccountUnlock = observer(() => {
   const { zondStore } = useStore();
   const {
-    unlockAccount,
     activeAccount: { accountAddress },
   } = zondStore;
 
@@ -49,7 +48,7 @@ export const AccountUnlock = observer(() => {
   } = form;
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
-    const unlocked = await unlockAccount(accountAddress, formData.password);
+    const unlocked = false;
     if (unlocked) {
       control.setError("password", {
         message: "The entered password is correct",
