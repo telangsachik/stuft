@@ -16,7 +16,6 @@ import {
 } from "@/components/UI/Form";
 import { Input } from "@/components/UI/Input";
 import { Label } from "@/components/UI/Label";
-import { Separator } from "@/components/UI/Separator";
 import { ROUTES } from "@/router/router";
 import { useStore } from "@/stores/store";
 import StorageUtil from "@/utilities/storageUtil";
@@ -29,6 +28,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import BackButton from "../Shared/BackButton/BackButton";
+import AccountAddressSection from "./AccountAddressSection/AccountAddressSection";
 import { GasFeeNotice } from "./GasFeeNotice/GasFeeNotice";
 import { TransactionSuccessful } from "./TransactionSuccessful/TransactionSuccessful";
 
@@ -48,7 +48,6 @@ const AccountDetails = observer(() => {
   const { zondStore } = useStore();
   const {
     activeAccount,
-    getAccountBalance,
     signAndSendTransaction,
     zondConnection,
     fetchAccounts,
@@ -58,14 +57,6 @@ const AccountDetails = observer(() => {
 
   const [transactionReceipt, setTransactionReceipt] =
     useState<TransactionReceipt>();
-
-  const accountBalance = getAccountBalance(accountAddress);
-
-  const prefix = accountAddress.substring(0, 2);
-  const addressSplit: string[] = [];
-  for (let i = 2; i < accountAddress.length; i += 4) {
-    addressSplit.push(accountAddress.substring(i, i + 4));
-  }
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     try {
@@ -148,15 +139,7 @@ const AccountDetails = observer(() => {
               <CardTitle>Active account</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
-              <div className="flex flex-col gap-2">
-                <div>Account address</div>
-                <div className="font-bold text-secondary">{`${prefix} ${addressSplit.join(" ")}`}</div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <div>Available amount</div>
-                <div className="font-bold text-secondary">{accountBalance}</div>
-              </div>
-              <Separator />
+              <AccountAddressSection />
               <CardTitle>Make a transaction</CardTitle>
               <FormField
                 control={control}
