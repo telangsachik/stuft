@@ -1,4 +1,4 @@
-name: Publish Zond Web3 Chrome Extension
+name: Publish Zond Web3 Wallet Chrome Extension
 
 on:
   release:
@@ -6,7 +6,7 @@ on:
       - created
 
 jobs:
-  build-and-zip:
+  publish-zond-web3-wallet-chrome-extension:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
