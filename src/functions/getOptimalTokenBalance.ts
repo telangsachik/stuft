@@ -1,4 +1,16 @@
 import { NATIVE_TOKEN } from "@/constants/nativeToken";
+import { BigNumber } from "bignumber.js";
+
+BigNumber.config({
+  DECIMAL_PLACES: 18,
+  EXPONENTIAL_AT: 1e9,
+  ROUNDING_MODE: BigNumber.ROUND_DOWN,
+  FORMAT: {
+    decimalSeparator: ".",
+    groupSeparator: ",",
+    groupSize: 3,
+  },
+});
 
 export const getOptimalTokenBalance = (
   balance: string,
@@ -6,22 +18,19 @@ export const getOptimalTokenBalance = (
 ) => {
   const symbol = tokenSymbol ?? NATIVE_TOKEN.symbol;
   try {
-    if (Number(balance) == 0) return `0.0 ${symbol}`;
-    const precisionFloat = parseFloat(
-      balance.slice(0, balance.indexOf(".") + 5),
-    ).toFixed(4);
-    let deleteIndex = precisionFloat.length - 1;
-    const postDecimalIndex = precisionFloat.indexOf(".") + 2;
+    const bigNumber = new BigNumber(balance);
+    if (bigNumber.isNaN() || bigNumber.isZero()) return `0.0 ${symbol}`;
 
-    while (
-      deleteIndex >= postDecimalIndex &&
-      precisionFloat[deleteIndex] === "0"
-    ) {
-      deleteIndex--;
+    let formatted = bigNumber
+      .toFormat(4, BigNumber.ROUND_DOWN)
+      .replace(/\.?0+$/, "");
+
+    if (!formatted.includes(".")) {
+      formatted += ".0";
     }
 
-    return `${precisionFloat.substring(0, deleteIndex + 1)} ${symbol}`;
-  } catch (error) {
-    return `${balance} ${symbol}`;
+    return `${formatted} ${symbol}`;
+  } catch {
+    return `0.0 ${symbol}`;
   }
 };
