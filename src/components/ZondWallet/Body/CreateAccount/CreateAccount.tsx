@@ -28,13 +28,26 @@ export const CreateAccount = observer(() => {
     setHasMnemonicNoted(true);
   };
 
-  return hasAccountCreated ? (
-    hasMnemonicNoted ? (
-      <AccountCreationSuccess account={account} />
-    ) : (
-      <MnemonicDisplay account={account} onMnemonicNoted={onMnemonicNoted} />
-    )
-  ) : (
-    <AccountCreationForm onAccountCreated={onAccountCreated} />
+  return (
+    <>
+      <img
+        className="fixed z-0 h-96 w-96 -translate-x-8 scale-150 overflow-hidden opacity-30"
+        src="tree.svg"
+      />
+      <div className="relative z-10 p-8">
+        {hasAccountCreated ? (
+          hasMnemonicNoted ? (
+            <AccountCreationSuccess account={account} />
+          ) : (
+            <MnemonicDisplay
+              account={account}
+              onMnemonicNoted={onMnemonicNoted}
+            />
+          )
+        ) : (
+          <AccountCreationForm onAccountCreated={onAccountCreated} />
+        )}
+      </div>
+    </>
   );
 });
