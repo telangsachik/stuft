@@ -5,9 +5,6 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import ZondWallet from "../ZondWallet";
 
-jest.mock("@/components/ZondWallet/RouteMonitor/RouteMonitor", () => () => (
-  <div>Mocked Route Monitor</div>
-));
 jest.mock("@/components/ZondWallet/Header/Header", () => () => (
   <div>Mocked Header</div>
 ));
@@ -29,7 +26,6 @@ describe("ZondWallet", () => {
     renderComponent();
 
     await waitFor(() => {
-      expect(screen.getByText("Mocked Route Monitor")).toBeInTheDocument();
       expect(screen.getByText("Mocked Header")).toBeInTheDocument();
       expect(screen.getByText("Mocked Body")).toBeInTheDocument();
     });
