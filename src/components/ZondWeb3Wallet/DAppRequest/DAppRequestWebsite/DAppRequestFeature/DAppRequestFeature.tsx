@@ -16,7 +16,7 @@ const DAppRequestFeature = ({
   addToResponseData({});
 
   switch (dAppRequestData?.method) {
-    case REQUEST_METHODS.ETH_REQUEST_ACCOUNT:
+    case REQUEST_METHODS.ZOND_REQUEST_ACCOUNT:
       return (
         <EthRequestAccount
           addToResponseData={addToResponseData}

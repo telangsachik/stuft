@@ -16,7 +16,7 @@ describe("DAppRequestWebsite", () => {
     mockedProps: ComponentProps<typeof DAppRequestWebsite> = {
       addToResponseData: () => {},
       dAppRequestData: {
-        method: "eth_requestAccounts",
+        method: "zond_requestAccounts",
         requestData: {
           senderData: {
             tabId: 1,

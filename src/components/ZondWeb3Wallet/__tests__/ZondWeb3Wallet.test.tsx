@@ -12,7 +12,7 @@ jest.mock("@/utilities/storageUtil", () => {
   return {
     ...originalModule,
     getDAppRequestData: jest.fn(async () => ({
-      method: "eth_requestAccounts",
+      method: "zond_requestAccounts",
       requestData: {
         senderData: {
           tabId: 1,

@@ -18,7 +18,7 @@ describe("DAppRequestFeature", () => {
     mockedProps: ComponentProps<typeof DAppRequestFeature> = {
       addToResponseData: () => {},
       dAppRequestData: {
-        method: "eth_requestAccounts",
+        method: "zond_requestAccounts",
         requestData: {
           senderData: {
             tabId: 1,
@@ -39,11 +39,11 @@ describe("DAppRequestFeature", () => {
       </StoreProvider>,
     );
 
-  it("should render the dapp request feature component, for eth_requestAccounts", () => {
+  it("should render the dapp request feature component, for zond_requestAccounts", () => {
     renderComponent(undefined, {
       addToResponseData: () => {},
       dAppRequestData: {
-        method: "eth_requestAccounts",
+        method: "zond_requestAccounts",
         requestData: {
           senderData: {
             tabId: 1,
@@ -63,7 +63,7 @@ describe("DAppRequestFeature", () => {
     renderComponent(undefined, {
       addToResponseData: () => {},
       dAppRequestData: {
-        method: "eth_mocked_method",
+        method: "zond_mocked_method",
         requestData: {
           senderData: {
             tabId: 1,

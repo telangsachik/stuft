@@ -57,14 +57,14 @@ const setupPageStreams = () => {
 
 /**
  * The function notifies inpage when the extension stream connection is ready. When the
- * 'zondWallet_chainChanged' method is received from the extension, it implies that the
+ * 'zondWeb3Wallet_chainChanged' method is received from the extension, it implies that the
  * background state is completely initialized and it is ready to process method calls.
  * This is used as a notification to replay any pending messages in MV3.
  */
 async function onDataExtensionStream(message: MessageType) {
   if (
     hasExtensionConnectSent &&
-    message.data.method === "zondWallet_chainChanged"
+    message.data.method === "zondWeb3Wallet_chainChanged"
   ) {
     hasExtensionConnectSent = false;
     window.postMessage(
