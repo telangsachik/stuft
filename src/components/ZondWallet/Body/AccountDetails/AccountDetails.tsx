@@ -37,7 +37,8 @@ const FormSchema = z
 
 export const AccountDetails = observer(() => {
   const { zondStore } = useStore();
-  const { activeAccount, getAccountBalance } = zondStore;
+  const { activeAccount, getAccountBalance, signAndSendTransaction } =
+    zondStore;
   const { accountAddress } = activeAccount;
 
   const accountBalance = getAccountBalance(accountAddress);
@@ -50,9 +51,12 @@ export const AccountDetails = observer(() => {
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     try {
-      control.setError("receiverAddress", {
-        message: "An error occured",
-      });
+      const { transactionReceipt, error } = await signAndSendTransaction(
+        accountAddress,
+        formData.receiverAddress,
+        formData.amount,
+        "",
+      );
     } catch (error) {
       control.setError("receiverAddress", {
         message: `An error occured. ${error}`,

@@ -2,6 +2,7 @@ import { ZOND_PROVIDER } from "@/configuration/zondConfig";
 import StorageUtil from "@/utilities/storageUtil";
 import Web3, { Web3ZondInterface, utils } from "@theqrl/web3";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
+import { sendSignedTransaction } from "node_modules/@theqrl/web3-zond/lib/types/rpc_method_wrappers";
 
 type ActiveAccountType = {
   accountAddress: string;
@@ -188,7 +189,11 @@ class ZondStore {
     value: number,
     hexSeed: string,
   ) {
-    let transactionReceipt;
+    let transaction: {
+      transactionReceipt: Awaited<ReturnType<typeof sendSignedTransaction>>;
+      error: string;
+    } = { transactionReceipt: undefined, error: "" };
+
     try {
       const transactionObject = {
         from,
@@ -203,15 +208,20 @@ class ZondStore {
           hexSeed,
         );
       if (signedTransaction) {
-        transactionReceipt = await this.zondInstance?.sendSignedTransaction(
-          signedTransaction?.rawTransaction,
-        );
+        const transactionReceipt =
+          await this.zondInstance?.sendSignedTransaction(
+            signedTransaction?.rawTransaction,
+          );
+        transaction = { ...transaction, transactionReceipt };
       }
     } catch (error) {
-      transactionReceipt = null;
+      transaction = {
+        ...transaction,
+        error: "Transaction could not be completed",
+      };
     }
 
-    return transactionReceipt;
+    return transaction;
   }
 }
 
