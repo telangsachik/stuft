@@ -135,8 +135,10 @@ class ZondStore {
           storedAccountsList.map(async (account) => {
             const accountBalance =
               (await this.zondInstance?.getBalance(account)) ?? BigInt(0);
-            const convertedAccountBalance = utils
-              .fromWei(accountBalance, "ether")
+            const convertedAccountBalance = parseFloat(
+              utils.fromWei(accountBalance, "ether"),
+            )
+              .toFixed(4)
               .concat(" QRL");
             return {
               accountAddress: account,
