@@ -2,7 +2,7 @@ import { ROUTES } from "@/router/router";
 import { useStore } from "@/stores/store";
 import StorageUtil from "@/utilities/storageUtil";
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 /**
@@ -14,6 +14,7 @@ const RouteMonitor = observer(() => {
   const { zondConnection } = zondStore;
   const { isConnected } = zondConnection;
 
+  const [previousRouteUsed, setPreviousRouteUsed] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -21,6 +22,8 @@ const RouteMonitor = observer(() => {
     (async () => {
       const activePage = await StorageUtil.getActivePage();
       if (activePage && isConnected) {
+        await StorageUtil.clearActivePage();
+        setPreviousRouteUsed(true);
         navigate(activePage);
       } else {
         navigate(ROUTES.HOME);
@@ -30,7 +33,9 @@ const RouteMonitor = observer(() => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    StorageUtil.setActivePage(pathname);
+    (async () => {
+      if (previousRouteUsed) await StorageUtil.setActivePage(pathname);
+    })();
   }, [pathname]);
 
   return null;
