@@ -113,7 +113,7 @@ const ImportAccount = observer(() => {
                 <CardHeader>
                   <CardTitle>Import an existing account</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-2">
+                <CardContent className="space-y-4">
                   <FormField
                     control={control}
                     name="mnemonicPhrases"
