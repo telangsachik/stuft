@@ -1,7 +1,7 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/UI/Alert";
 import { WifiOff } from "lucide-react";
 
-export const ConnectionFailed = () => {
+const ConnectionFailed = () => {
   return (
     <Alert>
       <WifiOff className="h-4 w-4" />
@@ -13,3 +13,5 @@ export const ConnectionFailed = () => {
     </Alert>
   );
 };
+
+export default ConnectionFailed;

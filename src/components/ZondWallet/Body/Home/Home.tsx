@@ -3,7 +3,7 @@ import { useStore } from "@/stores/store";
 import { Loader } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { lazy } from "react";
-import { ConnectionFailed } from "./ConnectionFailed/ConnectionFailed";
+import ConnectionFailed from "./ConnectionFailed/ConnectionFailed";
 
 const AccountCreateImport = withSuspense(
   lazy(
