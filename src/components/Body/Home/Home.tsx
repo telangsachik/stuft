@@ -1,9 +1,9 @@
 import { useStore } from "@/stores/store";
 import { Loader } from "lucide-react";
 import { observer } from "mobx-react-lite";
-import { AccountUnlock } from "./AccountUnlock/AccountUnlock";
 import { BackgroundVideo } from "./BackgroundVideo/BackgroundVideo";
 import { ConnectionBadge } from "./ConnectionBadge/ConnectionBadge";
+import { CreateAccount } from "./CreateAccount/CreateAccount";
 
 export const Home = observer(() => {
   const { zondStore } = useStore();
@@ -20,7 +20,7 @@ export const Home = observer(() => {
         ) : (
           <>
             <ConnectionBadge />
-            {isConnected && <AccountUnlock />}
+            {isConnected && <CreateAccount />}
           </>
         )}
       </div>
