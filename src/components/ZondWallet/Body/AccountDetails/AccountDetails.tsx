@@ -113,9 +113,8 @@ export const AccountDetails = observer(() => {
     resolver: zodResolver(FormSchema),
     mode: "onChange",
     reValidateMode: "onChange",
-    defaultValues: StorageUtil.getTransactionValues(
-      zondConnection.zondNetworkId,
-    ),
+    defaultValues: async () =>
+      StorageUtil.getTransactionValues(zondConnection.zondNetworkId),
   });
   const {
     reset,
@@ -126,7 +125,7 @@ export const AccountDetails = observer(() => {
   } = form;
 
   useEffect(() => {
-    const formWatchSubscription = watch((value) => {
+    const formWatchSubscription = watch(async (value) => {
       StorageUtil.setTransactionValues(zondConnection.zondNetworkId, value);
     });
     return () => formWatchSubscription.unsubscribe();
