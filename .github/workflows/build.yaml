@@ -42,11 +42,11 @@ jobs:
 
       - name: Zip the build directory
         run: |
-          mkdir -p zond-chrome-v${{ env.package_version }}
-          cp -r Extension/* zond-chrome-v${{ env.package_version }}/
-          zip -r zond-chrome-v${{ env.package_version }}.zip zond-chrome-v${{ env.package_version }}
+          mkdir -p zond-web3-wallet-chrome-v${{ env.package_version }}
+          cp -r Extension/* zond-web3-wallet-chrome-v${{ env.package_version }}/
+          zip -r zond-web3-wallet-chrome-v${{ env.package_version }}.zip zond-web3-wallet-chrome-v${{ env.package_version }}
 
       - name: Upload Zip to Release
         uses: softprops/action-gh-release@v1
         with:
-          files: zond-chrome-v${{ env.package_version }}.zip
+          files: zond-web3-wallet-chrome-v${{ env.package_version }}.zip
