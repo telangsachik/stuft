@@ -1,5 +1,3 @@
-import { Card } from "@/components/UI/Card";
-
 const groupWords = (mnemonic: string) => {
   const words = mnemonic
     .split(" ")
@@ -23,7 +21,9 @@ export const MnemonicWordListing = ({ mnemonic }: MnemonicWordListingProps) => {
       {words.map((groupedWords) => (
         <div className="grid grid-cols-3 gap-2">
           {groupedWords.map((word) => (
-            <Card className="p-2">{word}</Card>
+            <div className="transition-transform hover:scale-110 hover:font-bold">
+              {word}
+            </div>
           ))}
         </div>
       ))}
