@@ -41,7 +41,7 @@ const blockchainSelectionClasses = cva("cursor-pointer", {
 
 export const ConnectionBadge = observer(() => {
   const { zondStore } = useStore();
-  const { zondConnection } = zondStore;
+  const { zondConnection, selectBlockchain } = zondStore;
   const { isConnected, zondNetworkName } = zondConnection;
 
   const { DEV, TEST_NET, MAIN_NET } = ZOND_PROVIDER;
@@ -72,6 +72,7 @@ export const ConnectionBadge = observer(() => {
             className={blockchainSelectionClasses({
               isSelected: isDevNetwork,
             })}
+            onClick={() => selectBlockchain(DEV.id)}
           >
             <HardDrive className="mr-2 h-4 w-4" />
             <span>{DEV.name}</span>
@@ -85,6 +86,7 @@ export const ConnectionBadge = observer(() => {
             className={blockchainSelectionClasses({
               isSelected: isTestNetwork,
             })}
+            onClick={() => selectBlockchain(TEST_NET.id)}
           >
             <Workflow className="mr-2 h-4 w-4" />
             <span>{TEST_NET.name}</span>
@@ -98,6 +100,7 @@ export const ConnectionBadge = observer(() => {
             className={blockchainSelectionClasses({
               isSelected: isMainNetwork,
             })}
+            onClick={() => selectBlockchain(MAIN_NET.id)}
           >
             <Network className="mr-2 h-4 w-4" />
             <span>{MAIN_NET.name}</span>

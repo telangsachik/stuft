@@ -3,7 +3,7 @@ import Web3, { Web3ZondInterface } from "@theqrl/web3";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
 
 const BLOCKCHAIN_SELECTION_IDENTIFIER = "BLOCKCHAIN_SELECTION";
-const DEFAULT_BLOCKCHAIN = "TEST_NET";
+const DEFAULT_BLOCKCHAIN = ZOND_PROVIDER.TEST_NET.id;
 
 type BlockchainType = keyof typeof ZOND_PROVIDER;
 
@@ -31,6 +31,7 @@ class ZondStore {
       zondInstance: observable.struct,
       zondConnection: observable.struct,
       zondAccounts: observable.struct,
+      selectBlockchain: action.bound,
       fetchZondConnection: action.bound,
       fetchAccounts: action.bound,
       unlockAccount: action.bound,
@@ -51,6 +52,11 @@ class ZondStore {
 
     this.fetchZondConnection();
     this.fetchAccounts();
+  }
+
+  selectBlockchain(selectedBlockchain: string) {
+    localStorage.setItem(BLOCKCHAIN_SELECTION_IDENTIFIER, selectedBlockchain);
+    this.initializeBlockchain();
   }
 
   async fetchZondConnection() {
