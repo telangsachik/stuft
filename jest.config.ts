@@ -10,7 +10,7 @@ const config: Config = {
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^webextension-polyfill$":
-      "<rootDir>/src/__mocks__/mocked-webextension-polyfill.ts",
+      "<rootDir>/src/__mocks__/mockedWebExtensionPolyfill.ts",
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 };
