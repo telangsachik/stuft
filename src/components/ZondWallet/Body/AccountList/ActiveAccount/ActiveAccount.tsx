@@ -53,11 +53,7 @@ const ActiveAccount = observer(() => {
               </TooltipProvider>
             </span>
           </div>
-          <Link
-            className="w-full"
-            to={ROUTES.ACCOUNT_DETAILS}
-            state={{ tokenIcon: "icons/qrl/default.png" }}
-          >
+          <Link className="w-full" to={ROUTES.ACCOUNT_DETAILS}>
             <Button variant="outline" className="w-full hover:text-secondary">
               <Send className="mr-2 h-4 w-4" />
               Send Quanta

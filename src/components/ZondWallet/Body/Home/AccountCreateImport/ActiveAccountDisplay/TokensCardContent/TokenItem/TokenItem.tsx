@@ -25,10 +25,12 @@ const TokenListItem = ({ icon, balance, name, symbol }: TokenListItemProps) => {
   const onSend = () => {
     navigate(ROUTES.ACCOUNT_DETAILS, {
       state: {
-        tokenIcon: icon,
-        tokenBalance: balance,
-        tokenName: name,
-        tokenSymbol: symbol,
+        tokenDetails: {
+          tokenIcon: icon,
+          tokenBalance: balance,
+          tokenName: name,
+          tokenSymbol: symbol,
+        },
       },
     });
   };

@@ -60,10 +60,18 @@ const AccountDetails = observer(() => {
   const [transactionReceipt, setTransactionReceipt] =
     useState<TransactionReceipt>();
 
-  const tokenIcon: string = state?.tokenIcon;
-  const tokenBalance: string = state?.tokenBalance;
-  const tokenName: string = state?.tokenName ?? "Quanta";
-  const tokenSymbol: string = state?.tokenSymbol ?? "QRL";
+  let tokenIcon = "icons/qrl/default.png";
+  let tokenBalance = "";
+  let tokenName = "Quanta";
+  let tokenSymbol = "QRL";
+
+  const tokenDetails = state?.tokenDetails;
+  if (tokenDetails) {
+    tokenIcon = tokenDetails?.tokenIcon;
+    tokenBalance = tokenDetails?.tokenBalance;
+    tokenName = tokenDetails?.tokenName;
+    tokenSymbol = tokenDetails?.tokenSymbol;
+  }
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     try {
@@ -151,7 +159,7 @@ const AccountDetails = observer(() => {
               <CardTitle>Active account</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
-              <AccountAddressSection accountBalance={tokenBalance} />
+              <AccountAddressSection tokenBalance={tokenBalance} />
               <CardTitle>Make a transaction</CardTitle>
               <FormField
                 control={control}

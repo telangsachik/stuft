@@ -62,11 +62,7 @@ const AccountCreateImport = observer(() => {
               <ActiveAccountDisplay />
             </CardContent>
             <CardFooter className="justify-end">
-              <Link
-                className="w-full"
-                to={ROUTES.ACCOUNT_DETAILS}
-                state={{ tokenIcon: "icons/qrl/default.png" }}
-              >
+              <Link className="w-full" to={ROUTES.ACCOUNT_DETAILS}>
                 <Button className="w-full" type="button">
                   <Send className="mr-2 h-4 w-4" />
                   Send Quanta

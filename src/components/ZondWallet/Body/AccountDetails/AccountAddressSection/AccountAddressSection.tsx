@@ -3,11 +3,11 @@ import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
 
 type AccountAddressSectionProps = {
-  accountBalance?: string;
+  tokenBalance?: string;
 };
 
 const AccountAddressSection = observer(
-  ({ accountBalance }: AccountAddressSectionProps) => {
+  ({ tokenBalance }: AccountAddressSectionProps) => {
     const { zondStore } = useStore();
     const { activeAccount, getAccountBalance } = zondStore;
     const { accountAddress } = activeAccount;
@@ -17,8 +17,9 @@ const AccountAddressSection = observer(
     for (let i = 2; i < accountAddress.length; i += 5) {
       addressSplit.push(accountAddress.substring(i, i + 5));
     }
-    const tokenAccountBalance =
-      accountBalance ?? getAccountBalance(accountAddress);
+    const tokenAccountBalance = tokenBalance
+      ? tokenBalance
+      : getAccountBalance(accountAddress);
 
     return (
       <>
@@ -27,7 +28,7 @@ const AccountAddressSection = observer(
           <div className="font-bold text-secondary">{`${prefix} ${addressSplit.join(" ")}`}</div>
         </div>
         <div className="flex flex-col gap-2">
-          <div>Account balance</div>
+          <div>Balance</div>
           <div className="font-bold text-secondary">{tokenAccountBalance}</div>
         </div>
         <Separator />
