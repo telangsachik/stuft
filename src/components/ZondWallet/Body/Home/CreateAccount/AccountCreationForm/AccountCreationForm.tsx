@@ -78,7 +78,7 @@ export const AccountCreationForm = observer(
 
     return (
       <Form {...form}>
-        <form className="w-80" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Card>
             <CardHeader>
               <CardTitle>Create new account</CardTitle>
