@@ -38,7 +38,6 @@ export const mnemonicToHexSeed = (mnemonic: string) => {
       result[resultIndex] = tmp;
       resultIndex++;
     }
-    return w;
   });
 
   if (buffering > 0) {
