@@ -40,6 +40,7 @@ class ZondStore {
       zondAccounts: observable.struct,
       activeAccount: observable.struct,
       selectBlockchain: action.bound,
+      setActiveAccount: action.bound,
       fetchZondConnection: action.bound,
       fetchAccounts: action.bound,
       unlockAccount: action.bound,
