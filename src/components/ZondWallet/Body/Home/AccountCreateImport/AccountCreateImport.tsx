@@ -52,7 +52,7 @@ const AccountCreateImport = observer(() => {
             <Link className="w-full" to={ROUTES.ACCOUNT_DETAILS}>
               <Button className="w-full" type="button">
                 <Send className="mr-2 h-4 w-4" />
-                Send quanta
+                Send Quanta
               </Button>
             </Link>
           </CardFooter>

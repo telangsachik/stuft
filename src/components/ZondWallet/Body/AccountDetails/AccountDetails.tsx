@@ -244,7 +244,7 @@ export const AccountDetails = observer(() => {
                 ) : (
                   <Send className="mr-2 h-4 w-4" />
                 )}
-                Send{isSubmitting ? "ing" : ""} quanta
+                Send{isSubmitting ? "ing" : ""} Quanta
               </Button>
             </CardFooter>
           </Card>

@@ -80,7 +80,7 @@ export const GasFeeNotice = ({
           <div>{gasFee.error}</div>
         ) : (
           <div className="w-full overflow-hidden">
-            Estimated gas fee is {gasFee?.estimatedGas.toString()}
+            Estimated gas fee is {gasFee?.estimatedGas.toString()} QRL
           </div>
         )}
       </div>

@@ -56,7 +56,7 @@ export const ActiveAccount = observer(() => {
           <Link className="w-full" to={ROUTES.ACCOUNT_DETAILS}>
             <Button variant="outline" className="w-full hover:text-secondary">
               <Send className="mr-2 h-4 w-4" />
-              Send quanta
+              Send Quanta
             </Button>
           </Link>
         </Card>
