@@ -15,11 +15,11 @@ import { observer } from "mobx-react-lite";
 import { Link, useLocation } from "react-router-dom";
 import ActiveAccountDisplay from "./ActiveAccountDisplay/ActiveAccountDisplay";
 
-const accountCreateImportClasses = cva("flex gap-8", {
+const accountCreationClasses = cva("w-full", {
   variants: {
     hasAccountCreationPreference: {
-      true: ["flex-col-reverse"],
-      false: ["flex-col"],
+      true: ["order-first"],
+      false: ["order-last"],
     },
   },
   defaultVariants: {
@@ -37,28 +37,43 @@ const AccountCreateImport = observer(() => {
   const hasAccountCreationPreference = !!state?.hasAccountCreationPreference;
 
   return (
-    <div
-      className={accountCreateImportClasses({ hasAccountCreationPreference })}
-    >
+    <div className="flex flex-col gap-8">
       {hasActiveAccount && (
-        <Card className="animate-active-account-in h-64 w-full overflow-hidden">
-          <CardHeader>
-            <CardTitle>Active account</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ActiveAccountDisplay />
-          </CardContent>
-          <CardFooter className="justify-end">
-            <Link className="w-full" to={ROUTES.ACCOUNT_DETAILS}>
-              <Button className="w-full" type="button">
-                <Send className="mr-2 h-4 w-4" />
-                Send Quanta
-              </Button>
-            </Link>
-          </CardFooter>
-        </Card>
+        <>
+          <Card className="order-1 h-64 w-full animate-active-account-in overflow-hidden">
+            <CardHeader>
+              <CardTitle>Active account</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ActiveAccountDisplay />
+            </CardContent>
+            <CardFooter className="justify-end">
+              <Link className="w-full" to={ROUTES.ACCOUNT_DETAILS}>
+                <Button className="w-full" type="button">
+                  <Send className="mr-2 h-4 w-4" />
+                  Send Quanta
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+          <Card className="order-2 w-full">
+            <CardHeader>
+              <CardTitle>Tokens</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Link className="w-full" to={ROUTES.HOME}>
+                <Button className="w-full" type="button">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Import token
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </>
       )}
-      <Card className="w-full">
+      <Card
+        className={accountCreationClasses({ hasAccountCreationPreference })}
+      >
         <CardHeader>
           <CardTitle>
             {hasActiveAccount ? "Add accounts" : "Let's start"}
