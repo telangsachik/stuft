@@ -1,6 +1,7 @@
 const groupWords = (mnemonic: string) => {
   const words = mnemonic
     .split(" ")
+    .filter((word) => !!word)
     .map((word, index) => `${index + 1}. ${word}`);
   const groupedWords: string[][] = [];
   for (let i = 0; i < words.length; i += 3) {
