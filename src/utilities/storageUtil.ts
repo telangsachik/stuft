@@ -1,6 +1,6 @@
 const ACTIVE_PAGE_IDENTIFIER = "ACTIVE_PAGE";
 
-class StorageUtility {
+class StorageUtil {
   static setActivePage(activePage?: string) {
     if (activePage) {
       localStorage.setItem(ACTIVE_PAGE_IDENTIFIER, activePage);
@@ -18,4 +18,4 @@ class StorageUtility {
   }
 }
 
-export default StorageUtility;
+export default StorageUtil;

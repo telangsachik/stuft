@@ -1,4 +1,4 @@
-import StorageUtility from "@/utility/storageUtility";
+import StorageUtil from "@/utilities/storageUtil";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -7,16 +7,16 @@ export default function RouteMonitor() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const activePage = StorageUtility.getActivePage();
+    const activePage = StorageUtil.getActivePage();
     if (activePage) {
-      StorageUtility.clearActivePage();
+      StorageUtil.clearActivePage();
       navigate(activePage);
     }
   }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    StorageUtility.setActivePage(pathname);
+    StorageUtil.setActivePage(pathname);
   }, [pathname]);
 
   return null;
