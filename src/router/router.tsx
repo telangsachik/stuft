@@ -1,33 +1,50 @@
-import { AccountDetails } from "@/components/ZondWallet/Body/AccountDetails/AccountDetails";
+import AllZRC20Tokens from "@/components/ZondWeb3Wallet/Body/AllZRC20Tokens/AllZRC20Tokens";
 import withSuspense from "@/functions/withSuspense";
 import { lazy } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
-const ZondWallet = withSuspense(
-  lazy(() => import("@/components/ZondWallet/ZondWallet")),
+const ZondWeb3Wallet = withSuspense(
+  lazy(() => import("@/components/ZondWeb3Wallet/ZondWeb3Wallet")),
 );
 const Home = withSuspense(
-  lazy(() => import("@/components/ZondWallet/Body/Home/Home")),
+  lazy(() => import("@/components/ZondWeb3Wallet/Body/Home/Home")),
 );
 const CreateAccount = withSuspense(
   lazy(
-    () => import("@/components/ZondWallet/Body/CreateAccount/CreateAccount"),
+    () =>
+      import("@/components/ZondWeb3Wallet/Body/CreateAccount/CreateAccount"),
   ),
 );
 const ImportAccount = withSuspense(
   lazy(
-    () => import("@/components/ZondWallet/Body/ImportAccount/ImportAccount"),
+    () =>
+      import("@/components/ZondWeb3Wallet/Body/ImportAccount/ImportAccount"),
+  ),
+);
+const ImportToken = withSuspense(
+  lazy(
+    () => import("@/components/ZondWeb3Wallet/Body/ImportToken/ImportToken"),
   ),
 );
 const AccountList = withSuspense(
-  lazy(() => import("@/components/ZondWallet/Body/AccountList/AccountList")),
+  lazy(
+    () => import("@/components/ZondWeb3Wallet/Body/AccountList/AccountList"),
+  ),
+);
+const TokenTransfer = withSuspense(
+  lazy(
+    () =>
+      import("@/components/ZondWeb3Wallet/Body/TokenTransfer/TokenTransfer"),
+  ),
 );
 
 export const ROUTES = {
   HOME: "/",
   CREATE_ACCOUNT: "/create-account",
   IMPORT_ACCOUNT: "/import-account",
-  ACCOUNT_DETAILS: "/account-details",
+  IMPORT_TOKEN: "/import-token",
+  ALL_ZRC_20_TOKENS: "/all-zrc-20-tokens",
+  TOKEN_TRANSFER: "/token-transfer",
   ACCOUNT_LIST: "/account-list",
   DEFAULT: "*",
 };
@@ -35,7 +52,7 @@ export const ROUTES = {
 const router = createMemoryRouter([
   {
     path: ROUTES.HOME,
-    element: <ZondWallet />,
+    element: <ZondWeb3Wallet />,
     children: [
       {
         index: true,
@@ -50,8 +67,16 @@ const router = createMemoryRouter([
         element: <ImportAccount />,
       },
       {
-        path: ROUTES.ACCOUNT_DETAILS,
-        element: <AccountDetails />,
+        path: ROUTES.IMPORT_TOKEN,
+        element: <ImportToken />,
+      },
+      {
+        path: ROUTES.ALL_ZRC_20_TOKENS,
+        element: <AllZRC20Tokens />,
+      },
+      {
+        path: ROUTES.TOKEN_TRANSFER,
+        element: <TokenTransfer />,
       },
       {
         path: ROUTES.ACCOUNT_LIST,
@@ -61,7 +86,7 @@ const router = createMemoryRouter([
   },
   {
     path: ROUTES.DEFAULT,
-    element: <ZondWallet />,
+    element: <ZondWeb3Wallet />,
   },
 ]);
 

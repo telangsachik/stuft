@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Zond Web3 Wallet",
+  "description": "A web3 wallet that run on the zond blockchain.",
+  "icons": {
+    "16": "icons/qrl/16.png",
+    "24": "icons/qrl/24.png",
+    "48": "icons/qrl/48.png",
+    "64": "icons/qrl/64.png",
+    "128": "icons/qrl/128.png"
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Zond Web3 Wallet",
+    "default_icon": {
+      "16": "icons/qrl/16.png",
+      "128": "icons/qrl/128.png"
+    }
+  },
+  "background": {
+    "service_worker": "src/scripts/serviceWorker.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "js": ["src/scripts/contentScript.ts"],
+      "matches": ["<all_urls>"],
+      "all_frames": true
+    }
+  ],
+  "permissions": [
+    "scripting",
+    "tabs",
+    "activeTab",
+    "storage",
+    "unlimitedStorage"
+  ],
+  "host_permissions": ["<all_urls>"]
+}

@@ -1,4 +1,4 @@
-# Extension folder is the build folder. At the time of final build, this could be removed from .gitignore
-Extension
+.vscode
+/Extension/
 node_modules
 coverage

@@ -25,9 +25,9 @@ describe("getMnemonicFromHexSeed", () => {
 
   it("should return mnemonic phrases for the passed hexseed", () => {
     const hexSeed =
-      "0x7819dc0205e6a5c286796886ce16e637b99e1838701cc6988c5886ddc890a7f328771d9197fd17f36faa759d9b8c4c42";
+      "0x669e3a48fa068514e89bc2be248be964d22672cc5e139034b0b39f0a9a174843516fd8e364a4b4ec09641a20166a17c6";
     const expectedMnemonic =
-      "knight paddy action glow play chew lame mature sock ill deadly olive blink marble breach hey mile mature tacit mean polo crawl khaya stud number speed viking windy jump subtle mildew sewage";
+      "hawse those etoile paul magic female ornate clinic carl sam hanoi cakile item shield beat aerial rarely delta argue pence eric curb inform modern handy exulat tunis noise bonus accuse him left";
 
     expect(getMnemonicFromHexSeed(hexSeed)).toBe(expectedMnemonic);
   });

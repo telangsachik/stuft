@@ -1,5 +1,15 @@
-import { ZOND_PROVIDER } from "@/configuration/zondConfig";
+import {
+  BlockchainDetailsType,
+  BlockchainType,
+  ZOND_BLOCKCHAIN,
+} from "@/configuration/zondBlockchainConfig";
+import { NATIVE_TOKEN_UNITS_OF_GAS } from "@/constants/nativeToken";
+import {
+  ZRC_20_CONTRACT_ABI,
+  ZRC_20_TOKEN_UNITS_OF_GAS,
+} from "@/constants/zrc20Token";
 import { getHexSeedFromMnemonic } from "@/functions/getHexSeedFromMnemonic";
+import { getOptimalTokenBalance } from "@/functions/getOptimalTokenBalance";
 import StorageUtil from "@/utilities/storageUtil";
 import Web3, {
   TransactionReceipt,
@@ -27,8 +37,9 @@ class ZondStore {
   zondConnection = {
     isConnected: false,
     isLoading: false,
-    zondNetworkName: "",
-    blockchain: "",
+    blockchain: ZOND_BLOCKCHAIN.MAIN_NET.id as BlockchainType,
+    ipAddress: ZOND_BLOCKCHAIN.MAIN_NET.ipAddress,
+    port: ZOND_BLOCKCHAIN.MAIN_NET.port,
   };
   zondAccounts: ZondAccountsType = { accounts: [], isLoading: false };
   activeAccount: ActiveAccountType = { accountAddress: "" };
@@ -43,21 +54,28 @@ class ZondStore {
       setActiveAccount: action.bound,
       fetchZondConnection: action.bound,
       fetchAccounts: action.bound,
+      getGasFeeData: action.bound,
       getAccountBalance: action.bound,
-      signAndSendTransaction: action.bound,
+      getNativeTokenGas: action.bound,
+      signAndSendNativeToken: action.bound,
+      getZrc20TokenDetails: action.bound,
+      getZrc20TokenGas: action.bound,
+      signAndSendZrc20Token: action.bound,
     });
     this.initializeBlockchain();
   }
 
   async initializeBlockchain() {
-    const selectedBlockChain = await StorageUtil.getBlockChain();
-    const { name, url } = ZOND_PROVIDER[selectedBlockChain];
+    const { blockchain, ipAddress, port } = await StorageUtil.getBlockChain();
     this.zondConnection = {
       ...this.zondConnection,
-      zondNetworkName: name,
-      blockchain: selectedBlockChain,
+      blockchain,
+      ipAddress,
+      port,
     };
-    const zondHttpProvider = new Web3.providers.HttpProvider(url);
+    const zondHttpProvider = new Web3.providers.HttpProvider(
+      `${ipAddress}:${port}`,
+    );
     const { zond } = new Web3({ provider: zondHttpProvider });
     this.zondInstance = zond;
 
@@ -66,8 +84,8 @@ class ZondStore {
     await this.validateActiveAccount();
   }
 
-  async selectBlockchain(selectedBlockchain: string) {
-    await StorageUtil.setBlockChain(selectedBlockchain);
+  async selectBlockchain(selectedBlockchainDetails: BlockchainDetailsType) {
+    await StorageUtil.setBlockChain(selectedBlockchainDetails);
     await this.initializeBlockchain();
   }
 
@@ -135,9 +153,9 @@ class ZondStore {
           storedAccountsList.map(async (account) => {
             const accountBalance =
               (await this.zondInstance?.getBalance(account)) ?? BigInt(0);
-            const convertedAccountBalance = utils
-              .fromWei(accountBalance, "ether")
-              .concat(" QRL");
+            const convertedAccountBalance = getOptimalTokenBalance(
+              utils.fromWei(accountBalance, "ether"),
+            );
             return {
               accountAddress: account,
               accountBalance: convertedAccountBalance,
@@ -156,7 +174,7 @@ class ZondStore {
           ...this.zondAccounts,
           accounts: storedAccountsList.map((account) => ({
             accountAddress: account,
-            accountBalance: "0",
+            accountBalance: "0.0 ZND",
           })),
         };
       });
@@ -185,15 +203,36 @@ class ZondStore {
     };
   }
 
+  async getGasFeeData() {
+    const latestBlock = await this.zondInstance?.getBlock("latest");
+    const baseFeePerGas = latestBlock?.baseFeePerGas ?? BigInt(0);
+    const maxPriorityFeePerGas = utils.toWei("2", "gwei");
+    const maxFeePerGas = baseFeePerGas + BigInt(maxPriorityFeePerGas);
+    return {
+      baseFeePerGas,
+      maxPriorityFeePerGas,
+      maxFeePerGas,
+    };
+  }
+
   getAccountBalance(accountAddress: string) {
     return (
       this.zondAccounts.accounts.find(
         (account) => account.accountAddress === accountAddress,
-      )?.accountBalance ?? "0 QRL"
+      )?.accountBalance ?? "0.0 ZND"
     );
   }
 
-  async signAndSendTransaction(
+  async getNativeTokenGas() {
+    const gasLimit = NATIVE_TOKEN_UNITS_OF_GAS;
+    const baseFee = Number((await this.getGasFeeData()).baseFeePerGas);
+    const priorityFee = Number(
+      (await this.getGasFeeData()).maxPriorityFeePerGas,
+    );
+    return utils.fromWei(gasLimit * (baseFee + priorityFee), "ether");
+  }
+
+  async signAndSendNativeToken(
     from: string,
     to: string,
     value: number,
@@ -209,8 +248,13 @@ class ZondStore {
         from,
         to,
         value: utils.toWei(value, "ether"),
-        maxFeePerGas: 21000,
-        maxPriorityFeePerGas: 21000,
+        nonce: await this.zondInstance?.getTransactionCount(from),
+        gasLimit: NATIVE_TOKEN_UNITS_OF_GAS,
+        maxFeePerGas: Number((await this.getGasFeeData()).maxFeePerGas),
+        maxPriorityFeePerGas: Number(
+          (await this.getGasFeeData()).maxPriorityFeePerGas,
+        ),
+        type: 2,
       };
       const signedTransaction =
         await this.zondInstance?.accounts.signTransaction(
@@ -231,6 +275,142 @@ class ZondStore {
         ...transaction,
         error: `Transaction could not be completed. ${error}`,
       };
+    }
+
+    return transaction;
+  }
+
+  async getZrc20TokenDetails(contractAddress: string) {
+    let tokenDetails = {
+      token: undefined,
+      error: "",
+    };
+
+    const contractAbi = ZRC_20_CONTRACT_ABI;
+
+    if (this.zondInstance && this.zondInstance.Contract) {
+      try {
+        const contract = new this.zondInstance.Contract(
+          contractAbi,
+          contractAddress,
+        );
+        const name = (await contract.methods.name().call()) as string;
+        const symbol = (await contract.methods.symbol().call()) as string;
+        const decimals = (await contract.methods.decimals().call()) as bigint;
+        const totalSupplyUnformatted = (await contract.methods
+          .totalSupply()
+          .call()) as bigint;
+        const totalSupply =
+          Number(totalSupplyUnformatted) / Math.pow(10, Number(decimals));
+        const balanceUnformatted = (await contract.methods
+          .balanceOf(this.activeAccount.accountAddress)
+          .call()) as bigint;
+        const balance =
+          Number(balanceUnformatted) / Math.pow(10, Number(decimals));
+        return {
+          ...tokenDetails,
+          token: { name, symbol, decimals, totalSupply, balance },
+        };
+      } catch (error) {
+        return {
+          ...tokenDetails,
+          error:
+            "Could not retreive the token with the entered contract address",
+        };
+      }
+    }
+
+    return tokenDetails;
+  }
+
+  async getZrc20TokenGas(
+    from: string,
+    to: string,
+    value: number,
+    contractAddress: string,
+    decimals: number,
+  ) {
+    if (this.zondInstance && this.zondInstance.Contract) {
+      const contract = new this.zondInstance.Contract(
+        ZRC_20_CONTRACT_ABI,
+        contractAddress,
+      );
+      const contractTransfer = contract.methods.transfer(
+        to,
+        BigInt(value * 10 ** decimals),
+      );
+      const gasLimit = Number(
+        await contractTransfer.estimateGas({
+          from,
+        }),
+      );
+      const baseFee = Number((await this.getGasFeeData()).baseFeePerGas);
+      const priorityFee = Number(
+        (await this.getGasFeeData()).maxPriorityFeePerGas,
+      );
+      return utils.fromWei(gasLimit * (baseFee + priorityFee), "ether");
+    }
+    return "";
+  }
+
+  async signAndSendZrc20Token(
+    from: string,
+    to: string,
+    value: number,
+    mnemonicPhrases: string,
+    contractAddress: string,
+    decimals: number,
+  ) {
+    let transaction: {
+      transactionReceipt?: TransactionReceipt;
+      error: string;
+    } = { transactionReceipt: undefined, error: "" };
+
+    const contractAbi = ZRC_20_CONTRACT_ABI;
+
+    if (this.zondInstance && this.zondInstance.Contract) {
+      try {
+        this.zondInstance.wallet?.add(getHexSeedFromMnemonic(mnemonicPhrases));
+        this.zondInstance.transactionConfirmationBlocks = 12;
+        const contract = new this.zondInstance.Contract(
+          contractAbi,
+          contractAddress,
+        );
+        const contractTransfer = contract.methods.transfer(
+          to,
+          BigInt(value * 10 ** decimals),
+        );
+        const transactionObject = {
+          from,
+          to: contractAddress,
+          data: contractTransfer.encodeABI(),
+          nonce: await this.zondInstance?.getTransactionCount(from),
+          gasLimit: ZRC_20_TOKEN_UNITS_OF_GAS,
+          maxFeePerGas: Number((await this.getGasFeeData()).maxFeePerGas),
+          maxPriorityFeePerGas: Number(
+            (await this.getGasFeeData()).maxPriorityFeePerGas,
+          ),
+          type: 2,
+        };
+
+        const transactionReceipt = await this.zondInstance.sendTransaction(
+          transactionObject,
+          undefined,
+          {
+            checkRevertBeforeSending: true,
+          },
+        );
+
+        transaction = {
+          ...transaction,
+          transactionReceipt,
+        };
+      } catch (error) {
+        transaction = {
+          ...transaction,
+          error: `Transaction could not be completed. ${error}`,
+        };
+      }
     }
 
     return transaction;
