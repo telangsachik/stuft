@@ -20,7 +20,7 @@ describe("ZondWalletLogo", () => {
   it("should render the zond wallet component", () => {
     renderComponent();
 
-    expect(screen.getByText("Zond")).toBeTruthy();
-    expect(screen.getByText("Wallet")).toBeTruthy();
+    expect(screen.getByText("Zond")).toBeInTheDocument();
+    expect(screen.getByText("Wallet")).toBeInTheDocument();
   });
 });
