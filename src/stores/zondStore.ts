@@ -29,6 +29,7 @@ class ZondStore {
       zondConnection: observable.struct,
       zondAccounts: observable.struct,
       fetchZondConnection: action.bound,
+      unlockAccount: action.bound,
     });
     this.fetchZondConnection();
     this.fetchAccounts();
@@ -81,6 +82,16 @@ class ZondStore {
         this.zondAccounts = { ...this.zondAccounts, isLoading: false };
       });
     }
+  }
+
+  async unlockAccount(address: string, password: string) {
+    const UNLOCK_DURATION = 60;
+    const unlockStatus = await this.zondInstance.personal.unlockAccount(
+      address,
+      password,
+      UNLOCK_DURATION,
+    );
+    return unlockStatus;
   }
 }
 
