@@ -11,7 +11,7 @@ const TokensCardContent = observer(() => {
       <div className="flex flex-col gap-2">
         <NativeToken />
       </div>
-      <Link className="w-full" to={ROUTES.HOME}>
+      <Link className="w-full" to={ROUTES.IMPORT_TOKEN}>
         <Button className="w-full" type="button">
           <Download className="mr-2 h-4 w-4" />
           Import token
