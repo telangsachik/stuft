@@ -15,22 +15,46 @@ import {
   FormMessage,
 } from "@/components/UI/Form";
 import { Input } from "@/components/UI/Input";
+import { getHexSeedFromMnemonic } from "@/functions/getHexSeedFromMnemonic";
+import { useStore } from "@/stores/store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Web3BaseWalletAccount } from "@theqrl/web3";
 import { Download, Loader } from "lucide-react";
+import { observer } from "mobx-react-lite";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MnemonicWordListing } from "../CreateAccount/MnemonicDisplay/MnemonicWordListing/MnemonicWordListing";
+import { AccountImportSuccess } from "./AccountImportSuccess/AccountImportSuccess";
 
 const FormSchema = z.object({
   mnemonicPhrases: z.string().min(1, "Mnemonic phrases are required"),
 });
 
-export const ImportAccount = () => {
+export const ImportAccount = observer(() => {
+  const [account, setAccount] = useState<Web3BaseWalletAccount>();
+  const [hasAccountImported, setHasAccountImported] = useState(false);
+  const { zondStore } = useStore();
+  const { zondInstance, setActiveAccount } = zondStore;
+
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     try {
+      const account = zondInstance?.accounts.seedToAccount(
+        getHexSeedFromMnemonic(formData.mnemonicPhrases),
+      );
+      if (account) {
+        window.scrollTo(0, 0);
+        setAccount(account);
+        setActiveAccount(account.address);
+        setHasAccountImported(true);
+      } else {
+        control.setError("mnemonicPhrases", {
+          message: "Account could not be imported from the mnemonic phrases",
+        });
+      }
     } catch (error) {
       control.setError("mnemonicPhrases", {
-        message: `${error} There was an error while reading the mnemonic phrases`,
+        message: `There was an error while reading the mnemonic phrases. ${error}`,
       });
     }
   }
@@ -57,53 +81,57 @@ export const ImportAccount = () => {
         src="tree.svg"
       />
       <div className="relative z-10 p-8">
-        <Form {...form}>
-          <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-            <Card>
-              <CardHeader>
-                <CardTitle>Import an existing account</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-8">
-                <FormField
-                  control={control}
-                  name="mnemonicPhrases"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          autoComplete="off"
-                          disabled={isSubmitting}
-                          placeholder="Mnemonic Phrases"
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Paste the mnemonic phrases
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <MnemonicWordListing mnemonic={watch().mnemonicPhrases} />
-              </CardContent>
-              <CardFooter>
-                <Button
-                  disabled={isSubmitting || !isValid}
-                  className="w-full"
-                  type="submit"
-                >
-                  {isSubmitting ? (
-                    <Loader className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    <Download className="mr-2 h-4 w-4" />
-                  )}
-                  Import account
-                </Button>
-              </CardFooter>
-            </Card>
-          </form>
-        </Form>
+        {hasAccountImported ? (
+          <AccountImportSuccess account={account} />
+        ) : (
+          <Form {...form}>
+            <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Import an existing account</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-8">
+                  <FormField
+                    control={control}
+                    name="mnemonicPhrases"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            autoComplete="off"
+                            disabled={isSubmitting}
+                            placeholder="Mnemonic Phrases"
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Paste the mnemonic phrases
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <MnemonicWordListing mnemonic={watch().mnemonicPhrases} />
+                </CardContent>
+                <CardFooter>
+                  <Button
+                    disabled={isSubmitting || !isValid}
+                    className="w-full"
+                    type="submit"
+                  >
+                    {isSubmitting ? (
+                      <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Download className="mr-2 h-4 w-4" />
+                    )}
+                    Import account
+                  </Button>
+                </CardFooter>
+              </Card>
+            </form>
+          </Form>
+        )}
       </div>
     </>
   );
-};
+});
