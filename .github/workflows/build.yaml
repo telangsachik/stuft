@@ -1,0 +1,52 @@
+name: Publish Zond Web3 Wallet Chrome Extension
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  publish-zond-web3-wallet-chrome-extension:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.15.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Get version from package.json
+        id: package_version
+        run: echo "package_version=$(jq -r .version package.json)" >> $GITHUB_ENV
+
+      - name: Get version from git tag
+        id: git_version
+        run: echo "git_version=$(git describe --tags --abbrev=0 | sed 's/^v//')" >> $GITHUB_ENV
+
+      - name: Check if versions match
+        run: |
+          if [ "$package_version" != "$git_version" ]; then
+            echo "Error: Version mismatch between package.json ($package_version) and git tag (v$git_version)"
+            exit 1
+          fi
+
+      - name: Build Chrome Extension
+        run: npm run build
+
+      - name: Zip the build directory
+        run: |
+          mkdir -p zond-web3-wallet-chrome-v${{ env.package_version }}
+          cp -r Extension/* zond-web3-wallet-chrome-v${{ env.package_version }}/
+          zip -r zond-web3-wallet-chrome-v${{ env.package_version }}.zip zond-web3-wallet-chrome-v${{ env.package_version }}
+
+      - name: Upload Zip to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: zond-web3-wallet-chrome-v${{ env.package_version }}.zip
