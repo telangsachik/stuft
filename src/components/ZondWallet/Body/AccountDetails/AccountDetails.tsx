@@ -20,13 +20,14 @@ import { Separator } from "@/components/UI/Separator";
 import { useStore } from "@/stores/store";
 import StorageUtil from "@/utilities/storageUtil";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { validator } from "@theqrl/web3";
+import { TransactionReceipt, validator } from "@theqrl/web3";
 import { Loader, Send } from "lucide-react";
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { GasFeeNotice } from "./GasFeeNotice/GasFeeNotice";
+import { TransactionSuccessful } from "./TransactionSuccessful/TransactionSuccessful";
 
 const FormSchema = z
   .object({
@@ -46,8 +47,12 @@ export const AccountDetails = observer(() => {
     getAccountBalance,
     signAndSendTransaction,
     zondConnection,
+    fetchAccounts,
   } = zondStore;
   const { accountAddress } = activeAccount;
+
+  const [transactionReceipt, setTransactionReceipt] =
+    useState<TransactionReceipt>();
 
   const accountBalance = getAccountBalance(accountAddress);
 
@@ -76,6 +81,9 @@ export const AccountDetails = observer(() => {
         if (isTransactionSuccessful) {
           StorageUtil.clearTransactionValues(zondConnection.zondNetworkId);
           reset({ receiverAddress: "", amount: 0, mnemonicPhrases: "" });
+          setTransactionReceipt(transactionReceipt);
+          fetchAccounts();
+          window.scrollTo(0, 0);
         } else {
           control.setError("mnemonicPhrases", {
             message: `Transaction failed.`,
@@ -112,7 +120,9 @@ export const AccountDetails = observer(() => {
     return () => formWatchSubscription.unsubscribe();
   }, [watch]);
 
-  return (
+  return transactionReceipt ? (
+    <TransactionSuccessful transactionReceipt={transactionReceipt} />
+  ) : (
     <Form {...form}>
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <img
