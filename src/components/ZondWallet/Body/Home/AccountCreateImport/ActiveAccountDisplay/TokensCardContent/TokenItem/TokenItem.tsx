@@ -22,7 +22,7 @@ type TokenListItemProps = {
 const TokenListItem = ({ icon, balance, name, symbol }: TokenListItemProps) => {
   const navigate = useNavigate();
 
-  const randomTailwindTextColor = getRandomTailwindTextColor();
+  const randomTailwindTextColor = getRandomTailwindTextColor(symbol);
 
   const onSend = () => {
     navigate(ROUTES.ACCOUNT_DETAILS, {

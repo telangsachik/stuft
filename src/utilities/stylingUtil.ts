@@ -5,7 +5,7 @@ const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 };
 
-const getRandomTailwindTextColor = () => {
+const getRandomTailwindTextColor = (hashingWord?: string) => {
   const colors = [
     "text-red-500",
     "text-orange-500",
@@ -16,7 +16,20 @@ const getRandomTailwindTextColor = () => {
     "text-purple-500",
     "text-pink-500",
   ];
-  return colors[Math.floor(Math.random() * (colors.length - 1))];
+
+  if (!hashingWord)
+    return colors[Math.floor(Math.random() * (colors.length - 1))];
+
+  const primeBase = 37;
+  let number = 0;
+  const upperCasedHashingWord = hashingWord.toUpperCase();
+  for (let i = 0; i < upperCasedHashingWord.length; i++) {
+    number =
+      number * primeBase +
+      (upperCasedHashingWord.charCodeAt(i) - "A".charCodeAt(0) + 1);
+  }
+
+  return colors[number % colors.length];
 };
 
 export { cn, getRandomTailwindTextColor };
