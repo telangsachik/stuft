@@ -9,7 +9,8 @@ const config: Config = {
   injectGlobals: false,
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
-    "^webextension-polyfill$": "<rootDir>/src/__mocks__/browser.ts",
+    "^webextension-polyfill$":
+      "<rootDir>/src/__mocks__/mocked-webextension-polyfill.ts",
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 };
