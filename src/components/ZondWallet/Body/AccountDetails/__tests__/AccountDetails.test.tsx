@@ -38,7 +38,7 @@ describe("AccountDetails", () => {
     expect(
       screen.getByText("0x 2090E 9F387 71876 FB6Fc 51a6b 46412 1d3cC 093A1"),
     ).toBeInTheDocument();
-    expect(screen.getByText("Available amount")).toBeInTheDocument();
+    expect(screen.getByText("Account balance")).toBeInTheDocument();
     expect(screen.getByText("0 QRL")).toBeInTheDocument();
     expect(screen.getAllByRole("heading", { level: 3 })[1]).toHaveTextContent(
       "Make a transaction",
