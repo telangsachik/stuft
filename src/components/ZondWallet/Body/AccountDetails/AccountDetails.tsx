@@ -122,7 +122,7 @@ export const AccountDetails = observer(() => {
                     </FormItem>
                   )}
                 />
-                <div className="flex items-center gap-4">
+                <div className="flex items-start gap-4">
                   <FormField
                     control={control}
                     name="amount"
@@ -143,7 +143,7 @@ export const AccountDetails = observer(() => {
                       </FormItem>
                     )}
                   />
-                  <div className="w-8 text-lg">QRL</div>
+                  <div className="w-8 pt-8 text-lg">QRL</div>
                 </div>
               </CardContent>
               <CardFooter>
