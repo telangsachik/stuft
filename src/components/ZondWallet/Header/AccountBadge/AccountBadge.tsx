@@ -1,6 +1,7 @@
 import { Button } from "@/components/UI/Button";
 import { ROUTES } from "@/router/router";
 import { useStore } from "@/stores/store";
+import { Wallet } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 
@@ -22,6 +23,7 @@ export const AccountBadge = observer(() => {
           variant="outline"
           className="flex items-center gap-2 rounded-full px-4 py-2 text-foreground"
         >
+          <Wallet className="h-4 w-4" />
           {account}
         </Button>
       </Link>
