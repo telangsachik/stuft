@@ -1,7 +1,7 @@
 import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
 
-export const ActiveAccountDisplay = observer(() => {
+const ActiveAccountDisplay = observer(() => {
   const { zondStore } = useStore();
   const { activeAccount, getAccountBalance } = zondStore;
   const { accountAddress } = activeAccount;
@@ -23,3 +23,5 @@ export const ActiveAccountDisplay = observer(() => {
     </div>
   );
 });
+
+export default ActiveAccountDisplay;
