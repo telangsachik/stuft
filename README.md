@@ -1,1 +1,1 @@
-# web3js-zond-example-react-app
+# Web3.js Zond React Example Application
