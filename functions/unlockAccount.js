@@ -1,6 +1,9 @@
 /**
  *
  * @param {import("@theqrl/web3").Web3ZondInterface} zondInstance
+ * @param {string} address
+ * @param {string} password
+ * @param {number} unlockDuration
  * @returns {void}
  */
 const unlockAccount = async (
