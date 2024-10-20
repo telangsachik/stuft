@@ -1,11 +1,9 @@
-const { getAllAccounts } = require("./getAllAccounts");
+import { Web3ZondInterface } from "@theqrl/web3";
+import { getAllAccounts } from "./getAllAccounts";
 
-/**
- *
- * @param {import("@theqrl/web3").Web3ZondInterface} zondInstance
- * @returns {number[]}
- */
-const getAllAccountBalances = async (zondInstance) => {
+export const getAllAccountBalances = async (
+  zondInstance: Web3ZondInterface
+) => {
   const allAccounts = await getAllAccounts(zondInstance);
   const allAccountBalances = await Promise.all(
     allAccounts.map(async (account) => {
@@ -16,5 +14,3 @@ const getAllAccountBalances = async (zondInstance) => {
   console.log(">>> getAllAccountBalances:\n", allAccountBalances);
   return allAccountBalances;
 };
-
-module.exports = { getAllAccountBalances };

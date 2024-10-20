@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "QRL Wallet",
+  "version": "1.0",
+  "description": "QRL Wallet browser extention.",
+  "icons": {
+    "232": "icon.png"
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": ["activeTab"],
+  "host_permissions": ["http://localhost/*"]
+}

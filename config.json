@@ -1,9 +1,0 @@
-{
-  "zondHttpProvider": "http://localhost:8545",
-  "senderSeed": "54e2c50efc39510986b61ccbfeaf68112de19a534af400d82d828e2f6de2ca2e9e530fa8909c3bcc76df137e117f2dde",
-  "senderAddress": "0x20d20b8026b8f02540246f58120ddaaf35aecd9b",
-  "accountPassword": "testpassword",
-  "unlockDuration": 600,
-  "receiverAddress": "0x20c90DAe9D05C7DfaCBD8fCa6992Ee998556E72d",
-  "transactionAmount": 10000
-}
