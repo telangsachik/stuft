@@ -1,30 +1,12 @@
-# React + TypeScript + Vite
+# QRL Wallet
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A browser extension, for creating accounts, signing transactions and sending transactions over the zond blockchain.
 
-Currently, two official plugins are available:
+## Info for developers
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Run `git clone THIS_REPO_URL` for cloning the repo to your machine.
+- Run `npm i` for installing dependencies.
+- The extension's `manifest.json` file can be found inside the `public/` folder.
+- The production output folder is named `Extension` (not `dist`) and this folder alone needs to be loaded as browser extension.
+- Run `npm run build` to generate a production build of the extension to the `Extension` folder.
+- Load the `Extension` folder as an extension package in your browser.
