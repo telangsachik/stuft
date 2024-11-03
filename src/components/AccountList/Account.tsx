@@ -9,7 +9,7 @@ export const Account = ({ account }: AccountProps) => {
     idSplit.push(account.substring(i, i + splitLength));
   }
   return (
-    <div className="font-bold p-4 border-secondary border-2 rounded-xl">
+    <div className="cursor-pointer rounded-xl border-2 border-secondary bg-primary p-4 font-bold text-secondary transition-colors delay-75 hover:bg-secondary hover:text-primary">
       {idSplit.map((part) => (
         <div key={part}>{part}</div>
       ))}
