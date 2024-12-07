@@ -1,7 +1,32 @@
+import { cva } from "class-variance-authority";
+import { useNetwork } from "../../hooks/useNetwork";
+
+const networkStatusClasses = cva("h-2 w-2 rounded-full", {
+  variants: {
+    networkStatus: {
+      true: ["bg-green"],
+      false: ["bg-red"],
+    },
+  },
+  defaultVariants: {
+    networkStatus: false,
+  },
+});
+
 export const Header = () => {
+  const { hasNetworkConnection } = useNetwork();
+
   return (
-    <div className="w-full h-16 px-4 bg-primary border-secondary border-b-2 flex fixed top-0">
-      <img className="w-16 h-16" src="qrl-logo.svg" />
+    <div className="fixed top-0 flex h-16 w-full items-center justify-between border-b-2 border-secondary bg-primary px-4">
+      <img className="h-16 w-16" src="qrl-logo.svg" />
+      <span className="flex items-center gap-2">
+        <span
+          className={networkStatusClasses({
+            networkStatus: hasNetworkConnection,
+          })}
+        />
+        {hasNetworkConnection ? "Zond Network" : "Not Connected"}
+      </span>
     </div>
   );
 };
