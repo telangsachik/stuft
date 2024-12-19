@@ -7,7 +7,7 @@ export const useNetwork = () => {
   useEffect(() => {
     (async () => {
       try {
-        const zondNetworkStatus = fetchNetwork();
+        const zondNetworkStatus = await fetchNetwork();
         setHasNetworkConnection(zondNetworkStatus);
       } catch (err) {
         console.log("Error occured when fetching network status");
