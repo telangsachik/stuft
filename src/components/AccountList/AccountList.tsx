@@ -8,9 +8,11 @@ export const AccountList = () => {
   return (
     <div className="flex flex-col gap-8 p-8">
       <NewAccount />
-      {accountsList?.map((account) => (
-        <Account key={account} account={account} />
-      ))}
+      <div className="flex flex-col gap-4">
+        {accountsList?.map((account) => (
+          <Account key={account} account={account} />
+        ))}
+      </div>
     </div>
   );
 };
