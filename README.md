@@ -1,4 +1,4 @@
-# QRL Wallet
+# Zond Wallet
 
 A browser extension, for creating accounts, signing transactions and sending transactions over the zond blockchain.
 
