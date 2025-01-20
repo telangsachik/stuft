@@ -25,7 +25,7 @@ export const Header = () => {
             networkStatus: hasNetworkConnection,
           })}
         />
-        {hasNetworkConnection ? "Zond Network" : "Not Connected"}
+        {hasNetworkConnection ? "Connected" : "Not Connected"}
       </span>
     </div>
   );

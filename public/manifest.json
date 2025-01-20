@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "QRL Wallet",
+  "name": "Zond Wallet",
   "version": "1.0",
-  "description": "QRL Wallet browser extention.",
+  "description": "Zond Wallet browser extention.",
   "icons": {
     "232": "icon.png"
   },
