@@ -1,4 +1,4 @@
-import { QRLWallet } from "./components/qrl_wallet/qrl_wallet";
+import { QRLWallet } from "./components/QrlWallet/QrlWallet";
 
 function App() {
   return <QRLWallet />;
