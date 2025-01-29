@@ -1,4 +1,4 @@
-import { AccountList } from "../AccountList/AccountList";
+import { AccountList } from "./AccountList/AccountList";
 
 export const Body = () => {
   return (

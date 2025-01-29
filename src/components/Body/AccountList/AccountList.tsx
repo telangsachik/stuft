@@ -1,4 +1,4 @@
-import { useAcccounts } from "../../hooks/useAccounts";
+import { useAcccounts } from "../../../hooks/useAccounts";
 import { Account } from "./Account";
 import { NewAccount } from "./NewAccount";
 
