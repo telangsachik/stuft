@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import { useNetwork } from "../../hooks/useNetwork";
+import { useZondNetwork } from "../../hooks/useNetwork";
 
 const networkStatusClasses = cva("h-2 w-2 rounded-full", {
   variants: {
@@ -14,7 +14,7 @@ const networkStatusClasses = cva("h-2 w-2 rounded-full", {
 });
 
 export const Header = () => {
-  const { hasNetworkConnection } = useNetwork();
+  const { hasZondConnection } = useZondNetwork();
 
   return (
     <div className="fixed top-0 flex h-16 w-full items-center justify-between border-b-2 border-secondary bg-primary px-4">
@@ -22,10 +22,10 @@ export const Header = () => {
       <span className="flex items-center gap-2">
         <span
           className={networkStatusClasses({
-            networkStatus: hasNetworkConnection,
+            networkStatus: hasZondConnection,
           })}
         />
-        {hasNetworkConnection ? "Connected" : "Not Connected"}
+        {hasZondConnection ? "Connected" : "Not Connected"}
       </span>
     </div>
   );

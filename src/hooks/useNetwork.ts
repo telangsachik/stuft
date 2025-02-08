@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import { fetchNetwork } from "../functions/zond";
+import { fetchZondConnection } from "../functions/zond";
 
-export const useNetwork = () => {
-  const [hasNetworkConnection, setHasNetworkConnection] = useState(false);
+export const useZondNetwork = () => {
+  const [hasZondConnection, setHasZondConnection] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
-        const zondNetworkStatus = await fetchNetwork();
-        setHasNetworkConnection(zondNetworkStatus);
+        const zondConnectionStatus = await fetchZondConnection();
+        setHasZondConnection(zondConnectionStatus);
       } catch (err) {
         console.log("Error occured when fetching network status");
       }
     })();
   }, []);
 
-  return { hasNetworkConnection };
+  return { hasZondConnection };
 };
