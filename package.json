@@ -13,6 +13,7 @@
   "dependencies": {
     "@theqrl/web3": "^0.2.1",
     "class-variance-authority": "^0.7.0",
+    "path": "^0.12.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
