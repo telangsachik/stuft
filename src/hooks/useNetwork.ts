@@ -1,5 +1,5 @@
+import { fetchZondConnection } from "@functions/zond";
 import { useEffect, useState } from "react";
-import { fetchZondConnection } from "../functions/zond";
 
 export const useZondNetwork = () => {
   const [hasZondConnection, setHasZondConnection] = useState(false);
