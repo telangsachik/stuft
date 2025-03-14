@@ -1,5 +1,5 @@
+import { zondConfig } from "@configuration/zondConfig";
 import { Web3 } from "@theqrl/web3";
-import { zondConfig } from "../configuration/zondConfig";
 import { getAllAccounts } from "./getAllAccounts";
 const zondHttpProvider = new Web3.providers.HttpProvider(
   zondConfig.zondHttpProvider,
