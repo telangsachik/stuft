@@ -1,5 +1,5 @@
+import { getAllAccounts } from "@functions/getAllAccounts";
 import { Web3ZondInterface } from "@theqrl/web3";
-import { getAllAccounts } from "./getAllAccounts";
 
 export const getAllAccountBalances = async (
   zondInstance: Web3ZondInterface,
