@@ -1,6 +1,6 @@
-import { useZondNetwork } from "../../hooks/useNetwork";
-import { NoConnection } from "../Shared/NoConnection/NoConnection";
-import { AccountList } from "./AccountList/AccountList";
+import { AccountList } from "@components/Body/AccountList/AccountList";
+import { NoConnection } from "@components/Shared/NoConnection/NoConnection";
+import { useZondNetwork } from "@hooks/useNetwork";
 
 export const Body = () => {
   const { hasZondConnection } = useZondNetwork();

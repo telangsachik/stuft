@@ -1,6 +1,6 @@
-import { useAcccounts } from "../../../hooks/useAccounts";
-import { Account } from "./Account";
-import { NewAccount } from "./NewAccount";
+import { Account } from "@components/Body/AccountList/Account";
+import { NewAccount } from "@components/Body/AccountList/NewAccount";
+import { useAcccounts } from "@hooks/useAccounts";
 
 export const AccountList = () => {
   const { accountsList } = useAcccounts();

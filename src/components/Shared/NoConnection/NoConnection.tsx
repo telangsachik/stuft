@@ -1,4 +1,4 @@
-import { ConnectionBadge } from "./ConnectionBadge/ConnectionBadge";
+import { ConnectionBadge } from "@components/Shared/NoConnection/ConnectionBadge/ConnectionBadge";
 
 export const NoConnection = () => {
   return (

@@ -1,9 +1,9 @@
-import { Body } from "../Body/Body";
-import { Header } from "../Header/Header";
+import { Body } from "@components/Body/Body";
+import { Header } from "@components/Header/Header";
 
 export const QRLWallet = () => {
   return (
-    <div className="flex flex-col overflow-x-hidden w-96 min-h-[48rem] bg-primary text-secondary relative">
+    <div className="relative flex min-h-[48rem] w-96 flex-col overflow-x-hidden bg-primary text-secondary">
       <Header />
       <Body />
     </div>

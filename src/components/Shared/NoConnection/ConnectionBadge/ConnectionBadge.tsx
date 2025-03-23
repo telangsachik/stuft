@@ -1,5 +1,5 @@
+import { useZondNetwork } from "@hooks/useNetwork";
 import { cva } from "class-variance-authority";
-import { useZondNetwork } from "../../../../hooks/useNetwork";
 
 const networkStatusClasses = cva("h-2 w-2 rounded-full", {
   variants: {
