@@ -8,11 +8,12 @@
   },
   "action": {
     "default_popup": "index.html",
+    "default_title": "Zond Wallet",
     "default_icon": "icon.png"
   },
   "background": {
     "scripts": ["background.js"]
   },
-  "permissions": ["activeTab", "storage", "unlimitedStorage"],
+  "permissions": ["scripting", "activeTab", "storage", "unlimitedStorage"],
   "host_permissions": ["http://localhost/*"]
 }
