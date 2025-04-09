@@ -1,6 +1,7 @@
 import { zondConfig } from "@configuration/zondConfig";
 import { getAllAccounts } from "@functions/getAllAccounts";
 import { Web3 } from "@theqrl/web3";
+import { getAllAccountBalances } from "./getAllAccountBalances";
 
 const zondHttpProvider = new Web3.providers.HttpProvider(
   zondConfig.zondHttpProvider,
@@ -14,4 +15,8 @@ export const fetchZondConnection = async () => {
 
 export const fetchAccounts = async () => {
   return await getAllAccounts(zondInstance);
+};
+
+export const fetchAccountBalances = async () => {
+  return await getAllAccountBalances(zondInstance);
 };
