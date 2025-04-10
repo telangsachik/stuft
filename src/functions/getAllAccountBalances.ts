@@ -16,6 +16,6 @@ export const getAllAccountBalances = async (
       allAccountBalances[account] = balance;
     }),
   );
-
+  console.log(">>> getAllAccountBalances:\n", allAccountBalances);
   return allAccountBalances;
 };
