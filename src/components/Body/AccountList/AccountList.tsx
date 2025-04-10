@@ -1,10 +1,8 @@
 import { Account } from "@components/Body/AccountList/Account";
 import { NewAccount } from "@components/Body/AccountList/NewAccount";
 import { useAcccountBalances } from "@hooks/useAccountBalances";
-import { useAcccounts } from "@hooks/useAccounts";
 
 export const AccountList = () => {
-  const { accountsList } = useAcccounts();
   const { accountBalances } = useAcccountBalances();
 
   return (
@@ -19,7 +17,7 @@ export const AccountList = () => {
         <span>Current account</span>
         <Account key={234} account={"0xTestAccount"} />
         <span>Other available accounts</span>
-        {accountsList?.map((account) => (
+        {Object.keys(accountBalances).map((account) => (
           <Account key={account} account={account} />
         ))}
       </div>
