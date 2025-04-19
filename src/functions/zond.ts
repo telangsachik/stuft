@@ -1,7 +1,7 @@
 import { zondConfig } from "@configuration/zondConfig";
+import { getAllAccountBalances } from "@functions/getAllAccountBalances";
 import { getAllAccounts } from "@functions/getAllAccounts";
 import { Web3 } from "@theqrl/web3";
-import { getAllAccountBalances } from "./getAllAccountBalances";
 
 const zondHttpProvider = new Web3.providers.HttpProvider(
   zondConfig.zondHttpProvider,
