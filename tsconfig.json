@@ -22,6 +22,7 @@
 
     "baseUrl": "",
     "paths": {
+      "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@configuration/*": ["src/configuration/*"],
       "@functions/*": ["src/functions/*"],
