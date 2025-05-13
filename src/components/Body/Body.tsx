@@ -1,5 +1,5 @@
 import { AccountList } from "@components/Body/AccountList/AccountList";
-import { NoConnection } from "@components/Shared/NoConnection/NoConnection";
+import { NoConnection } from "@components/shared/NoConnection/NoConnection";
 import { useZondNetwork } from "@hooks/useNetwork";
 
 export const Body = () => {
