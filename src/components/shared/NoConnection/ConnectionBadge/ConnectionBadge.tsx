@@ -1,3 +1,4 @@
+import { Card } from "@/components/ui/card";
 import { useZondNetwork } from "@hooks/useNetwork";
 import { cva } from "class-variance-authority";
 
@@ -17,13 +18,15 @@ export const ConnectionBadge = () => {
   const { hasZondConnection } = useZondNetwork();
 
   return (
-    <span className="flex items-center gap-2 rounded-full px-4 py-2">
-      <span
-        className={networkStatusClasses({
-          networkStatus: hasZondConnection,
-        })}
-      />
-      Zond Mainnet
-    </span>
+    <Card>
+      <span className="flex items-center gap-2 rounded-full px-4 py-2">
+        <span
+          className={networkStatusClasses({
+            networkStatus: hasZondConnection,
+          })}
+        />
+        Zond Mainnet
+      </span>
+    </Card>
   );
 };
