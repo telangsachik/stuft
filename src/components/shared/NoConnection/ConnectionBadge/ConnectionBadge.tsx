@@ -18,15 +18,13 @@ export const ConnectionBadge = () => {
   const { hasZondConnection } = useZondNetwork();
 
   return (
-    <Card>
-      <span className="flex items-center gap-2 rounded-full px-4 py-2">
-        <span
-          className={networkStatusClasses({
-            networkStatus: hasZondConnection,
-          })}
-        />
-        Zond Mainnet
-      </span>
+    <Card className="flex items-center gap-2 rounded-full px-4 py-2">
+      <Card
+        className={networkStatusClasses({
+          networkStatus: !hasZondConnection,
+        })}
+      />
+      Zond Mainnet
     </Card>
   );
 };

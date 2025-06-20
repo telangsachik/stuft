@@ -11,7 +11,7 @@ export const Account = ({ account }: AccountProps) => {
   }
 
   return (
-    <div className="flex cursor-pointer gap-2 rounded-xl border-2 border-secondary p-2 font-bold text-secondary transition-colors delay-75 hover:text-primary">
+    <div className="flex cursor-pointer gap-2 rounded-xl border-2 border-secondary p-2 font-bold transition-colors delay-75">
       <div>{prefix}</div>
       <div className="flex flex-wrap gap-1">
         {idSplit.map((part) => (
