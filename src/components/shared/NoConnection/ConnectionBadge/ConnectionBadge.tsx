@@ -5,7 +5,7 @@ import { cva } from "class-variance-authority";
 const networkStatusClasses = cva("h-2 w-2 rounded-full", {
   variants: {
     networkStatus: {
-      true: ["bg-primary"],
+      true: ["bg-constructive"],
       false: ["bg-destructive"],
     },
   },
@@ -21,7 +21,7 @@ export const ConnectionBadge = () => {
     <Card className="flex items-center gap-2 rounded-full px-4 py-2">
       <Card
         className={networkStatusClasses({
-          networkStatus: !hasZondConnection,
+          networkStatus: hasZondConnection,
         })}
       />
       Zond Mainnet

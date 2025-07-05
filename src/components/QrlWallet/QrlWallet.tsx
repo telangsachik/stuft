@@ -4,7 +4,7 @@ import { Header } from "@components/Header/Header";
 import { cva } from "class-variance-authority";
 
 const themeClasses = cva(
-  "relative flex min-h-[48rem] w-96 flex-col overflow-x-hidden",
+  "bg-background relative flex min-h-[48rem] w-96 flex-col overflow-x-hidden",
   {
     variants: {
       isDarkMode: {
