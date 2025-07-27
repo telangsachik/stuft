@@ -1,3 +1,5 @@
+import { Card } from "@/components/ui/card";
+
 type AccountProps = {
   account: string;
 };
@@ -11,13 +13,13 @@ export const Account = ({ account }: AccountProps) => {
   }
 
   return (
-    <div className="flex cursor-pointer gap-2 rounded-xl border-2 border-secondary p-2 font-bold transition-colors delay-75">
+    <Card className="flex cursor-pointer gap-2 rounded-xl border-2 border-secondary p-2 font-bold transition-colors delay-75">
       <div>{prefix}</div>
       <div className="flex flex-wrap gap-1">
         {idSplit.map((part) => (
           <div key={part}>{part}</div>
         ))}
       </div>
-    </div>
+    </Card>
   );
 };
