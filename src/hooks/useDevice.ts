@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useDevice = () => {
+export const useSettings = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
