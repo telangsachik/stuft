@@ -1,8 +1,8 @@
 import { Label } from "@/components/ui/label";
 import { useStorage } from "@/hooks/useStorage";
-import { Account } from "@components/Body/AccountList/Account";
 import { NewAccount } from "@components/Body/AccountList/NewAccount";
 import { useAcccountBalances } from "@hooks/useAccountBalances";
+import { Account } from "./Account/Account";
 
 export const AccountList = () => {
   const { accountBalances } = useAcccountBalances();
@@ -35,15 +35,17 @@ export const AccountList = () => {
           </>
         )}
         <Label className="text-secondary">{otherAccountsLabel}</Label>
-        {Object.keys(accountBalances).map((account) => (
-          <Account
-            onClickHandler={() => selectAccount(account)}
-            buttonVariant="outline"
-            key={account}
-            account={account}
-            accountStatus="other"
-          />
-        ))}
+        {Object.keys(accountBalances)
+          .filter((account) => account !== activeAccount)
+          .map((account) => (
+            <Account
+              onClickHandler={() => selectAccount(account)}
+              buttonVariant="outline"
+              key={account}
+              account={account}
+              accountStatus="other"
+            />
+          ))}
       </div>
     </div>
   );

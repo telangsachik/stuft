@@ -54,7 +54,7 @@ export const Account = ({
         </div>
       </div>
       <span className={hoverClasses({ isHovered })}>
-        {accountStatus == "active" ? (
+        {accountStatus === "active" ? (
           <Copy className="text-secondary" size="18" />
         ) : (
           <ArrowRight className="text-secondary" size="18" />
