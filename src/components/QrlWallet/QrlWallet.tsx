@@ -1,4 +1,4 @@
-import { useSettings } from "@/hooks/useDevice";
+import { useSettings } from "@/hooks/useSettings";
 import { Body } from "@components/Body/Body";
 import { Header } from "@components/Header/Header";
 import { cva } from "class-variance-authority";
