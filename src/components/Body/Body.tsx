@@ -7,7 +7,7 @@ export const Body = () => {
 
   if (hasZondConnection)
     return (
-      <div className="mt-16">
+      <div className="mt-20">
         <AccountList />
       </div>
     );
