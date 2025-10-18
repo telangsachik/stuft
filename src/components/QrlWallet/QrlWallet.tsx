@@ -1,4 +1,4 @@
-import { useSettings } from "@/hooks/useSettings";
+import { useStore } from "@/stores/storeContext";
 import { Body } from "@components/Body/Body";
 import { Header } from "@components/Header/Header";
 import { cva } from "class-variance-authority";
@@ -19,7 +19,8 @@ const themeClasses = cva(
 );
 
 export const QRLWallet = () => {
-  const { isDarkMode } = useSettings();
+  const { settingsStore } = useStore();
+  const { isDarkMode } = settingsStore;
 
   return (
     <div className={themeClasses({ isDarkMode })}>
