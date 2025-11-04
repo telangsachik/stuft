@@ -1,15 +1,19 @@
 import { Button } from "@/components/ui/button";
-import { useStorage } from "@/hooks/useStorage";
+import { useStore } from "@/stores/storeContext";
+import { observer } from "mobx-react-lite";
 
-export const AccountBadge = () => {
-  const { activeAccount } = useStorage();
-  const account = activeAccount
+export const AccountBadge = observer(() => {
+  const { accountStore } = useStore();
+  const { activeAccount } = accountStore;
+  const { accountAddress } = activeAccount;
+
+  const account = accountAddress
     .substring(0, 7)
     .concat("...")
-    .concat(activeAccount.substring(activeAccount.length - 5));
+    .concat(accountAddress.substring(accountAddress.length - 5));
 
   return (
-    activeAccount && (
+    accountAddress && (
       <Button
         variant="outline"
         className="flex items-center gap-2 rounded-full px-4 py-2 text-foreground"
@@ -18,4 +22,4 @@ export const AccountBadge = () => {
       </Button>
     )
   );
-};
+});

@@ -1,9 +1,13 @@
 import { Label } from "@/components/ui/label";
-import { useStorage } from "@/hooks/useStorage";
+import { useStore } from "@/stores/storeContext";
 import { Account } from "@components/Body/AccountList/Account/Account";
+import { observer } from "mobx-react-lite";
 
-export const ActiveAccount = () => {
-  const { activeAccount } = useStorage();
+export const ActiveAccount = observer(() => {
+  const { accountStore } = useStore();
+  const { activeAccount } = accountStore;
+  const { accountAddress } = activeAccount;
+
   const currentAccountLabel = `${activeAccount ? "Current account" : ""}`;
 
   const copyAccount = (account: string) => {
@@ -15,13 +19,13 @@ export const ActiveAccount = () => {
       <>
         <Label className="text-secondary">{currentAccountLabel}</Label>
         <Account
-          onClickHandler={() => copyAccount(activeAccount)}
+          onClickHandler={() => copyAccount(accountAddress)}
           buttonVariant="ghost"
-          key={activeAccount}
-          account={activeAccount}
+          key={accountAddress}
+          account={accountAddress}
           accountStatus="active"
         />
       </>
     )
   );
-};
+});
