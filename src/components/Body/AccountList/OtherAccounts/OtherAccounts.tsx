@@ -12,10 +12,6 @@ export const OtherAccounts = observer(() => {
 
   const otherAccountsLabel = `${activeAccount ? "Other accounts" : "Accounts"} in the wallet`;
 
-  const selectAccount = (account: string) => {
-    setActiveAccount(account);
-  };
-
   return (
     <>
       <Label className="text-secondary">{otherAccountsLabel}</Label>
@@ -23,7 +19,7 @@ export const OtherAccounts = observer(() => {
         .filter((account) => account !== accountAddress)
         .map((account) => (
           <Account
-            onClickHandler={() => selectAccount(account)}
+            onClickHandler={() => setActiveAccount(account)}
             buttonVariant="outline"
             key={account}
             account={account}

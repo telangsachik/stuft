@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, observable } from "mobx";
+import { action, autorun, makeAutoObservable, observable } from "mobx";
 
 const ACTIVE_ACCOUNT_IDENTIFIER = "ACTIVE_ACCOUNT";
 
@@ -7,10 +7,16 @@ class AccountStore {
 
   constructor() {
     makeAutoObservable(this, {
-      activeAccount: observable,
-      setActiveAccount: action,
+      activeAccount: observable.struct,
+      setActiveAccount: action.bound,
     });
     this.loadFromLocalStorage();
+    autorun(() => {
+      localStorage.setItem(
+        ACTIVE_ACCOUNT_IDENTIFIER,
+        JSON.stringify(this.activeAccount),
+      );
+    });
   }
 
   setActiveAccount(accountAddress: string) {

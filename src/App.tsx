@@ -1,5 +1,5 @@
 import { QRLWallet } from "@components/QrlWallet/QrlWallet";
-import store from "./stores/store";
+import { store } from "./stores/store";
 import { StoreContext } from "./stores/storeContext";
 
 function App() {
