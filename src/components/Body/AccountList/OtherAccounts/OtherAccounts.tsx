@@ -10,7 +10,7 @@ export const OtherAccounts = observer(() => {
   const { activeAccount, setActiveAccount } = accountStore;
   const { accountAddress } = activeAccount;
 
-  const otherAccountsLabel = `${activeAccount ? "Other accounts" : "Accounts"} in the wallet`;
+  const otherAccountsLabel = `${accountAddress ? "Other accounts" : "Accounts"} in the wallet`;
 
   return (
     <>

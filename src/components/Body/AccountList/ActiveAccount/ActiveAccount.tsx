@@ -8,16 +8,16 @@ export const ActiveAccount = observer(() => {
   const { activeAccount } = accountStore;
   const { accountAddress } = activeAccount;
 
-  const currentAccountLabel = `${activeAccount ? "Current account" : ""}`;
+  const activeAccountLabel = `${accountAddress ? "Active account" : ""}`;
 
   const copyAccount = (account: string) => {
     navigator.clipboard.writeText(account);
   };
 
   return (
-    activeAccount && (
+    accountAddress && (
       <>
-        <Label className="text-secondary">{currentAccountLabel}</Label>
+        <Label className="text-secondary">{activeAccountLabel}</Label>
         <Account
           onClickHandler={() => copyAccount(accountAddress)}
           buttonVariant="ghost"
