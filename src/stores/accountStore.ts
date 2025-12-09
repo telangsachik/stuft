@@ -12,10 +12,7 @@ class AccountStore {
     });
     this.loadFromLocalStorage();
     autorun(() => {
-      localStorage.setItem(
-        ACTIVE_ACCOUNT_IDENTIFIER,
-        JSON.stringify(this.activeAccount),
-      );
+      this.saveToLocalStorage();
     });
   }
 
@@ -36,6 +33,13 @@ class AccountStore {
         console.log("Failed to read current account from storage");
       }
     }
+  }
+
+  saveToLocalStorage() {
+    localStorage.setItem(
+      ACTIVE_ACCOUNT_IDENTIFIER,
+      JSON.stringify(this.activeAccount),
+    );
   }
 }
 
