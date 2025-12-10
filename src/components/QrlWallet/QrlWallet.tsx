@@ -1,4 +1,4 @@
-import { useStore } from "@/stores/storeContext";
+import { useStore } from "@/stores/store";
 import { Body } from "@components/Body/Body";
 import { Header } from "@components/Header/Header";
 import { cva } from "class-variance-authority";

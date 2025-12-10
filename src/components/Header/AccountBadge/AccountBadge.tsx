@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useStore } from "@/stores/storeContext";
+import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
 
 export const AccountBadge = observer(() => {

@@ -1,12 +1,11 @@
 import { QRLWallet } from "@components/QrlWallet/QrlWallet";
-import { store } from "./stores/store";
-import { StoreContext } from "./stores/storeContext";
+import { store, StoreProvider } from "./stores/store";
 
 function App() {
   return (
-    <StoreContext.Provider value={store}>
+    <StoreProvider value={store}>
       <QRLWallet />
-    </StoreContext.Provider>
+    </StoreProvider>
   );
 }
 
