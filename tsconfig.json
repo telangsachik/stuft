@@ -26,7 +26,8 @@
       "@components/*": ["src/components/*"],
       "@configuration/*": ["src/configuration/*"],
       "@functions/*": ["src/functions/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@stores/*": ["src/stores/*"]
     }
   },
   "include": ["src", "public"],

@@ -20,6 +20,7 @@ export default defineConfig({
       "@configuration": path.resolve(__dirname, "src/configuration"),
       "@functions": path.resolve(__dirname, "src/functions"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
+      "@stores": path.resolve(__dirname, "src/stores"),
       events: "rollup-plugin-node-polyfills/polyfills/events",
     },
   },
