@@ -1,4 +1,4 @@
-import { fetchAccountBalances } from "@functions/zond";
+import { fetchAccountBalances } from "@/functions/zond";
 import { useEffect, useState } from "react";
 
 type AccountBalancesType = Awaited<ReturnType<typeof fetchAccountBalances>>;

@@ -1,4 +1,4 @@
-import { signTransaction } from "@functions/signTransaction";
+import { signTransaction } from "@/functions/signTransaction";
 import { Web3ZondInterface } from "@theqrl/web3";
 
 export const sendSignedTransaction = async (

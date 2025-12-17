@@ -1,4 +1,4 @@
-import { fetchAccounts } from "@functions/zond";
+import { fetchAccounts } from "@/functions/zond";
 import { useEffect, useState } from "react";
 
 export const useAcccounts = () => {

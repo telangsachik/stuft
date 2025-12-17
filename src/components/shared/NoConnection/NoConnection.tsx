@@ -1,5 +1,5 @@
+import { ConnectionBadge } from "@/components/shared/NoConnection/ConnectionBadge/ConnectionBadge";
 import { Label } from "@/components/ui/label";
-import { ConnectionBadge } from "@components/shared/NoConnection/ConnectionBadge/ConnectionBadge";
 
 export const NoConnection = () => {
   return (

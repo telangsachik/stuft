@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { useZondNetwork } from "@hooks/useNetwork";
+import { useZondNetwork } from "@/hooks/useNetwork";
 import { cva } from "class-variance-authority";
 
 const networkStatusClasses = cva("h-2 w-2 rounded-full", {

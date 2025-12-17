@@ -1,4 +1,4 @@
-import { fetchZondConnection } from "@functions/zond";
+import { fetchZondConnection } from "@/functions/zond";
 import { useEffect, useState } from "react";
 
 export const useZondNetwork = () => {

@@ -1,6 +1,6 @@
+import { Account } from "@/components/Body/AccountList/Account/Account";
 import { Label } from "@/components/ui/label";
 import { useStore } from "@/stores/store";
-import { Account } from "@components/Body/AccountList/Account/Account";
 import { observer } from "mobx-react-lite";
 
 export const ActiveAccount = observer(() => {

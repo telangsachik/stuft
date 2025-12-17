@@ -1,4 +1,4 @@
-import { getAllAccounts } from "@functions/getAllAccounts";
+import { getAllAccounts } from "@/functions/getAllAccounts";
 import { Web3ZondInterface } from "@theqrl/web3";
 
 type AccountBalancesType = {
