@@ -4,7 +4,7 @@ import { getAllAccounts } from "@/functions/getAllAccounts";
 import { Web3 } from "@theqrl/web3";
 
 const zondHttpProvider = new Web3.providers.HttpProvider(
-  zondConfig.zondHttpProvider,
+  zondConfig.zondHttpProvider.url,
 );
 const web3 = new Web3(zondHttpProvider);
 const zondInstance = web3.zond;

@@ -2,8 +2,13 @@ import { action, autorun, makeAutoObservable, observable } from "mobx";
 
 const ACTIVE_ACCOUNT_IDENTIFIER = "ACTIVE_ACCOUNT";
 
+type AccountType = {
+  accountAddress: string;
+};
+
 class AccountStore {
-  activeAccount = { accountAddress: "" };
+  accounts: AccountType[] = [];
+  activeAccount: AccountType = { accountAddress: "" };
 
   constructor() {
     makeAutoObservable(this, {
