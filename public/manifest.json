@@ -15,5 +15,5 @@
     "scripts": ["background.js"]
   },
   "permissions": ["scripting", "activeTab", "storage", "unlimitedStorage"],
-  "host_permissions": ["http://localhost/*", "http://209.250.255.226:3500/*"]
+  "host_permissions": ["http://localhost/*", "http://209.250.255.226/*"]
 }
