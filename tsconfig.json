@@ -22,12 +22,7 @@
 
     "baseUrl": "",
     "paths": {
-      "@/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@configuration/*": ["src/configuration/*"],
-      "@functions/*": ["src/functions/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@stores/*": ["src/stores/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["src", "public"],

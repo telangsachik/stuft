@@ -16,11 +16,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
-      "@components": path.resolve(__dirname, "src/components"),
-      "@configuration": path.resolve(__dirname, "src/configuration"),
-      "@functions": path.resolve(__dirname, "src/functions"),
-      "@hooks": path.resolve(__dirname, "src/hooks"),
-      "@stores": path.resolve(__dirname, "src/stores"),
       events: "rollup-plugin-node-polyfills/polyfills/events",
     },
   },
