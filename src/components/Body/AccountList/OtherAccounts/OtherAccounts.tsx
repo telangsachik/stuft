@@ -11,13 +11,15 @@ export const OtherAccounts = observer(() => {
   const { accountAddress } = activeAccount;
 
   const otherAccountsLabel = `${accountAddress ? "Other accounts" : "Accounts"} in the wallet`;
+  const otherAccounts = Object.keys(accountBalances).filter(
+    (account) => account !== accountAddress,
+  );
 
   return (
-    <>
-      <Label className="text-secondary">{otherAccountsLabel}</Label>
-      {Object.keys(accountBalances)
-        .filter((account) => account !== accountAddress)
-        .map((account) => (
+    otherAccounts.length && (
+      <>
+        <Label className="text-secondary">{otherAccountsLabel}</Label>
+        {otherAccounts.map((account) => (
           <Account
             onClickHandler={() => setActiveAccount(account)}
             buttonVariant="outline"
@@ -26,6 +28,7 @@ export const OtherAccounts = observer(() => {
             accountStatus="other"
           />
         ))}
-    </>
+      </>
+    )
   );
 });
