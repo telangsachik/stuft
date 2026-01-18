@@ -21,9 +21,9 @@ class AccountStore {
     });
   }
 
-  setActiveAccount(accountAddress: string) {
+  setActiveAccount(accountAddress?: string) {
     this.activeAccount = {
-      accountAddress,
+      accountAddress: accountAddress ?? "",
     };
   }
 
