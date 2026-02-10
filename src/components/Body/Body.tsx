@@ -1,11 +1,14 @@
 import { AccountList } from "@/components/Body/AccountList/AccountList";
 import { NoConnection } from "@/components/shared/NoConnection/NoConnection";
-import { useZondNetwork } from "@/hooks/useNetwork";
+import { useStore } from "@/stores/store";
+import { observer } from "mobx-react-lite";
 
-export const Body = () => {
-  const { hasZondConnection } = useZondNetwork();
+export const Body = observer(() => {
+  const { zondStore } = useStore();
+  const { zondConnection } = zondStore;
+  const { isConnected } = zondConnection;
 
-  if (hasZondConnection)
+  if (isConnected)
     return (
       <div className="mt-20">
         <AccountList />
@@ -13,4 +16,4 @@ export const Body = () => {
     );
 
   return <NoConnection />;
-};
+});

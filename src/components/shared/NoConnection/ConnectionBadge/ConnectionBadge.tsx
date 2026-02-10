@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
-import { useZondNetwork } from "@/hooks/useNetwork";
+import { useStore } from "@/stores/store";
 import { cva } from "class-variance-authority";
+import { observer } from "mobx-react-lite";
 
 const networkStatusClasses = cva("h-2 w-2 rounded-full", {
   variants: {
@@ -14,17 +15,19 @@ const networkStatusClasses = cva("h-2 w-2 rounded-full", {
   },
 });
 
-export const ConnectionBadge = () => {
-  const { hasZondConnection } = useZondNetwork();
+export const ConnectionBadge = observer(() => {
+  const { zondStore } = useStore();
+  const { zondConnection, zondNetworkName } = zondStore;
+  const { isConnected } = zondConnection;
 
   return (
     <Card className="flex items-center gap-2 rounded-full px-4 py-2">
       <Card
         className={networkStatusClasses({
-          networkStatus: hasZondConnection,
+          networkStatus: isConnected,
         })}
       />
-      Zond Mainnet
+      {zondNetworkName}
     </Card>
   );
-};
+});
