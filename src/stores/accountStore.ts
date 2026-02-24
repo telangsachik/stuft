@@ -7,7 +7,6 @@ type AccountType = {
 };
 
 class AccountStore {
-  accounts: AccountType[] = [];
   activeAccount: AccountType = { accountAddress: "" };
 
   constructor() {
