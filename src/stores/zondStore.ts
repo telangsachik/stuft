@@ -8,7 +8,12 @@ const zondHttpProvider = new Web3.providers.HttpProvider(url);
 const web3 = new Web3(zondHttpProvider);
 
 type ZondAccountType = {
-  accounts: string[];
+  accountAddress: string;
+  accountBalance: bigint;
+};
+
+type ZondAccountsType = {
+  accounts: ZondAccountType[];
   isLoading: boolean;
 };
 
@@ -16,7 +21,7 @@ class ZondStore {
   zondNetworkName = name;
   zondInstance = web3.zond;
   zondConnection = { isConnected: false, isLoading: false };
-  zondAccounts: ZondAccountType = { accounts: [], isLoading: false };
+  zondAccounts: ZondAccountsType = { accounts: [], isLoading: false };
 
   constructor() {
     makeAutoObservable(this, {
@@ -54,10 +59,17 @@ class ZondStore {
     this.zondAccounts = { ...this.zondAccounts, isLoading: true };
     try {
       const accounts = await this.zondInstance.getAccounts();
+      const accountsWithBalance: ZondAccountsType["accounts"] =
+        await Promise.all(
+          accounts.map(async (account) => {
+            const accountBalance = await this.zondInstance.getBalance(account);
+            return { accountAddress: account, accountBalance };
+          }),
+        );
       runInAction(() => {
         this.zondAccounts = {
           ...this.zondAccounts,
-          accounts: accounts,
+          accounts: accountsWithBalance,
         };
       });
     } catch (error) {
