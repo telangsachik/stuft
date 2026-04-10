@@ -1,10 +1,10 @@
-import { QRLWallet } from "@/components/QrlWallet/QrlWallet";
-import { store, StoreProvider } from "./stores/store";
+import { AppRouter } from "@/router/router";
+import { store, StoreProvider } from "@/stores/store";
 
 function App() {
   return (
     <StoreProvider value={store}>
-      <QRLWallet />
+      <AppRouter />
     </StoreProvider>
   );
 }
