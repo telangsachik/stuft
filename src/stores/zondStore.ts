@@ -1,5 +1,4 @@
 import { zondConfig } from "@/configuration/zondConfig";
-import { getAllAccounts } from "@/functions/getAllAccounts";
 import Web3 from "@theqrl/web3";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
 
@@ -32,6 +31,7 @@ class ZondStore {
       fetchZondConnection: action.bound,
     });
     this.fetchZondConnection();
+    this.fetchAccounts();
   }
 
   async fetchZondConnection() {
@@ -81,7 +81,6 @@ class ZondStore {
         this.zondAccounts = { ...this.zondAccounts, isLoading: false };
       });
     }
-    return await getAllAccounts(this.zondInstance);
   }
 }
 
