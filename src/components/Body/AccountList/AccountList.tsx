@@ -1,5 +1,5 @@
 import { ActiveAccount } from "@/components/Body/AccountList/ActiveAccount/ActiveAccount";
-import { NewAccount } from "@/components/Body/AccountList/NewAccount";
+import { NewAccount } from "@/components/Body/AccountList/NewAccount/NewAccount";
 import { OtherAccounts } from "@/components/Body/AccountList/OtherAccounts/OtherAccounts";
 
 export const AccountList = () => {

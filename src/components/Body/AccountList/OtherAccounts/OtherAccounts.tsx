@@ -6,25 +6,25 @@ import { observer } from "mobx-react-lite";
 export const OtherAccounts = observer(() => {
   const { accountStore, zondStore } = useStore();
   const { activeAccount, setActiveAccount } = accountStore;
-  const { accountAddress } = activeAccount;
+  const { accountAddress: activeAccountAddress } = activeAccount;
   const { zondAccounts } = zondStore;
   const { accounts } = zondAccounts;
 
-  const otherAccountsLabel = `${accountAddress ? "Other accounts" : "Accounts"} in the wallet`;
-  const otherAccounts = Object.keys(accounts).filter(
-    (account) => account !== accountAddress,
+  const otherAccountsLabel = `${activeAccountAddress ? "Other accounts" : "Accounts"} in the wallet`;
+  const otherAccounts = accounts.filter(
+    ({ accountAddress }) => accountAddress !== activeAccountAddress,
   );
 
   return (
     otherAccounts.length && (
       <>
         <Label className="text-secondary">{otherAccountsLabel}</Label>
-        {otherAccounts.map((account) => (
+        {otherAccounts.map(({ accountAddress }) => (
           <Account
-            onClickHandler={() => setActiveAccount(account)}
+            onClickHandler={() => setActiveAccount(accountAddress)}
             buttonVariant="outline"
-            key={account}
-            account={account}
+            key={accountAddress}
+            account={accountAddress}
             accountStatus="other"
           />
         ))}

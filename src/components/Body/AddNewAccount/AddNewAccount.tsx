@@ -1,3 +1,7 @@
+import { useState } from "react";
+
 export const AddNewAccount = () => {
-  return <div>Add New Account</div>;
+  const [password, setPassword] = useState("");
+
+  return <div className="text-foreground">Add New Account</div>;
 };

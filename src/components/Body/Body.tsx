@@ -1,7 +1,7 @@
-import { AccountList } from "@/components/Body/AccountList/AccountList";
 import { NoConnection } from "@/components/shared/NoConnection/NoConnection";
 import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
+import { Outlet } from "react-router-dom";
 
 export const Body = observer(() => {
   const { zondStore } = useStore();
@@ -11,7 +11,7 @@ export const Body = observer(() => {
   if (isConnected)
     return (
       <div className="mt-20">
-        <AccountList />
+        <Outlet />
       </div>
     );
 
