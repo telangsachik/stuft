@@ -75,6 +75,9 @@
 @layer base {
   * {
     @apply border-border;
+
+    scrollbar-width: thin;
+    scrollbar-color: #ffa729 #0a1720;
   }
   body {
     @apply bg-background text-foreground;
