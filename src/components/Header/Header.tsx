@@ -10,7 +10,7 @@ export const Header = observer(() => {
   const { isConnected } = zondConnection;
 
   return (
-    <div className="fixed top-0 z-10 flex h-20 w-full items-center justify-between border-b-2 border-secondary bg-background px-4">
+    <div className="fixed top-0 z-10 flex h-16 w-full items-center justify-between border-b-2 border-secondary bg-background px-4">
       <Link to={ROUTES.HOME}>
         <img className="h-16 w-16" src="qrl-logo.svg" />
       </Link>
