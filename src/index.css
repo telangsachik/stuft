@@ -35,6 +35,10 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 202.86 51.22% 8.04%;
 
+    --scrollbar-track-color: #ffffff;
+
+    --scrollbar-width: thin;
+    --scrollbar-thumb-color: #ffa729;
     --radius: 0.5rem;
   }
 
@@ -69,6 +73,8 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+
+    --scrollbar-track-color: #0a1720;
   }
 }
 
@@ -76,9 +82,10 @@
   * {
     @apply border-border;
 
-    scrollbar-width: thin;
-    scrollbar-color: #ffa729 #0a1720;
+    scrollbar-width: var(--scrollbar-width);
+    scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);
   }
+
   body {
     @apply bg-background text-foreground;
   }
