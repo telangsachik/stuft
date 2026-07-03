@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import { BackgroundVideo } from "./BackgroundVideo/BackgroundVideo";
 import { ConnectionBadge } from "./ConnectionBadge/ConnectionBadge";
 
 export const Home = observer(() => {
@@ -21,14 +22,7 @@ export const Home = observer(() => {
 
   return (
     <div className="relative text-foreground">
-      <video
-        autoPlay
-        muted
-        loop
-        className="absolute -left-24 top-0 z-0 scale-150 overflow-hidden"
-      >
-        <source src="qrl-video.mp4" type="video/mp4" />
-      </video>
+      <BackgroundVideo />
       <div className="absolute top-0 flex w-full flex-col items-center gap-4 pt-36">
         <img className="h-16 w-16" src="icon.png" />
         {isLoading ? (
@@ -47,7 +41,7 @@ export const Home = observer(() => {
                     {accountAddress}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="grid gap-4">card content</CardContent>
+                <CardContent className="grid gap-4">password</CardContent>
                 <CardFooter>
                   <Button className="w-full">
                     <LockKeyholeOpen className="mr-2 h-4 w-4" /> Unlock
