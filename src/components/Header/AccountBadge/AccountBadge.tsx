@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/UI/button";
 import { ROUTES } from "@/router/router";
 import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
