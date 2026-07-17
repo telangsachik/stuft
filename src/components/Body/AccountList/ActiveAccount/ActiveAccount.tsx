@@ -1,5 +1,5 @@
 import { Account } from "@/components/Body/AccountList/Account/Account";
-import { Label } from "@/components/UI/label";
+import { Label } from "@/components/UI/Label";
 import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
 

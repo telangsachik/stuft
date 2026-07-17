@@ -1,4 +1,4 @@
-import { Card } from "@/components/UI/card";
+import { Card } from "@/components/UI/Card";
 import { useStore } from "@/stores/store";
 import { cva } from "class-variance-authority";
 import { observer } from "mobx-react-lite";

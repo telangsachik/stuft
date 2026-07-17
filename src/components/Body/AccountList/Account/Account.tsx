@@ -1,4 +1,4 @@
-import { Button } from "@/components/UI/button";
+import { Button } from "@/components/UI/Button";
 import { cva } from "class-variance-authority";
 import { ArrowRight, Copy } from "lucide-react";
 import { useState } from "react";

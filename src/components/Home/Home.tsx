@@ -1,7 +1,7 @@
 import { useStore } from "@/stores/store";
 import { Loader, LockKeyholeOpen } from "lucide-react";
 import { observer } from "mobx-react-lite";
-import { Button } from "../UI/button";
+import { Button } from "../UI/Button";
 import {
   Card,
   CardContent,
@@ -9,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../UI/card";
+} from "../UI/Card";
 import { BackgroundVideo } from "./BackgroundVideo/BackgroundVideo";
 import { ConnectionBadge } from "./ConnectionBadge/ConnectionBadge";
 
