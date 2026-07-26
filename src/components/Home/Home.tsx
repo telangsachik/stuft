@@ -1,22 +1,12 @@
 import { useStore } from "@/stores/store";
-import { Loader, LockKeyholeOpen } from "lucide-react";
+import { Loader } from "lucide-react";
 import { observer } from "mobx-react-lite";
-import { Button } from "../UI/Button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../UI/Card";
+import { AccountUnlock } from "./AccountUnlock/AccountUnlock";
 import { BackgroundVideo } from "./BackgroundVideo/BackgroundVideo";
 import { ConnectionBadge } from "./ConnectionBadge/ConnectionBadge";
 
 export const Home = observer(() => {
-  const { accountStore, zondStore } = useStore();
-  const { activeAccount } = accountStore;
-  const { accountAddress } = activeAccount;
+  const { zondStore } = useStore();
   const { zondConnection } = zondStore;
   const { isLoading, isConnected } = zondConnection;
 
@@ -30,25 +20,7 @@ export const Home = observer(() => {
         ) : (
           <>
             <ConnectionBadge />
-            {isConnected && (
-              <Card className="w-80">
-                <CardHeader>
-                  <CardTitle>
-                    Account{" "}
-                    {accountAddress.substring(accountAddress.length - 5)}
-                  </CardTitle>
-                  <CardDescription className="break-words">
-                    {accountAddress}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-4">password</CardContent>
-                <CardFooter>
-                  <Button className="w-full">
-                    <LockKeyholeOpen className="mr-2 h-4 w-4" /> Unlock
-                  </Button>
-                </CardFooter>
-              </Card>
-            )}
+            {isConnected && <AccountUnlock />}
           </>
         )}
       </div>
