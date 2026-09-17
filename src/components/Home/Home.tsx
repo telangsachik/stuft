@@ -13,7 +13,7 @@ export const Home = observer(() => {
   return (
     <div className="relative text-foreground">
       <BackgroundVideo />
-      <div className="absolute top-0 flex w-full flex-col items-center gap-4 pt-36">
+      <div className="absolute top-0 flex w-full flex-col items-center gap-4 pt-28">
         <img className="h-16 w-16" src="icon.png" />
         {isLoading ? (
           <Loader className="animate-spin text-foreground" size="32" />
