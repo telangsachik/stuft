@@ -4,12 +4,12 @@
   "version": "1.0",
   "description": "Zond Wallet browser extention.",
   "icons": {
-    "232": "icon.png"
+    "232": "qrl-icon.png"
   },
   "action": {
     "default_popup": "index.html",
     "default_title": "Zond Wallet",
-    "default_icon": "icon.png"
+    "default_icon": "qrl-icon.png"
   },
   "background": {
     "scripts": ["background.js"]
