@@ -15,7 +15,7 @@ export const AccountBadge = observer(() => {
     .concat(accountAddress.substring(accountAddress.length - 5));
 
   return (
-    accountAddress && (
+    !!accountAddress && (
       <Link to={ROUTES.ACCOUNT_LIST}>
         <Button
           variant="outline"

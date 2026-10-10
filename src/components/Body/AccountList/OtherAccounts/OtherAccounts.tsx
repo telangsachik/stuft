@@ -16,7 +16,7 @@ export const OtherAccounts = observer(() => {
   );
 
   return (
-    otherAccounts.length && (
+    !!otherAccounts.length && (
       <>
         <Label className="text-secondary">{otherAccountsLabel}</Label>
         {otherAccounts.map(({ accountAddress }) => (

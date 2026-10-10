@@ -15,7 +15,7 @@ export const ActiveAccount = observer(() => {
   };
 
   return (
-    accountAddress && (
+    !!accountAddress && (
       <>
         <Label className="text-secondary">{activeAccountLabel}</Label>
         <Account
