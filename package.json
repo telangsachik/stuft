@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.2",
     "@theqrl/web3": "^0.2.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
