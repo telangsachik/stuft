@@ -1,7 +1,7 @@
-import { Account } from "@/components/Body/AccountList/Account/Account";
 import { Label } from "@/components/UI/Label";
 import { useStore } from "@/stores/store";
 import { observer } from "mobx-react-lite";
+import { AccountCard } from "../AccountCard/AccountCard";
 
 export const OtherAccounts = observer(() => {
   const { accountStore, zondStore } = useStore();
@@ -20,7 +20,7 @@ export const OtherAccounts = observer(() => {
       <>
         <Label className="text-secondary">{otherAccountsLabel}</Label>
         {otherAccounts.map(({ accountAddress }) => (
-          <Account
+          <AccountCard
             onClickHandler={() => setActiveAccount(accountAddress)}
             buttonVariant="outline"
             key={accountAddress}

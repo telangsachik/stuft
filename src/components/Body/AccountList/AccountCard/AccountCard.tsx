@@ -1,4 +1,11 @@
 import { Button } from "@/components/UI/Button";
+import { Label } from "@/components/UI/Label";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/UI/Tooltip";
 import { cva } from "class-variance-authority";
 import { ArrowRight, Copy } from "lucide-react";
 import { useState } from "react";
@@ -22,7 +29,7 @@ type AccountProps = {
   onClickHandler: () => void;
 };
 
-export const Account = ({
+export const AccountCard = ({
   account,
   accountStatus,
   buttonVariant,
@@ -54,11 +61,24 @@ export const Account = ({
         </div>
       </div>
       <span className={hoverClasses({ isHovered })}>
-        {accountStatus === "active" ? (
-          <Copy className="text-secondary" size="18" />
-        ) : (
-          <ArrowRight className="text-secondary" size="18" />
-        )}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              {accountStatus === "active" ? (
+                <Copy className="text-secondary" size="18" />
+              ) : (
+                <ArrowRight className="text-secondary" size="18" />
+              )}
+            </TooltipTrigger>
+            <TooltipContent>
+              {accountStatus === "active" ? (
+                <Label>Copy Address</Label>
+              ) : (
+                <Label>Switch to this account</Label>
+              )}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </span>
     </Button>
   );
